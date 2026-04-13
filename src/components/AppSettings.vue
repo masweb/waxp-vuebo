@@ -7,7 +7,7 @@ import { IconSunFilled, IconMoonFilled } from '@tabler/icons-vue'
 <template>
   <div class="container mt-4">
     <div class="row">
-      <h5>{{ t('section.App settings') }}</h5>
+      <h4>{{ t('section.App settings') }}</h4>
     </div>
     <div class="row mt-4">
       <div class="col-3">

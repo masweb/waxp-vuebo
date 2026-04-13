@@ -9,7 +9,7 @@ import { IconPower, IconSettingsFilled, IconLayoutDashboardFilled } from '@table
 </script>
 
 <template>
-  <div class="main-bar d-flex">
+  <div v-if="auth.isAuthenticated" class="main-bar d-flex">
     <div class="d-flex align-items-center">
       <button @click="nav.main = 'dashboard'" class="btn btn-sm btn-link">
         <IconLayoutDashboardFilled :size="24" stroke-width="1.2" />

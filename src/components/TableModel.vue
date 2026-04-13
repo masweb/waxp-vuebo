@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { IconEdit, IconTrash } from '@tabler/icons-vue'
+import { IconEditFilled, IconTrashFilled, IconArrowBigRightFilled, IconArrowBigLeftFilled } from '@tabler/icons-vue'
 
 const props = withDefaults(
   defineProps<{
@@ -192,14 +192,14 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="mb-0">{{ props.title }}</h5>
-      <button v-if="createEditSchema" class="btn btn-primary btn-sm" @click="openCreateModal">
-        + {{ t('common.add') }} {{ props.title }}
-      </button>
-    </div>
     <div class="card">
-      <div class="card-body">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 ms-2">{{ props.title }}</h5>
+        <button v-if="createEditSchema" class="btn btn-outline-primary btn-sm" @click="openCreateModal">
+          + {{ t('common.add') }} {{ props.title }}
+        </button>
+      </div>
+      <div class="card-body pt-1">
         <table class="table table-hover">
           <thead>
             <tr>
@@ -242,14 +242,14 @@ onMounted(() => {
               <td class="text-end">
                 <div class="d-flex gap-1 justify-content-end">
                   <button v-if="createEditSchema" class="btn btn-sm btn-link p-0" @click="openEditModal(row)">
-                    <IconEdit :size="16" stroke-width="1.2" />
+                    <IconEditFilled :size="22" stroke-width="1.2" />
                   </button>
                   <button
                     class="btn btn-sm btn-link p-0"
                     :disabled="deletingIds.has(row.id)"
                     @click="confirmDelete(row)"
                   >
-                    <IconTrash :size="16" stroke-width="1.2" />
+                    <IconTrashFilled :size="22" stroke-width="1.2" />
                   </button>
                 </div>
               </td>
@@ -262,18 +262,27 @@ onMounted(() => {
           </tbody>
         </table>
       </div>
-    </div>
-    <nav v-if="total" class="d-flex justify-content-between align-items-center mt-2">
-      <small class="text-muted">
-        {{ t('common.pageOf', { page: currentPage, total: totalPages }) }} · {{ total }} {{ t('common.results') }}
-      </small>
-      <div class="btn-group btn-group-sm">
-        <button class="btn btn-outline-secondary" :disabled="isFirstPage" @click="prevPage">‹</button>
-        <button class="btn btn-outline-secondary" :disabled="!hasMore || currentPage >= totalPages" @click="nextPage">
-          ›
-        </button>
+      <div class="card-footer">
+        <nav v-if="total" class="d-flex justify-content-between align-items-center">
+          <small class="text-muted">
+            {{ t('common.pageOf', { page: currentPage, total: totalPages }) }} · {{ total }} {{ t('common.results') }}
+          </small>
+          <div class="btn-group btn-group-sm">
+            <button class="btn btn-outline-secondary" :disabled="isFirstPage" @click="prevPage">
+              <IconArrowBigLeftFilled />
+            </button>
+            <button
+              class="btn btn-outline-secondary"
+              :disabled="!hasMore || currentPage >= totalPages"
+              @click="nextPage"
+            >
+              <IconArrowBigRightFilled />
+            </button>
+          </div>
+        </nav>
       </div>
-    </nav>
+    </div>
+
     <div v-if="isModalOpen && createEditSchema" class="modal-backdrop show" />
     <div v-if="isModalOpen && createEditSchema" class="modal show d-block" tabindex="-1">
       <div class="modal-dialog">

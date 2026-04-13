@@ -3,6 +3,7 @@ import { IconPlus, IconTrash } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 const { languages } = useReferenceData()
+const st = siteStore()
 
 const tableSchema: TableSchema = [
   { key: 'name', label: t('name') },
@@ -77,7 +78,7 @@ const sortLanguages = computed(() => [...languages.value].sort((a, b) => a.name.
     :title="t('sites.sites')"
   >
     <template #item-name="{ row, value }">
-      <div class="btn btn-link p-0">{{ value }}</div>
+      <div @click="st.openSite(row.id)" class="btn btn-link p-0 text-decoration-none">{{ value }}</div>
     </template>
 
     <template #item-locales="{ row }">

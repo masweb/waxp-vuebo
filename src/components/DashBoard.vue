@@ -8,7 +8,7 @@ if (!auth.isAuthenticated) nav.main = 'login'
 
 <template>
   <div class="container mt-4">
-    <h5>{{ t('section.Dashboard') }}</h5>
+    <h4>{{ t('section.Dashboard') }}</h4>
     <SiteManager class="mt-3" />
   </div>
 </template>
