@@ -17,6 +17,7 @@ declare global {
   const createApp: typeof import('vue').createApp
   const createPinia: typeof import('pinia').createPinia
   const customRef: typeof import('vue').customRef
+  const db: typeof import('./src/db/fonts').db
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
   const defineComponent: typeof import('vue').defineComponent
   const defineRule: typeof import('vee-validate').defineRule
@@ -88,6 +89,7 @@ declare global {
   const useForm: typeof import('vee-validate').useForm
   const useFormErrors: typeof import('vee-validate').useFormErrors
   const useFormValues: typeof import('vee-validate').useFormValues
+  const useGoogleFonts: typeof import('./src/composables/useGoogleFonts').default
   const useI18n: typeof import('vue-i18n').useI18n
   const useId: typeof import('vue').useId
   const useIsFieldDirty: typeof import('vee-validate').useIsFieldDirty
@@ -131,4 +133,7 @@ declare global {
   // @ts-ignore
   export type { ColumnAlign, ColumnSchema, FilterSchema, TableSchema, FilterSchemas } from './src/types/table'
   import('./src/types/table')
+  // @ts-ignore
+  export type { GoogleFont, ActiveVariant } from './src/db/fonts'
+  import('./src/db/fonts')
 }

@@ -12,6 +12,7 @@
     "@coreui/coreui": "^5.6.1",
     "@coreui/vue": "^5.8.0",
     "@tabler/icons-vue": "^3.41.1",
+    "dexie": "^4.4.2",
     "ofetch": "^1.5.1",
     "pinia": "^3.0.4",
     "vee-validate": "^4.15.1",
