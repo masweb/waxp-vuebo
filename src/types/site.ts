@@ -2,6 +2,8 @@ export interface Site {
   id: number
   name: string
   domain: string
+  locales: string[]
+  options: siteOptions
 }
 
 export interface CreateSiteRequest {

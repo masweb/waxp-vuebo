@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { IconPlus, IconTrash } from '@tabler/icons-vue'
+import { siteOptions } from '@/types/defaultOptions'
 
 const { t } = useI18n()
 const { languages } = useReferenceData()
@@ -76,6 +77,7 @@ const sortLanguages = computed(() => [...languages.value].sort((a, b) => a.name.
     url="/api/sites"
     :limit="10"
     :title="t('sites.sites')"
+    :create-initial-values="{ options: { ...siteOptions } }"
   >
     <template #item-name="{ row, value }">
       <div @click="st.openSite(row.id)" class="btn btn-link p-0 text-decoration-none">{{ value }}</div>

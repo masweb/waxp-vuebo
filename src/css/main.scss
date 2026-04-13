@@ -57,6 +57,19 @@ body {
   --cui-border-color: #3a3a3a;
 }
 
+.site-editor {
+  all: initial;
+  /* re-establecer solo lo que el sitio necesita */
+  font-family: serif;
+  display: block;
+  box-sizing: border-box;
+}
+.site-editor * {
+  all: unset;
+  display: revert;
+  box-sizing: border-box;
+}
+
 .logo {
   font-size: 1.8em;
   font-family: 'Inter-Light', sans-serif;

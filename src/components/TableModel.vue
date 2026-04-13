@@ -9,8 +9,9 @@ const props = withDefaults(
     createEditSchema?: ColumnSchema[]
     filters?: FilterSchemas
     limit?: number
+    createInitialValues?: Record<string, any>
   }>(),
-  { limit: 25, createEditSchema: undefined, filters: undefined }
+  { limit: 25, createEditSchema: undefined, filters: undefined, createInitialValues: undefined }
 )
 
 const { t } = useI18n()
@@ -72,7 +73,7 @@ const validateForm = (): boolean => {
 }
 
 const openCreateModal = () => {
-  const initials: Record<string, string> = {}
+  const initials: Record<string, any> = { ...props.createInitialValues }
   for (const col of props.createEditSchema ?? []) initials[col.key] = ''
   resetForm({ values: initials })
   editTarget.value = null

@@ -67,6 +67,7 @@ declare global {
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
+  const siteOptions: typeof import('./src/types/defaultOptions').siteOptions
   const siteStore: typeof import('./src/stores/siteStore').siteStore
   const storeToRefs: typeof import('pinia').storeToRefs
   const toRaw: typeof import('vue').toRaw

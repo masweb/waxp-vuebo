@@ -11,12 +11,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppSettings: typeof import('./src/components/AppSettings.vue')['default']
-    DashBoard: typeof import('./src/components/DashBoard.vue')['default']
+    AppSettings: typeof import('./src/views/AppSettings.vue')['default']
+    DashBoard: typeof import('./src/views/DashBoard.vue')['default']
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
-    SiteManager: typeof import('./src/components/SiteManager.vue')['default']
+    SiteEditor: typeof import('./src/components/editor/SiteEditor.vue')['default']
+    SiteManager: typeof import('./src/components/manager/SiteManager.vue')['default']
     TableModel: typeof import('./src/components/TableModel.vue')['default']
   }
 }
