@@ -63,6 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('auth_token')
     localStorage.removeItem('auth_user')
     console.log('Logout successful!')
+    nav.main = 'login'
   }
 
   // Expose state, getters, and actions

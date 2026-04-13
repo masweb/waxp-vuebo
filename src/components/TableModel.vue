@@ -24,7 +24,7 @@ const isFirstPage = ref(true)
 const currentPage = ref(1)
 const showCreateModal = ref(false)
 const editTarget = ref<any>(null)
-const firstInput = ref<HTMLInputElement | null>(null)
+const firstInput = ref<HTMLInputElement[]>([])
 const formLoading = ref(false)
 const deletingIds = ref<Set<number>>(new Set())
 const deleteTarget = ref<any>(null)
@@ -80,8 +80,8 @@ const openCreateModal = () => {
   editTarget.value = null
   showCreateModal.value = true
 
-  nextTick(() => {
-    if (firstInput.value !== null) firstInput.value.focus()
+  setTimeout(() => {
+    firstInput.value[0]?.focus()
   })
 }
 
@@ -94,8 +94,8 @@ const openEditModal = (row: any) => {
   editTarget.value = row
   showCreateModal.value = false
 
-  nextTick(() => {
-    if (firstInput.value !== null) firstInput.value.focus()
+  setTimeout(() => {
+    firstInput.value[0]?.focus()
   })
 }
 
@@ -252,11 +252,7 @@ onMounted(() => {
               </td>
               <td class="text-end">
                 <div class="d-flex gap-1 justify-content-end">
-                  <button
-                    v-if="createEditSchema"
-                    class="btn btn-sm btn-link p-0"
-                    @click="openEditModal(row)"
-                  >
+                  <button v-if="createEditSchema" class="btn btn-sm btn-link p-0" @click="openEditModal(row)">
                     <IconEdit :size="16" stroke-width="1.2" />
                   </button>
                   <button
@@ -294,9 +290,7 @@ onMounted(() => {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">
-              {{ editTarget ? t('common.edit') : t('common.add') }} {{ props.title }}
-            </h5>
+            <h5 class="modal-title">{{ editTarget ? t('common.edit') : t('common.add') }} {{ props.title }}</h5>
             <button type="button" class="btn-close" @click="closeModal" />
           </div>
           <div class="modal-body">

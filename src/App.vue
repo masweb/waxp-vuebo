@@ -11,6 +11,6 @@ if (!auth.isAuthenticated) nav.main = 'login'
   <LoginView v-if="nav.main == 'login'" />
   <div v-if="nav.main == 'dashboard'" class="container mt-4">
     <h5>Dashboard</h5>
-    <SiteManager />
+    <SiteManager class="mt-3" />
   </div>
 </template>

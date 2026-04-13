@@ -1,8 +1,10 @@
 <script setup lang="ts">
 const { theme, setTheme } = useTheme()
 const { locale, availableLocales, t } = useI18n()
+const auth = useAuthStore()
+
 watch(locale, newLocale => localStorage.setItem('lang', newLocale))
-import { IconSunFilled, IconMoonFilled } from '@tabler/icons-vue'
+import { IconSunFilled, IconMoonFilled, IconPower } from '@tabler/icons-vue'
 </script>
 
 <template>
@@ -12,6 +14,9 @@ import { IconSunFilled, IconMoonFilled } from '@tabler/icons-vue'
     </div>
     <ErrorsNotifier />
     <div class="d-flex align-items-center">
+      <button @click="auth.logout()" class="btn btn-sm btn-link pe-3">
+        <IconPower :size="24" stroke-width="1.2" />
+      </button>
       <select v-model="locale" class="form-select form-select-sm">
         <option v-for="lang in availableLocales" :key="lang" :value="lang">{{ lang }}</option>
       </select>
