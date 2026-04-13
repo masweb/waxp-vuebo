@@ -20,4 +20,10 @@ export interface LoginRequest {
 
 export interface ApiError {
   error: string
+  code: number
+}
+export interface StoredError {
+  id: string
+  error: string
+  code: number
 }

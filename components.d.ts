@@ -11,7 +11,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
+    SiteManager: typeof import('./src/components/SiteManager.vue')['default']
   }
 }

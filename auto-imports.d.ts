@@ -22,6 +22,7 @@ declare global {
   const defineRule: typeof import('vee-validate').defineRule
   const defineStore: typeof import('pinia').defineStore
   const effectScope: typeof import('vue').effectScope
+  const errorsStore: typeof import('./src/stores/errorsStore').errorsStore
   const getActivePinia: typeof import('pinia').getActivePinia
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
@@ -120,6 +121,9 @@ declare global {
   export type { Theme } from './src/composables/useTheme'
   import('./src/composables/useTheme')
   // @ts-ignore
-  export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError } from './src/types/auth'
+  export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')
+  // @ts-ignore
+  export type { Site, CreateSiteRequest, UpdateSiteRequest, PaginatedResponse, ListSitesParams } from './src/types/site'
+  import('./src/types/site')
 }

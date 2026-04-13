@@ -6,10 +6,13 @@ const apiRoute = import.meta.env.VITE_END_POINT
 export const useApi = async (url: string, options?: any) => {
   const st = siteStore()
 
+  const token = localStorage.getItem('auth_token')
+
   const headers: HeadersInit = {
     Accept: 'application/json',
     responseType: 'json',
     'Cache-Control': 'no-cache',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options?.headers
   }
 

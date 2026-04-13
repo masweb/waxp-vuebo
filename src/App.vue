@@ -7,5 +7,8 @@ auth.initializeAuth()
 <template>
   <MainBar />
   <LoginView v-if="!auth.isAuthenticated" />
-  <div v-else>Dashboarda</div>
+  <div class="container mt-4" v-else>
+    <h5>Dashboard</h5>
+    <SiteManager />
+  </div>
 </template>

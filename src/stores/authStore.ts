@@ -1,7 +1,4 @@
-// Assuming you might use an API client like axios, import it here later:
-import type { User } from '@/types/models'
-
-// import api from '../api';
+import type { ApiError } from '@/types/auth'
 
 export const useAuthStore = defineStore('auth', () => {
   const initialToken = localStorage.getItem('auth_token')
@@ -39,29 +36,19 @@ export const useAuthStore = defineStore('auth', () => {
    * @returns {Promise<void>}
    */
   const login = async (email: string, password: string): Promise<void> => {
-    console.log(email, password)
-    const resp: AuthResponse = await useApi('/api/login', {
+    const resp: AuthResponse = await useApi('/api/auth/login', {
       method: 'POST',
-      body: {
-        email: email,
-        password: password
-      }
-    })
-    console.log(resp)
+      body: { email, password }
+    }).catch(error => error.data as ApiError)
 
-    // const { post } = useApi()
-    // let loginResult = null as LoginResponse | null
-    // loginResult = await post<LoginResponse>('/login', {
-    //   email,
-    //   password
-    // })
-    // if (loginResult) {
-    //   token.value = loginResult.token
-    //   user.value = loginResult.user
-    //   localStorage.setItem('auth_token', token.value)
-    //   localStorage.setItem('auth_user', JSON.stringify(user.value))
-    //   router.push('/waxp')
-    // }
+    console.log('-----------', resp)
+
+    if (resp.token) {
+      token.value = resp.token
+      user.value = resp.user
+      localStorage.setItem('auth_token', token.value)
+      localStorage.setItem('auth_user', JSON.stringify(user.value))
+    } else errorsStore().addError(resp)
   }
 
   /**
@@ -73,7 +60,6 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('auth_token')
     localStorage.removeItem('auth_user')
     console.log('Logout successful!')
-    router.push('/')
   }
 
   // Expose state, getters, and actions

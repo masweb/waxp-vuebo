@@ -32,7 +32,7 @@ const onSubmit = handleSubmit((values: { email: string; password: string }) => {
 
 <template>
   <div class="h100 d-flex flex-column justify-content-center align-items-center">
-    <div class="logo text-center mb-5">w a x p</div>
+    <div class="logo text-center mb-5 mt-5">w a x p</div>
     <div class="card" style="width: 310px">
       <div class="card-header text-center">{{ t('login') }}</div>
       <div class="card-body">

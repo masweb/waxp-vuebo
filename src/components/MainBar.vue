@@ -10,7 +10,7 @@ import { IconSunFilled, IconMoonFilled } from '@tabler/icons-vue'
     <div class="d-flex align-items-center">
       <div class="ms-3 fw-light text-">APP NAME</div>
     </div>
-
+    <ErrorsNotifier />
     <div class="d-flex align-items-center">
       <select v-model="locale" class="form-select form-select-sm">
         <option v-for="lang in availableLocales" :key="lang" :value="lang">{{ lang }}</option>
