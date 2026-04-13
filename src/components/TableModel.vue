@@ -73,30 +73,25 @@ const validateForm = (): boolean => {
 
 const openCreateModal = () => {
   const initials: Record<string, string> = {}
-  for (const col of props.createEditSchema ?? []) {
-    initials[col.key] = ''
-  }
+  for (const col of props.createEditSchema ?? []) initials[col.key] = ''
   resetForm({ values: initials })
   editTarget.value = null
   showCreateModal.value = true
-
-  setTimeout(() => {
-    firstInput.value[0]?.focus()
-  })
+  setTimeout(() => firstInput.value[0]?.focus())
 }
 
 const openEditModal = (row: any) => {
-  const initials: Record<string, string> = {}
+  const initials: Record<string, any> = { ...row }
   for (const col of props.createEditSchema ?? []) {
-    initials[col.key] = row[col.key] ?? ''
+    if (initials[col.key] == null) initials[col.key] = ''
   }
+  delete initials.id
+  delete initials.created_at
+  delete initials.updated_at
   resetForm({ values: initials })
   editTarget.value = row
   showCreateModal.value = false
-
-  setTimeout(() => {
-    firstInput.value[0]?.focus()
-  })
+  setTimeout(() => firstInput.value[0]?.focus())
 }
 
 const closeModal = () => {
@@ -108,11 +103,8 @@ const submitForm = async () => {
   if (!validateForm()) return
   formLoading.value = true
   try {
-    if (editTarget.value) {
-      await useApi(`${props.url}/${editTarget.value.id}`, { method: 'PUT', body: { ...values } })
-    } else {
-      await useApi(props.url, { method: 'POST', body: { ...values } })
-    }
+    if (editTarget.value) await useApi(`${props.url}/${editTarget.value.id}`, { method: 'PUT', body: { ...values } })
+    else await useApi(props.url, { method: 'POST', body: { ...values } })
     closeModal()
     await fetchData()
   } catch (error: any) {
@@ -135,11 +127,8 @@ const deleteItem = async () => {
     await useApi(`${props.url}/${row.id}`, { method: 'DELETE' })
     total.value--
     deleteTarget.value = null
-    if (!data.value.length && !isFirstPage.value) {
-      prevPage()
-    } else {
-      data.value = data.value.filter(item => item.id !== row.id)
-    }
+    if (!data.value.length && !isFirstPage.value) prevPage()
+    else data.value = data.value.filter(item => item.id !== row.id)
   } catch {
   } finally {
     deletingIds.value.delete(row.id)
@@ -309,6 +298,14 @@ onMounted(() => {
               />
               <div v-if="errors[col.key]" class="invalid-feedback">{{ errors[col.key] }}</div>
             </div>
+            <slot
+              name="form-extra"
+              :values="values"
+              :set-field-value="setFieldValue"
+              :set-field-error="setFieldError"
+              :errors="errors"
+              :edit-target="editTarget"
+            />
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary btn-sm" @click="closeModal">

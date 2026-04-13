@@ -97,6 +97,7 @@ declare global {
   const useIsFormValid: typeof import('vee-validate').useIsFormValid
   const useIsSubmitting: typeof import('vee-validate').useIsSubmitting
   const useModel: typeof import('vue').useModel
+  const useReferenceData: typeof import('./src/composables/useReferenceData').useReferenceData
   const useResetForm: typeof import('vee-validate').useResetForm
   const useSlots: typeof import('vue').useSlots
   const useSubmitCount: typeof import('vee-validate').useSubmitCount

@@ -15,7 +15,10 @@
   "title": "Título",
   "domain": "Dominio",
   "select": "Seleccionar...",
-
+  "section": {
+    "Dashboard": "Panel de control",
+    "App settings": "Opciones de la aplicación"
+  },
   "common": {
     "add": "Añadir",
     "cancel": "Cancelar",

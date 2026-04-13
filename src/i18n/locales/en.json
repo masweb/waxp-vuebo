@@ -15,7 +15,10 @@
   "title": "Title",
   "domain": "Domain",
   "select": "Select...",
-
+  "section": {
+    "Dashboard": "Dashboard",
+    "App settings": "App settings"
+  },
   "common": {
     "add": "Add",
     "cancel": "Cancel",

@@ -7,8 +7,8 @@ if (!auth.isAuthenticated) nav.main = 'login'
 </script>
 
 <template>
-  <MainBar />
-  <LoginView v-if="nav.main == 'login'" />
-  <DashBoard v-if="nav.main == 'dashboard'" />
-  <AppSettings v-if="nav.main == 'settings'" />
+  <div class="container mt-4">
+    <h5>{{ t('section.Dashboard') }}</h5>
+    <SiteManager class="mt-3" />
+  </div>
 </template>
