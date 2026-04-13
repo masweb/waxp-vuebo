@@ -126,4 +126,7 @@ declare global {
   // @ts-ignore
   export type { Site, CreateSiteRequest, UpdateSiteRequest, PaginatedResponse, ListSitesParams } from './src/types/site'
   import('./src/types/site')
+  // @ts-ignore
+  export type { ColumnAlign, ColumnSchema, FilterSchema, TableSchema, FilterSchemas } from './src/types/table'
+  import('./src/types/table')
 }

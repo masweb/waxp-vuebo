@@ -1,16 +1,33 @@
 <script lang="ts" setup>
-const sites: Ref<Site[]> = ref([])
+const { t } = useI18n()
 
-onMounted(() => {
-  getSites()
-})
+const tableSchema: TableSchema = [
+  { key: 'name', label: t('name') },
+  { key: 'domain', label: t('domain') }
+]
 
-const getSites = async () => {
-  sites.value = await useApi('/api/sites')
-}
+const filters: FilterSchemas = [
+  { key: 'name', label: t('name') },
+  { key: 'domain', label: t('domain') }
+]
+
+const createEditSchema: ColumnSchema[] = [
+  { key: 'name', label: t('name'), required: true },
+  { key: 'domain', label: t('domain'), required: true }
+]
 </script>
 
 <template>
-  <div>SiteManager</div>
-  {{ sites }}
+  <TableModel
+    :schema="tableSchema"
+    :create-edit-schema="createEditSchema"
+    :filters="filters"
+    url="/api/sites"
+    :limit="10"
+    :title="t('sites.sites')"
+  >
+    <template #item-name="{ row, value }">
+      <div class="btn btn-link p-0">{{ value }}</div>
+    </template>
+  </TableModel>
 </template>

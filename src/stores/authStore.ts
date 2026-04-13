@@ -1,6 +1,8 @@
 import type { ApiError } from '@/types/auth'
 
 export const useAuthStore = defineStore('auth', () => {
+  const nav = navigationStore()
+
   const initialToken = localStorage.getItem('auth_token')
   const initialUser = localStorage.getItem('auth_user')
 
@@ -48,6 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = resp.user
       localStorage.setItem('auth_token', token.value)
       localStorage.setItem('auth_user', JSON.stringify(user.value))
+      nav.main = 'dashboard'
     } else errorsStore().addError(resp)
   }
 

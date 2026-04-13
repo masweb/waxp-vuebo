@@ -13,7 +13,23 @@
   "name": "Name",
   "slug": "Slug",
   "title": "Title",
+  "domain": "Domain",
   "select": "Select...",
+
+  "common": {
+    "add": "Add",
+    "cancel": "Cancel",
+    "clearFilters": "Clear filters",
+    "delete": "Delete",
+    "edit": "Edit",
+    "deleteConfirm": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+    "deleteTitle": "Confirm deletion",
+    "filter": "Filter",
+    "noResults": "No results",
+    "pageOf": "Page {page} of {total}",
+    "results": "results",
+    "save": "Save"
+  },
   "pages": {
     "add": "Add Page"
   },

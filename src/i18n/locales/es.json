@@ -13,8 +13,23 @@
   "name": "Nombre",
   "slug": "Ruta",
   "title": "Título",
+  "domain": "Dominio",
   "select": "Seleccionar...",
 
+  "common": {
+    "add": "Añadir",
+    "cancel": "Cancelar",
+    "clearFilters": "Limpiar filtros",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "deleteConfirm": "¿Seguro que quieres eliminar \"{name}\"? Esta acción no se puede deshacer.",
+    "deleteTitle": "Confirmar eliminación",
+    "filter": "Filtrar",
+    "noResults": "Sin resultados",
+    "pageOf": "Página {page} de {total}",
+    "results": "resultados",
+    "save": "Guardar"
+  },
   "pages": {
     "add": "Añadir página"
   },

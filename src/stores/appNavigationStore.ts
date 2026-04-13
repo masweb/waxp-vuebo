@@ -1,7 +1,7 @@
 export const navigationStore = defineStore('navigation', () => {
-  const mainWindow = ref('home')
+  const main = ref('dashboard')
 
   return {
-    mainWindow
+    main
   }
 })
