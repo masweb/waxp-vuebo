@@ -1,0 +1,38 @@
+{
+  "HelloWorld": "Hello, World!",
+  "settings": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  },
+  "languageName": "English",
+  "loading": "Loading...",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "submit": "Submit",
+  "name": "Name",
+  "slug": "Slug",
+  "title": "Title",
+  "select": "Select...",
+  "pages": {
+    "add": "Add Page"
+  },
+  "sites": {
+    "sites": "Sites",
+    "new": "New Site",
+    "back": "Back to sites",
+    "languages": "Language/s",
+    "select_lang": "Please select your site language/s",
+    "default_lang": "Default language"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Must be a valid email",
+    "password": {
+      "min": "Password must be at least 6 characters",
+      "uppercase": "Password must contain at least one uppercase letter",
+      "lowercase": "Password must contain at least one lowercase letter",
+      "symbol": "Password must contain at least one symbol"
+    }
+  }
+}

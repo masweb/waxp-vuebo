@@ -1,0 +1,92 @@
+// Assuming you might use an API client like axios, import it here later:
+import type { User } from '@/types/models'
+
+// import api from '../api';
+
+export const useAuthStore = defineStore('auth', () => {
+  const initialToken = localStorage.getItem('auth_token')
+  const initialUser = localStorage.getItem('auth_user')
+
+  const token: Ref<string | null> = ref(initialToken)
+  const user: Ref<User | null> = ref(initialUser ? JSON.parse(initialUser) : null)
+
+  const isAuthenticated: ComputedRef<boolean> = computed(() => !!token.value)
+  const isAdmin: ComputedRef<boolean> = computed(() => user.value?.role === 'admin')
+
+  const initializeAuth = (): void => {
+    const storedToken = localStorage.getItem('auth_token')
+    const storedUser = localStorage.getItem('auth_user')
+    if (storedToken) {
+      token.value = storedToken
+      try {
+        user.value = storedUser ? JSON.parse(storedUser) : null
+      } catch (e) {
+        console.error('Failed to parse user data from localStorage:', e)
+        user.value = null // Clear potentially corrupted user data
+        logout() // Also clear token if user data is corrupt
+      }
+    } else {
+      // If no token, ensure user is also null
+      user.value = null
+    }
+  }
+
+  /**
+   * Logs in the user by sending credentials to the backend API
+   * and storing the token and user info.
+   * @param {string} email - The username.
+   * @param {string} password - The password.
+   * @returns {Promise<void>}
+   */
+  const login = async (email: string, password: string): Promise<void> => {
+    console.log(email, password)
+    const resp: AuthResponse = await useApi('/api/login', {
+      method: 'POST',
+      body: {
+        email: email,
+        password: password
+      }
+    })
+    console.log(resp)
+
+    // const { post } = useApi()
+    // let loginResult = null as LoginResponse | null
+    // loginResult = await post<LoginResponse>('/login', {
+    //   email,
+    //   password
+    // })
+    // if (loginResult) {
+    //   token.value = loginResult.token
+    //   user.value = loginResult.user
+    //   localStorage.setItem('auth_token', token.value)
+    //   localStorage.setItem('auth_user', JSON.stringify(user.value))
+    //   router.push('/waxp')
+    // }
+  }
+
+  /**
+   * Logs out the user by clearing state and localStorage.
+   */
+  const logout = (): void => {
+    token.value = null
+    user.value = null
+    localStorage.removeItem('auth_token')
+    localStorage.removeItem('auth_user')
+    console.log('Logout successful!')
+    router.push('/')
+  }
+
+  // Expose state, getters, and actions
+  return {
+    token,
+    user,
+    isAuthenticated,
+    isAdmin,
+    initializeAuth, // Can be called manually if needed after initial load
+    login,
+    logout
+  }
+})
+
+// Note: You should call `authStore.initializeAuth()` (or rely on initial state loading)
+// when your application starts, typically in `main.ts`.

@@ -1,0 +1,66 @@
+@use './variables' as *;
+@use '@coreui/coreui/scss/coreui' with (
+  $primary: #496ea6,
+  $primary-dark: coral
+);
+@use 'layout';
+
+:root {
+  --cui-font-sans-serif: 'Inter';
+  --cui-border-radius: 0.16rem;
+  --cui-border-radius-sm: 0.16rem;
+  --cui-border-radius-lg: 0.16rem;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/InterVariable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/InterVariable-Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+body {
+  font-family: var(--cui-font-sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+[data-coreui-theme='dark'] {
+  --cui-body-bg: #222222;
+  --cui-body-bg-rgb: 34, 34, 34;
+  --cui-secondary-bg: #2a2a2a;
+  --cui-secondary-bg-rgb: 42, 42, 42;
+  --cui-tertiary-bg: #333333;
+  --cui-tertiary-bg-rgb: 51, 51, 51;
+  --cui-dark: #222222;
+  --cui-dark-rgb: 34, 34, 34;
+  --cui-gray-600: #4a4a4a;
+  --cui-gray-700: #3a3a3a;
+  --cui-gray-800: #2d2d2d;
+  --cui-gray-900: #222222;
+  --cui-light-bg-subtle: #2d2d2d;
+  --cui-dark-bg-subtle: #1a1a1a;
+  --cui-light-border-subtle: #3a3a3a;
+  --cui-dark-border-subtle: #2a2a2a;
+  --cui-border-color: #3a3a3a;
+}
+
+.logo {
+  font-size: 1.3em;
+  font-family: 'Inter-Light', sans-serif;
+  font-weight: 100;
+  letter-spacing: 0.6em;
+  margin-top: 5cdem;
+}

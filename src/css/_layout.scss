@@ -1,0 +1,22 @@
+.cover-view {
+  height: calc(100vh - 40px);
+  padding: 40px;
+}
+.main-bar {
+  width: 100vw;
+  height: 40px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+[data-coreui-theme='dark'] {
+  .main-bar {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  }
+}

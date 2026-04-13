@@ -1,0 +1,39 @@
+{
+  "HelloWorld": "¡Hola, Mundo!",
+  "settings": {
+    "darkMode": "Modo oscuro",
+    "lightMode": "Modo claro"
+  },
+  "languageName": "Español",
+  "loading": "Cargando...",
+  "login": "Iniciar sesión",
+  "email": "Email",
+  "password": "Contraseña",
+  "submit": "Enviar",
+  "name": "Nombre",
+  "slug": "Ruta",
+  "title": "Título",
+  "select": "Seleccionar...",
+
+  "pages": {
+    "add": "Añadir página"
+  },
+  "sites": {
+    "sites": "Sitios web",
+    "new": "Nuevo sitio web",
+    "back": "Volver a sitios",
+    "languages": "Idiomas",
+    "select_lang": "Por favor, selecciona los idiomas disponibles para tu sitio",
+    "default_lang": "Idioma predeterminado"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "email": "Debe ser un email válido",
+    "password": {
+      "min": "La contraseña debe tener al menos 6 caracteres",
+      "uppercase": "La contraseña debe contener al menos una letra mayúscula",
+      "lowercase": "La contraseña debe contener al menos una letra minúscula",
+      "symbol": "La contraseña debe contener al menos un símbolo"
+    }
+  }
+}
