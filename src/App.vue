@@ -1,15 +1,27 @@
 <script setup lang="ts">
-const { t } = useI18n()
+const { theme } = useTheme()
 const auth = useAuthStore()
 const nav = navigationStore()
+const st = siteStore()
 auth.initializeAuth()
-if (!auth.isAuthenticated) nav.main = 'login'
+if (!auth.isAuthenticated) {
+  nav.setView('login')
+} else if (nav.main === 'site') {
+  st.restoreSite().then(ok => { if (!ok) nav.setView('dashboard') })
+}
+
+const views: Record<string, Component> = {
+  login: defineAsyncComponent(() => import('@/views/auth/LoginView.vue')),
+  dashboard: defineAsyncComponent(() => import('@/views/DashBoard.vue')),
+  settings: defineAsyncComponent(() => import('@/views/AppSettings.vue')),
+  site: defineAsyncComponent(() => import('@/components/editor/SiteEditor.vue'))
+}
+
+const currentView = computed(() => views[nav.main])
 </script>
 
 <template>
   <MainBar />
-  <LoginView v-if="nav.main == 'login'" />
-  <DashBoard v-if="nav.main == 'dashboard'" />
-  <AppSettings v-if="nav.main == 'settings'" />
-  <SiteEditor v-if="nav.main == 'site'" />
+  <component :is="currentView" />
 </template>
+s

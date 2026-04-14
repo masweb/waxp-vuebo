@@ -17,9 +17,9 @@ export const siteOptions: siteOptions = {
   darkBackColor: '#111111',
   lightBackColor: '#EEEEEE',
   desktopWidth: 1050,
-  fontFamily: 'Inter',
+  fontFamily: 'Montserrat',
   fontSize: '1em',
   fontWeight: 400,
-  lineHeight: '.8em',
+  lineHeight: '1.4em',
   darkMode: true
 }

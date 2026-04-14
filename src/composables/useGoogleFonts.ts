@@ -247,6 +247,25 @@ export const useGoogleFonts = () => {
     removeFontLink(family)
   }
 
+  const weightToVariant = (weight: number): string => {
+    if (weight === 400) return 'regular'
+    if (weight === 700) return 'bold'
+    return String(weight)
+  }
+
+  const activateSiteFonts = async (fontFamily: string, fontWeight: number) => {
+    if (!fontFamily) return
+    const font = getFont(fontFamily)
+    if (!font) return
+
+    const targetVariant = weightToVariant(fontWeight)
+    if (font.variants.includes(targetVariant)) {
+      await activateVariant(fontFamily, targetVariant)
+    } else if (font.variants.includes('regular')) {
+      await activateVariant(fontFamily, 'regular')
+    }
+  }
+
   const loadPreview = (family: string, variant: string) => {
     const { weight, style } = normalizeVariant(variant)
     const w =
@@ -274,6 +293,7 @@ export const useGoogleFonts = () => {
     deactivateVariant,
     activateAllVariants,
     deactivateAllVariants,
+    activateSiteFonts,
     loadPreview
   }
 }

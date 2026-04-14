@@ -16,8 +16,13 @@ declare module 'vue' {
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
+    PageSettings: typeof import('./src/components/editor/settings/PageSettings.vue')['default']
+    RoutingSettings: typeof import('./src/components/editor/settings/RoutingSettings.vue')['default']
+    SettingsPane: typeof import('./src/components/editor/SettingsPane.vue')['default']
+    SettingsPanel: typeof import('./src/components/editor/SettingsPanel.vue')['default']
     SiteEditor: typeof import('./src/components/editor/SiteEditor.vue')['default']
     SiteManager: typeof import('./src/components/manager/SiteManager.vue')['default']
+    SiteSettings: typeof import('./src/components/editor/settings/SiteSettings.vue')['default']
     TableModel: typeof import('./src/components/TableModel.vue')['default']
   }
 }

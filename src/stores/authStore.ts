@@ -62,6 +62,9 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     localStorage.removeItem('auth_token')
     localStorage.removeItem('auth_user')
+    localStorage.removeItem('appNavigation')
+    localStorage.removeItem('settingsNavigation')
+    localStorage.removeItem('siteState')
     console.log('Logout successful!')
     nav.main = 'login'
   }

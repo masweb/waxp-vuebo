@@ -59,15 +59,26 @@ body {
 
 .site-editor {
   all: initial;
-  /* re-establecer solo lo que el sitio necesita */
-  font-family: serif;
   display: block;
   box-sizing: border-box;
+  height: calc(100vh - 40px);
+  width: 100%;
+  font-family: var(--se-font-family), sans-serif;
+  font-size: var(--se-font-size);
+  font-weight: var(--se-font-weight);
+  line-height: var(--se-line-height);
+  color: var(--se-color);
+  background-color: var(--se-bg-color);
 }
 .site-editor * {
   all: unset;
   display: revert;
   box-sizing: border-box;
+}
+
+.setting-pane {
+  margin-top: 40px;
+  z-index: 1;
 }
 
 .logo {
