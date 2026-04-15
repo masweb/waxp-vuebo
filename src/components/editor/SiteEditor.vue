@@ -37,7 +37,6 @@ watch(
   <SettingsPane />
   <component :is="'style'" v-html="dynamicStyle" />
   <div class="site-editor">
-    <h1>SiteEditor</h1>
-    SiteEditor
+    <RouterView />
   </div>
 </template>

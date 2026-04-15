@@ -129,7 +129,10 @@ declare global {
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')
   // @ts-ignore
-  export type { Site, CreateSiteRequest, UpdateSiteRequest, PaginatedResponse, ListSitesParams } from './src/types/site'
+  export type { PageType, PageSeo, Slug, Page, PageRoute, CreatePageRequest, UpdatePageRequest, ListPagesParams, ListPagesResponse, RoutesResponse } from './src/types/page'
+  import('./src/types/page')
+  // @ts-ignore
+  export type { SiteRoute, Site, CreateSiteRequest, UpdateSiteRequest, PaginatedResponse, ListSitesParams } from './src/types/site'
   import('./src/types/site')
   // @ts-ignore
   export type { ColumnAlign, ColumnSchema, FilterSchema, TableSchema, FilterSchemas } from './src/types/table'

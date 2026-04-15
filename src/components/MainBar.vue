@@ -8,6 +8,7 @@ import {
   IconSunHighFilled,
   IconMoonFilled
 } from '@tabler/icons-vue'
+import { clearRoutes } from '@/router'
 
 const auth = useAuthStore()
 const nav = navigationStore()

@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 const { handleSubmit, errors } = useForm()
 
-const { value: email } = useField('email', emailRule, { initialValue: 'masweb@me.com' })
+const { value: email } = useField('email', emailRule, { initialValue: 'admin@waxp.com' })
 const { value: password } = useField('password', passwordRule, { initialValue: 'Admin123!' })
 
 const showPassword = ref(false)

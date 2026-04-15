@@ -1,9 +1,15 @@
+export interface SiteRoute {
+  path: string
+  page_id: number
+}
+
 export interface Site {
   id: number
   name: string
   domain: string
   locales: string[]
   options: siteOptions
+  routes?: Record<string, SiteRoute[]>
 }
 
 export interface CreateSiteRequest {
