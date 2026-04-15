@@ -4,22 +4,19 @@ const props = defineProps<{
   pagePath: string
   locale: string
 }>()
-const st = siteStore()
+const pg = pageStore()
+const { page } = storeToRefs(pg)
 
-onMounted(() => {
-  getPage()
-})
+const loadPage = () => pg.getPage(props.pageId)
 
-const getPage = async () => {
-  const resp: Page = await useApi(`/api/sites/${st?.site?.id}/pages/${props.pageId}`).catch(
-    error => error.data as ApiError
-  )
-  console.log(resp)
-}
+onMounted(loadPage)
+watch(() => props.pageId, loadPage)
 </script>
 <template>
-  RouterContent.vue
-  <div>{{ pageId }}</div>
-  <div>{{ locale }}</div>
-  <div>{{ pagePath }}</div>
+  <div class="page-content">
+    <div v-for="section in page?.layout" class="section">
+      {{ section.id }}
+    </div>
+    {{ page?.layout }}
+  </div>
 </template>

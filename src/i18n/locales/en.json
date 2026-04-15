@@ -34,7 +34,16 @@
     "save": "Save"
   },
   "pages": {
-    "add": "Add Page"
+    "add": "Add page",
+    "addChild": "Add child",
+    "addRoot": "Add at root",
+    "description": "Description",
+    "draft": "Draft",
+    "goToPage": "Go to page",
+    "published": "Published",
+    "routes": "Route options",
+    "seo": "SEO",
+    "status": "Status"
   },
   "sites": {
     "sites": "Sites",

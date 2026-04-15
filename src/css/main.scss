@@ -57,6 +57,11 @@ body {
   --cui-border-color: #3a3a3a;
 }
 
+.site-editor * {
+  all: unset;
+  display: revert;
+  box-sizing: border-box;
+}
 .site-editor {
   all: initial;
   display: block;
@@ -69,11 +74,21 @@ body {
   line-height: var(--se-line-height);
   color: var(--se-color);
   background-color: var(--se-bg-color);
-}
-.site-editor * {
-  all: unset;
-  display: revert;
-  box-sizing: border-box;
+  .page-content {
+    max-width: var(--se-desktop-width);
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    .section {
+      border: 1px dashed silver;
+      border-top: 0;
+      display: grid;
+      width: 100%;
+      position: relative;
+      border-radius: 3px;
+    }
+  }
 }
 
 .setting-pane {

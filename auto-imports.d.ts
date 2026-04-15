@@ -58,6 +58,7 @@ declare global {
   const onUnmounted: typeof import('vue').onUnmounted
   const onUpdated: typeof import('vue').onUpdated
   const onWatcherCleanup: typeof import('vue').onWatcherCleanup
+  const pageStore: typeof import('./src/stores/pageStore').pageStore
   const provide: typeof import('vue').provide
   const reactive: typeof import('vue').reactive
   const readonly: typeof import('vue').readonly
@@ -101,6 +102,7 @@ declare global {
   const useIsFormValid: typeof import('vee-validate').useIsFormValid
   const useIsSubmitting: typeof import('vee-validate').useIsSubmitting
   const useModel: typeof import('vue').useModel
+  const usePagesApi: typeof import('./src/composables/usePagesApi').usePagesApi
   const useReferenceData: typeof import('./src/composables/useReferenceData').useReferenceData
   const useResetForm: typeof import('vee-validate').useResetForm
   const useSlots: typeof import('vue').useSlots

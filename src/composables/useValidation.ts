@@ -38,8 +38,16 @@ export const useValidation = () => {
     return true
   }
 
+  const requiredRule = (value: string) => {
+    if (!value || !value.trim()) {
+      return t('validation.required')
+    }
+    return true
+  }
+
   return {
     emailRule,
-    passwordRule
+    passwordRule,
+    requiredRule
   }
 }

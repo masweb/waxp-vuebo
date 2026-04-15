@@ -27,6 +27,7 @@ export interface Page {
   slugs: Slug[]
   created_at: string
   updated_at: string
+  children?: Page[]
 }
 
 export interface PageRoute {

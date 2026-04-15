@@ -34,7 +34,16 @@
     "save": "Guardar"
   },
   "pages": {
-    "add": "Añadir página"
+    "add": "Añadir página",
+    "addChild": "Añadir dentro",
+    "addRoot": "Añadir en raíz",
+    "description": "Descripción",
+    "draft": "Borrador",
+    "goToPage": "Ir a la página",
+    "published": "Publicado",
+    "routes": "Opciones de rutas",
+    "seo": "SEO",
+    "status": "Estado"
   },
   "sites": {
     "sites": "Sitios web",

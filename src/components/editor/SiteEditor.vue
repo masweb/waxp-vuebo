@@ -16,6 +16,7 @@ const dynamicStyle = computed(() => {
   --se-line-height: ${opts.lineHeight};
   --se-color: ${color};
   --se-bg-color: ${bgColor};
+  --se-desktop-width: ${opts.desktopWidth}px;
 }`
 })
 
