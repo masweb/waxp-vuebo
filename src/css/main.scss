@@ -78,7 +78,11 @@ body {
     left: 0;
     right: 0;
     margin: auto;
-
+    .newsection-line {
+      width: 100%;
+      border-bottom: 1px dashed;
+      border-bottom-color: color-mix(in srgb, var(--se-color) 30%, transparent);
+    }
     .section {
       border-top: 0;
       display: grid;

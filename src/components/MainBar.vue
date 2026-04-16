@@ -18,7 +18,7 @@ const stt = settingsStore()
 const { site } = storeToRefs(st)
 
 const vp = viewportStore()
-const toggleGridVisibility = () => vp.showGrids = !vp.showGrids
+const toggleGridVisibility = () => (vp.showGrids = !vp.showGrids)
 
 const toggleSiteDarkMode = () => {
   if (!site.value?.options) return

@@ -12,10 +12,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppSettings: typeof import('./src/views/AppSettings.vue')['default']
+    ColorPicker: typeof import('./src/components/editor/settings/fields/ColorPicker.vue')['default']
     DashBoard: typeof import('./src/views/DashBoard.vue')['default']
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
+    NewSection: typeof import('./src/components/editor/NewSection.vue')['default']
     Nothing: typeof import('./src/components/Nothing.vue')['default']
     PageForm: typeof import('./src/components/editor/settings/PageForm.vue')['default']
     PageSection: typeof import('./src/components/editor/PageSection.vue')['default']

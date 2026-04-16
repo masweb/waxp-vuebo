@@ -21,4 +21,5 @@ const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid
       <!-- blocks aquí -->
     </div>
   </div>
+  <NewSection />
 </template>

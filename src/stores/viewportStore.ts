@@ -17,7 +17,9 @@ export const viewportStore = defineStore('viewport', () => {
     width.value = window.innerWidth
   }
 
-  const showGrids: Ref<boolean> = ref(false)
+  const showGrids: Ref<boolean> = ref(localStorage.getItem('showGrids') === 'true')
+
+  watch(showGrids, (v) => localStorage.setItem('showGrids', String(v)))
 
   onMounted(() => window.addEventListener('resize', onResize))
   onScopeDispose(() => window.removeEventListener('resize', onResize))

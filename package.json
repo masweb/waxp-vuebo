@@ -13,6 +13,7 @@
     "@coreui/vue": "^5.8.0",
     "@tabler/icons-vue": "^3.41.1",
     "dexie": "^4.4.2",
+    "interactjs": "^1.10.27",
     "ofetch": "^1.5.1",
     "pinia": "^3.0.4",
     "vee-validate": "^4.15.1",
@@ -29,7 +30,7 @@
     "typescript": "~6.0.2",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-vue-components": "^31.1.0",
-    "vite": "npm:@voidzero-dev/vite-plus-core@^0.1.16",
+    "vite": "npm:@voidzero-dev/vite-plus-core@^0.1.18",
     "vite-plus": "latest",
     "vue-tsc": "^3.2.6"
   },
