@@ -3,7 +3,9 @@ const props = defineProps<{
   section: Section
 }>()
 
-const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(() => props.section)
+const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(
+  () => props.section,
+)
 </script>
 
 <template>
@@ -16,10 +18,7 @@ const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid
     @mouseleave="hovered = false"
   >
     <canvas ref="canvasRef" class="section-canvas" />
-
-    <div class="section-blocks">
-      <!-- blocks aquí -->
-    </div>
+    <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" />
   </div>
   <NewSection />
 </template>

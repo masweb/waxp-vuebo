@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import SettingsPane from './SettingsPane.vue'
+import SettingsPane from "./SettingsPane.vue";
 
-const store = siteStore()
-const { init, activateSiteFonts } = useGoogleFonts()
+const store = siteStore();
+const { init, activateSiteFonts } = useGoogleFonts();
 
 const dynamicStyle = computed(() => {
-  const opts = store.site?.options
-  if (!opts) return ''
-  const color = opts.darkMode ? opts.darkColor : opts.lightColor
-  const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor
+  const opts = store.site?.options;
+  if (!opts) return "";
+  const color = opts.darkMode ? opts.darkColor : opts.lightColor;
+  const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor;
   return `.site-editor {
   --se-font-family: '${opts.fontFamily}', sans-serif;
   --se-font-size: ${opts.fontSize};
@@ -17,27 +17,28 @@ const dynamicStyle = computed(() => {
   --se-color: ${color};
   --se-bg-color: ${bgColor};
   --se-desktop-width: ${opts.desktopWidth}px;
-}`
-})
+}`;
+});
 
 onMounted(async () => {
-  await init()
-})
+  await init();
+});
 
 watch(
   () => store.site?.options,
-  async options => {
-    if (!options) return
-    await activateSiteFonts(options.fontFamily, options.fontWeight)
+  async (options) => {
+    if (!options) return;
+    await activateSiteFonts(options.fontFamily, options.fontWeight);
   },
-  { immediate: true }
-)
+  { immediate: true },
+);
 </script>
 
 <template>
   <SettingsPane />
-  <component :is="'style'" v-html="dynamicStyle" />
   <div class="site-editor">
+    <component :is="'style'" v-html="dynamicStyle" />
+
     <RouterView />
   </div>
 </template>

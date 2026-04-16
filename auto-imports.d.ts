@@ -82,6 +82,7 @@ declare global {
   const useApi: typeof import('./src/composables/useApi').useApi
   const useAttrs: typeof import('vue').useAttrs
   const useAuthStore: typeof import('./src/stores/authStore').useAuthStore
+  const useBlockGrid: typeof import('./src/composables/useBlockGrid').useBlockGrid
   const useCssModule: typeof import('vue').useCssModule
   const useCssVars: typeof import('vue').useCssVars
   const useField: typeof import('vee-validate').useField
@@ -134,7 +135,7 @@ declare global {
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')
   // @ts-ignore
-  export type { BreakpointSize, Section, ViewportMode } from './src/types/layout'
+  export type { BreakpointSize, BlockCoords, Block, Section, ViewportMode } from './src/types/layout'
   import('./src/types/layout')
   // @ts-ignore
   export type { PageType, PageSeo, Slug, Page, PageRoute, CreatePageRequest, UpdatePageRequest, ListPagesParams, ListPagesResponse, RoutesResponse } from './src/types/page'

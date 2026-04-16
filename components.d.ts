@@ -19,6 +19,7 @@ declare module 'vue' {
     MainBar: typeof import('./src/components/MainBar.vue')['default']
     NewSection: typeof import('./src/components/editor/NewSection.vue')['default']
     Nothing: typeof import('./src/components/Nothing.vue')['default']
+    PageBlock: typeof import('./src/components/editor/PageBlock.vue')['default']
     PageForm: typeof import('./src/components/editor/settings/PageForm.vue')['default']
     PageSection: typeof import('./src/components/editor/PageSection.vue')['default']
     PageSettings: typeof import('./src/components/editor/settings/PageSettings.vue')['default']
