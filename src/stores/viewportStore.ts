@@ -17,8 +17,10 @@ export const viewportStore = defineStore('viewport', () => {
     width.value = window.innerWidth
   }
 
+  const showGrids: Ref<boolean> = ref(false)
+
   onMounted(() => window.addEventListener('resize', onResize))
   onScopeDispose(() => window.removeEventListener('resize', onResize))
 
-  return { mode, width, mobileBP, tabletBP }
+  return { mode, width, mobileBP, tabletBP, showGrids }
 })

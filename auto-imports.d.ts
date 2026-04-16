@@ -92,6 +92,7 @@ declare global {
   const useFormErrors: typeof import('vee-validate').useFormErrors
   const useFormValues: typeof import('vee-validate').useFormValues
   const useGoogleFonts: typeof import('./src/composables/useGoogleFonts').default
+  const useGridVisibility: typeof import('./src/composables/useSectionGrid').useGridVisibility
   const useI18n: typeof import('vue-i18n').useI18n
   const useId: typeof import('vue').useId
   const useIsFieldDirty: typeof import('vee-validate').useIsFieldDirty
@@ -105,6 +106,7 @@ declare global {
   const usePagesApi: typeof import('./src/composables/usePagesApi').usePagesApi
   const useReferenceData: typeof import('./src/composables/useReferenceData').useReferenceData
   const useResetForm: typeof import('vee-validate').useResetForm
+  const useSectionGrid: typeof import('./src/composables/useSectionGrid').useSectionGrid
   const useSlots: typeof import('vue').useSlots
   const useSubmitCount: typeof import('vee-validate').useSubmitCount
   const useSubmitForm: typeof import('vee-validate').useSubmitForm

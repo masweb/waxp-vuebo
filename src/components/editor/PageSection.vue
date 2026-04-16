@@ -3,21 +3,22 @@ const props = defineProps<{
   section: Section
 }>()
 
-const vp = viewportStore()
-
-const bpConfig = computed(() => props.section[vp.mode as keyof Section] as BreakpointSize)
-
-const gridStyle = computed(() => ({
-  gridTemplateColumns: `repeat(${bpConfig.value.cols}, 1fr)`,
-  gridTemplateRows: `repeat(${bpConfig.value.rows}, 1fr)`,
-  gap: `${bpConfig.value.gap}px`
-}))
-
-const cellCount = computed(() => bpConfig.value.cols * bpConfig.value.rows)
+const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(() => props.section)
 </script>
 
 <template>
-  <div class="section" :style="gridStyle">
-    <div v-for="c in cellCount" :key="c" class="section-cell" />
+  <div
+    ref="sectionRef"
+    class="section"
+    :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow }"
+    :style="gridStyle"
+    @mouseenter="hovered = true"
+    @mouseleave="hovered = false"
+  >
+    <canvas ref="canvasRef" class="section-canvas" />
+
+    <div class="section-blocks">
+      <!-- blocks aquí -->
+    </div>
   </div>
 </template>

@@ -6,9 +6,9 @@ import {
   IconFileFilled,
   IconSitemapFilled,
   IconSunHighFilled,
-  IconMoonFilled
+  IconMoonFilled,
+  IconLayoutGridFilled
 } from '@tabler/icons-vue'
-import { clearRoutes } from '@/router'
 
 const auth = useAuthStore()
 const nav = navigationStore()
@@ -16,6 +16,9 @@ const st = siteStore()
 const stt = settingsStore()
 
 const { site } = storeToRefs(st)
+
+const vp = viewportStore()
+const toggleGridVisibility = () => vp.showGrids = !vp.showGrids
 
 const toggleSiteDarkMode = () => {
   if (!site.value?.options) return
@@ -44,9 +47,13 @@ const backToDashboard = () => {
         <button @click="stt.setSetting('RoutingSettings')" class="btn btn-sm btn-link">
           <IconSitemapFilled :size="24" />
         </button>
+
         <button @click="toggleSiteDarkMode" class="btn btn-sm btn-link">
           <IconSunHighFilled v-if="site.options.darkMode" :size="24" />
           <IconMoonFilled v-else :size="24" />
+        </button>
+        <button @click="toggleGridVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showGrids }">
+          <IconLayoutGridFilled :size="24" />
         </button>
       </template>
     </div>
