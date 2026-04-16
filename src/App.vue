@@ -22,6 +22,8 @@ const currentView = computed(() => views[nav.main])
 
 <template>
   <MainBar />
-  <component :is="currentView" />
+  <div class="main-content">
+    <component :is="currentView" />
+  </div>
 </template>
 s
