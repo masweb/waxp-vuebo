@@ -2,6 +2,7 @@
 import SettingsPane from './SettingsPane.vue'
 
 const store = siteStore()
+const vp = viewportStore()
 const { init, activateSiteFonts } = useGoogleFonts()
 
 const dynamicStyle = computed(() => {
@@ -36,9 +37,8 @@ watch(
 
 <template>
   <SettingsPane />
-  <div class="site-editor">
+  <div class="site-editor" :class="vp.forcedMode ? `sim-${vp.forcedMode}` : ''">
     <component :is="'style'" v-html="dynamicStyle" />
-
     <RouterView />
   </div>
 </template>

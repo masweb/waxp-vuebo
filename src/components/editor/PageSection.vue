@@ -4,10 +4,16 @@ import { IconSettingsFilled, IconTrashFilled, IconArrowBigUpFilled, IconArrowBig
 const props = defineProps<{
   section: Section
 }>()
-
+const stt = settingsStore()
+const pg = pageStore()
 const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(() => props.section)
 
 useNewBlock(sectionRef, () => props.section)
+
+const sectionSettings = () => {
+  pg.setActiveSection(props.section.id)
+  stt.setSetting('SectionSettings')
+}
 </script>
 
 <template>
@@ -28,7 +34,7 @@ useNewBlock(sectionRef, () => props.section)
     <button class="btn btn-sm btn-link sectionui movedown">
       <IconArrowBigDownFilled size="22" />
     </button>
-    <button class="btn btn-sm btn-link sectionui config">
+    <button @click="sectionSettings()" class="btn btn-sm btn-link sectionui config">
       <IconSettingsFilled size="22" />
     </button>
     <button class="btn btn-sm btn-link sectionui delete">

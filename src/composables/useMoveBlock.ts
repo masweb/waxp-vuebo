@@ -8,7 +8,7 @@ export const useMoveBlock = (
 ) => {
   const dr = drawingStore()
   const vp = viewportStore()
-  const { pixelToGrid, pushDown, findFreeCoords, ensureRows, trimRows } = useGridConversion()
+  const { pixelToGrid, pushDown, ensureRows, trimRows } = useGridConversion()
 
   const position = { x: 0, y: 0 }
 
@@ -97,11 +97,6 @@ export const useMoveBlock = (
 
     pushDown(sec.blocks, modeKey, newCoords, b.id)
     ensureRows(sec, vp.mode)
-
-    const otherModes = (['mobile', 'tablet', 'desktop'] as ViewportMode[]).filter(m => m !== vp.mode)
-    for (const mode of otherModes) {
-      b[MODE_KEY[mode]] = findFreeCoords(sec, mode, newCoords.w, newCoords.h)
-    }
 
     trimRows(sec)
 

@@ -7,7 +7,10 @@ import {
   IconSitemapFilled,
   IconSunHighFilled,
   IconMoonFilled,
-  IconLayoutGridFilled
+  IconLayoutGridFilled,
+  IconDeviceDesktop,
+  IconDeviceMobile,
+  IconDeviceTablet
 } from '@tabler/icons-vue'
 
 const auth = useAuthStore()
@@ -19,6 +22,16 @@ const { site } = storeToRefs(st)
 
 const vp = viewportStore()
 const toggleGridVisibility = () => (vp.showGrids = !vp.showGrids)
+
+const viewportModes: { mode: ViewportMode; icon: any }[] = [
+  { mode: 'mobile', icon: IconDeviceMobile },
+  { mode: 'tablet', icon: IconDeviceTablet },
+  { mode: 'desktop', icon: IconDeviceDesktop }
+]
+
+const toggleViewportMode = (mode: ViewportMode) => {
+  vp.forcedMode = vp.forcedMode === mode ? null : mode
+}
 
 const toggleSiteDarkMode = () => {
   if (!site.value?.options) return
@@ -55,6 +68,17 @@ const backToDashboard = () => {
         <button @click="toggleGridVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showGrids }">
           <IconLayoutGridFilled :size="24" />
         </button>
+        <div class="d-flex align-items-center ms-1 border-start ps-1">
+          <button
+            v-for="vm in viewportModes"
+            :key="vm.mode"
+            @click="toggleViewportMode(vm.mode)"
+            class="btn btn-sm btn-link"
+            :class="{ active: vp.forcedMode === vm.mode }"
+          >
+            <component :is="vm.icon" :size="20" />
+          </button>
+        </div>
       </template>
     </div>
     <ErrorsNotifier />

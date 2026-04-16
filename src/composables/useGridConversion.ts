@@ -109,7 +109,6 @@ export const useGridConversion = () => {
   }
 
   const trimRows = (section: Section) => {
-    if (section.blocks.length === 0) return
     const modes: ViewportMode[] = ['mobile', 'tablet', 'desktop']
     for (const mode of modes) {
       const bp = section[mode] as BreakpointSize
@@ -118,7 +117,7 @@ export const useGridConversion = () => {
         const c = b[key] as BlockCoords
         return Math.max(max, c.y + c.h)
       }, 0)
-      bp.rows = maxBottom
+      bp.rows = Math.max(0, maxBottom - 1)
     }
   }
 

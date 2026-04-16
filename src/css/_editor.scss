@@ -14,11 +14,18 @@
   line-height: var(--se-line-height);
   color: var(--se-color);
   background-color: var(--se-bg-color);
+  &.sim-mobile .page-content {
+    max-width: 480px !important;
+  }
+  &.sim-tablet .page-content {
+    max-width: 820px !important;
+  }
   .page-content {
     max-width: var(--se-desktop-width);
     left: 0;
     right: 0;
     margin: auto;
+    transition: max-width 0.3s ease;
     .newsection-line {
       width: 100%;
       border-bottom: 1px dashed;

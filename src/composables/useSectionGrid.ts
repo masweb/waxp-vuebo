@@ -14,7 +14,7 @@ export const useSectionGrid = (section: () => Section) => {
     const { cols, rows, gap } = bpConfig.value
     return {
       gridTemplateColumns: `repeat(${cols}, 1fr)`,
-      gridTemplateRows: `repeat(${rows}, 1fr)`,
+      gridTemplateRows: rows > 0 ? `repeat(${rows}, 1fr)` : 'none',
       gap: `${gap}px`
     }
   })
@@ -25,6 +25,8 @@ export const useSectionGrid = (section: () => Section) => {
     if (!el || !canvas) return
 
     const { cols, rows, gap } = bpConfig.value
+    if (rows === 0) return
+
     const rect = el.getBoundingClientRect()
     const dpr = window.devicePixelRatio || 1
 

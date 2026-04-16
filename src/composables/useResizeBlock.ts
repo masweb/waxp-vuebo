@@ -8,7 +8,7 @@ export const useResizeBlock = (
 ) => {
   const dr = drawingStore()
   const vp = viewportStore()
-  const { pixelToGrid, pushDown, findFreeCoords, ensureRows, trimRows } = useGridConversion()
+  const { pixelToGrid, pushDown, ensureRows, trimRows } = useGridConversion()
 
   let sectionElement: HTMLElement | null = null
   let sectionRect: DOMRect | null = null
@@ -95,11 +95,6 @@ export const useResizeBlock = (
 
     pushDown(sec.blocks, modeKey, coords, b.id)
     ensureRows(sec, vp.mode)
-
-    const otherModes = (['mobile', 'tablet', 'desktop'] as ViewportMode[]).filter(m => m !== vp.mode)
-    for (const mode of otherModes) {
-      b[MODE_KEY[mode]] = findFreeCoords(sec, mode, coords.w, coords.h)
-    }
 
     trimRows(sec)
     resetState(event)
