@@ -162,18 +162,16 @@ const handleSave = () => {
           </div>
         </div>
         <div>
-          <label class="form-label mb-1" style="font-size: 0.75rem">{{ t('pages.seo') }} - {{ t('pages.description') }}</label>
+          <label class="form-label mb-1" style="font-size: 0.75rem"
+            >{{ t('pages.seo') }} - {{ t('pages.description') }}</label
+          >
           <textarea v-model="values[`${loc}_seoDescription`]" class="form-control form-control-sm" rows="2" />
         </div>
       </div>
     </template>
 
     <div class="d-flex gap-2 mt-2">
-      <button
-        class="btn btn-sm btn-primary"
-        :disabled="saving"
-        @click="handleSave"
-      >
+      <button class="btn btn-sm btn-primary" :disabled="saving" @click="handleSave">
         <span v-if="saving" class="spinner-border spinner-border-sm me-1" />
         <IconDeviceFloppy v-else :size="14" class="me-1" />
         {{ t('common.save') }}

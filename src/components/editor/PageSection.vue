@@ -1,18 +1,11 @@
 <script lang="ts" setup>
-import {
-  IconSettingsFilled,
-  IconTrashFilled,
-  IconArrowBigUpFilled,
-  IconArrowBigDownFilled,
-} from "@tabler/icons-vue";
+import { IconSettingsFilled, IconTrashFilled, IconArrowBigUpFilled, IconArrowBigDownFilled } from '@tabler/icons-vue'
 
 const props = defineProps<{
-  section: Section;
-}>();
+  section: Section
+}>()
 
-const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(
-  () => props.section,
-)
+const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(() => props.section)
 
 useNewBlock(sectionRef, () => props.section)
 </script>

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 const props = defineProps<{
-  block: Block;
-}>();
+  block: Block
+}>()
 
-const { blockStyle } = useBlockGrid(() => props.block);
+const { blockStyle } = useBlockGrid(() => props.block)
 </script>
 
 <template>

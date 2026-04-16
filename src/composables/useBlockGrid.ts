@@ -6,7 +6,7 @@ const modeKey: Record<ViewportMode, 'd' | 'm' | 't'> = {
   desktop: 'd'
 }
 
-export function useBlockGrid(block: () => Block) {
+export const useBlockGrid = (block: () => Block) => {
   const vp = viewportStore()
   const coords = computed(() => block()[modeKey[vp.mode]])
 

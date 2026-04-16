@@ -15,7 +15,7 @@ const confirmDelete = ref<Page | null>(null)
 
 const localeCodes = computed(() => {
   const locs: any[] = st.site?.locales || []
-  return locs.map(l => typeof l === 'string' ? l : l.code)
+  return locs.map(l => (typeof l === 'string' ? l : l.code))
 })
 
 const buildTree = (flatPages: Page[]): Page[] => {
@@ -122,7 +122,9 @@ onMounted(loadPages)
         <div class="d-flex align-items-start gap-2">
           <IconAlertTriangle :size="18" class="text-danger mt-1 flex-shrink-0" />
           <div class="flex-grow-1">
-            <small>{{ t('common.deleteConfirm', { name: confirmDelete.seo?.[0]?.title || `#${confirmDelete.id}` }) }}</small>
+            <small>{{
+              t('common.deleteConfirm', { name: confirmDelete.seo?.[0]?.title || `#${confirmDelete.id}` })
+            }}</small>
             <div class="d-flex gap-2 mt-2">
               <button class="btn btn-sm btn-danger" @click="confirmDeletePage">
                 {{ t('common.delete') }}

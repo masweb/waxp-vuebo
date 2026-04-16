@@ -1,6 +1,6 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 
-export function useSectionGrid(section: () => Section) {
+export const useSectionGrid = (section: () => Section) => {
   const vp = viewportStore()
   const st = siteStore()
   const { site } = storeToRefs(st)
@@ -19,7 +19,7 @@ export function useSectionGrid(section: () => Section) {
     }
   })
 
-  function drawGrid() {
+  const drawGrid = () => {
     const el = sectionRef.value
     const canvas = canvasRef.value
     if (!el || !canvas) return

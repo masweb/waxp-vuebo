@@ -1,10 +1,7 @@
 import interact from 'interactjs'
 import type { InteractEvent } from '@interactjs/core/InteractEvent'
 
-export function useNewBlock(
-  sectionEl: Ref<HTMLElement | undefined>,
-  section: () => Section,
-) {
+export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: () => Section) => {
   const dr = drawingStore()
   const { coords: drCoords } = storeToRefs(dr)
   const vp = viewportStore()
@@ -18,11 +15,11 @@ export function useNewBlock(
   let throttleTimer: number | null = null
   let cancelled = false
 
-  function getBpConfig() {
+  const getBpConfig = () => {
     return section()[vp.mode] as BreakpointSize
   }
 
-  function throttledDraw(event: InteractEvent) {
+  const throttledDraw = (event: InteractEvent) => {
     if (cancelled || !startCoords || !sectionEl.value || !sectionRect) return
     const config = getBpConfig()
     const endX = ~~event.clientX - ~~sectionRect.left
@@ -31,7 +28,16 @@ export function useNewBlock(
     if (throttleTimer) return
     throttleTimer = window.requestAnimationFrame(() => {
       if (!lastArgs) return
-      dr.draw(startCoords!.x, startCoords!.y, lastArgs.endX, lastArgs.endY, lastArgs.el, lastArgs.config, lastArgs.id, true)
+      dr.draw(
+        startCoords!.x,
+        startCoords!.y,
+        lastArgs.endX,
+        lastArgs.endY,
+        lastArgs.el,
+        lastArgs.config,
+        lastArgs.id,
+        true
+      )
 
       if (drCoords.value) {
         const needed = drCoords.value.y + drCoords.value.h
@@ -42,7 +48,7 @@ export function useNewBlock(
     })
   }
 
-  async function onEnd(event: InteractEvent) {
+  const onEnd = async (event: InteractEvent) => {
     if (cancelled || !startCoords || !sectionEl.value || !sectionRect) return
     const config = getBpConfig()
     const endX = ~~event.clientX - ~~sectionRect.left
@@ -65,7 +71,7 @@ export function useNewBlock(
       content: '',
       d: { x: 1, y: 1, w: 1, h: 1 },
       m: { x: 1, y: 1, w: 1, h: 1 },
-      t: { x: 1, y: 1, w: 1, h: 1 },
+      t: { x: 1, y: 1, w: 1, h: 1 }
     }
 
     block[modeKey] = drawnCoords
@@ -85,36 +91,37 @@ export function useNewBlock(
   onMounted(() => {
     if (!sectionEl.value) return
     interactable = interact(sectionEl.value)
-    interactable.draggable({
-      listeners: {
-        start(event) {
-          cancelled = false
-          sectionRect = sectionEl.value!.getBoundingClientRect()
-          const sx = ~~event.clientX - ~~sectionRect.left
-          const sy = ~~event.clientY - ~~sectionRect.top
+    interactable
+      .draggable({
+        listeners: {
+          start(event) {
+            cancelled = false
+            sectionRect = sectionEl.value!.getBoundingClientRect()
+            const sx = ~~event.clientX - ~~sectionRect.left
+            const sy = ~~event.clientY - ~~sectionRect.top
 
-          const config = getBpConfig()
-          const gridPos = pixelToGrid(sx, sy, sectionEl.value!, config)
-          const key = MODE_KEY[vp.mode] as keyof Block
-          const sec = section()
+            const config = getBpConfig()
+            const gridPos = pixelToGrid(sx, sy, sectionEl.value!, config)
+            const key = MODE_KEY[vp.mode] as keyof Block
+            const sec = section()
 
-          const overBlock = sec.blocks.some(b => {
-            const c = b[key] as BlockCoords
-            return gridPos.col >= c.x && gridPos.col < c.x + c.w
-              && gridPos.row >= c.y && gridPos.row < c.y + c.h
-          })
+            const overBlock = sec.blocks.some(b => {
+              const c = b[key] as BlockCoords
+              return gridPos.col >= c.x && gridPos.col < c.x + c.w && gridPos.row >= c.y && gridPos.row < c.y + c.h
+            })
 
-          if (overBlock) {
-            cancelled = true
-            return
-          }
+            if (overBlock) {
+              cancelled = true
+              return
+            }
 
-          startCoords = { x: sx, y: sy }
-        },
-        move: throttledDraw,
-        end: onEnd,
-      },
-    }).styleCursor(false)
+            startCoords = { x: sx, y: sy }
+          },
+          move: throttledDraw,
+          end: onEnd
+        }
+      })
+      .styleCursor(false)
   })
 
   onUnmounted(() => {

@@ -5,7 +5,7 @@ export const drawingStore = defineStore('drawing', () => {
 
   const { calculateGridPosition } = useGridConversion()
 
-  function draw(
+  const draw = (
     startX: number,
     startY: number,
     endX: number,
@@ -14,13 +14,13 @@ export const drawingStore = defineStore('drawing', () => {
     config: BreakpointSize,
     sectionId: number,
     allowRowOverflow = false,
-  ) {
+  ) => {
     coords.value = calculateGridPosition(startX, startY, endX, endY, sectionEl, config, allowRowOverflow)
     isDrawing.value = true
     activeSectionId.value = sectionId
   }
 
-  function resetDrawing() {
+  const resetDrawing = () => {
     isDrawing.value = false
     activeSectionId.value = null
     coords.value = null

@@ -33,7 +33,7 @@ const displayName = computed(() => {
 
 const slug = computed(() => props.page.slugs.find(s => s.locale_code === locale.value)?.slug ?? '')
 
-const displaySlug = computed(() => isRoot.value ? '' : slug.value || '—')
+const displaySlug = computed(() => (isRoot.value ? '' : slug.value || '—'))
 
 const fullPath = computed(() => {
   const s = slug.value
@@ -68,12 +68,7 @@ const navigateToPage = async () => {
       class="d-flex align-items-center py-1 rounded"
       :style="{ paddingLeft: `${(depth || 0) * 8 + 8}px`, paddingRight: '8px' }"
     >
-      <button
-        v-if="hasChildren"
-        class="btn btn-link p-0 me-1 text-secondary"
-        style="min-width: 18px"
-        @click="toggle"
-      >
+      <button v-if="hasChildren" class="btn btn-link p-0 me-1 text-secondary" style="min-width: 18px" @click="toggle">
         <IconChevronDown v-if="expanded" :size="16" />
         <IconChevronRight v-else :size="16" />
       </button>
@@ -90,13 +85,23 @@ const navigateToPage = async () => {
         <button class="btn btn-link p-0 text-secondary" :title="$t('pages.goToPage')" @click="navigateToPage">
           <IconExternalLink :size="16" />
         </button>
-        <button v-if="!isRoot" class="btn btn-link p-0 text-secondary" :title="$t('pages.addChild')" @click="emit('addChild', page.id)">
+        <button
+          v-if="!isRoot"
+          class="btn btn-link p-0 text-secondary"
+          :title="$t('pages.addChild')"
+          @click="emit('addChild', page.id)"
+        >
           <IconPlus :size="16" />
         </button>
         <button class="btn btn-link p-0 text-secondary" :title="$t('common.edit')" @click="emit('edit', page)">
           <IconPencil :size="16" />
         </button>
-        <button v-if="!isRoot" class="btn btn-link p-0 text-danger" :title="$t('common.delete')" @click="emit('delete', page)">
+        <button
+          v-if="!isRoot"
+          class="btn btn-link p-0 text-danger"
+          :title="$t('common.delete')"
+          @click="emit('delete', page)"
+        >
           <IconTrash :size="16" />
         </button>
       </div>

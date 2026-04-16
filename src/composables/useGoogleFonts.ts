@@ -9,8 +9,7 @@ let variantStatus: Record<string, VariantStatus> = {}
 let initialized = false
 const initPromise = { current: null as Promise<void> | null }
 
-const variantId = (family: string, variant: string): string =>
-  `${family}::${variant}`
+const variantId = (family: string, variant: string): string => `${family}::${variant}`
 
 const normalizeVariant = (variant: string): { weight: string; style: string } => {
   const isItalic = variant.endsWith('italic')
@@ -151,20 +150,15 @@ export const useGoogleFonts = () => {
         return
       }
       const q = query.toLowerCase()
-      results.value = allFonts
-        .filter(f => f.family.toLowerCase().includes(q))
-        .slice(0, 200)
+      results.value = allFonts.filter(f => f.family.toLowerCase().includes(q)).slice(0, 200)
     }, 150)
   }
 
-  const getFont = (family: string): GoogleFont | undefined =>
-    allFonts.find(f => f.family === family)
+  const getFont = (family: string): GoogleFont | undefined => allFonts.find(f => f.family === family)
 
-  const getVariantStatus = (family: string): VariantStatus =>
-    variantStatus[family] ?? {}
+  const getVariantStatus = (family: string): VariantStatus => variantStatus[family] ?? {}
 
-  const isVariantActive = (family: string, variant: string): boolean =>
-    variantStatus[family]?.[variant] ?? false
+  const isVariantActive = (family: string, variant: string): boolean => variantStatus[family]?.[variant] ?? false
 
   const toggleVariant = async (family: string, variant: string) => {
     const current = variantStatus[family]?.[variant] ?? false
@@ -269,11 +263,7 @@ export const useGoogleFonts = () => {
   const loadPreview = (family: string, variant: string) => {
     const { weight, style } = normalizeVariant(variant)
     const w =
-      weight === '400'
-        ? style === 'italic'
-          ? 'italic'
-          : 'regular'
-        : `${weight}${style === 'italic' ? 'italic' : ''}`
+      weight === '400' ? (style === 'italic' ? 'italic' : 'regular') : `${weight}${style === 'italic' ? 'italic' : ''}`
     injectFontLink(family, [w])
   }
 

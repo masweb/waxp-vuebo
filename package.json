@@ -26,6 +26,7 @@
     "@types/node": "^24.12.2",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vue/tsconfig": "^0.9.1",
+    "oxfmt": "^0.45.0",
     "sass-embedded": "^1.99.0",
     "typescript": "~6.0.2",
     "unplugin-auto-import": "^21.0.0",

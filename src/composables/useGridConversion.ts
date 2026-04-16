@@ -3,10 +3,10 @@ interface GridCoordinates {
   row: number
 }
 
-export function useGridConversion() {
+export const useGridConversion = () => {
   let cachedRect: { el: HTMLElement; rect: DOMRect; ts: number } | null = null
 
-  function getSectionRect(el: HTMLElement): DOMRect {
+  const getSectionRect = (el: HTMLElement): DOMRect => {
     const now = performance.now()
     if (cachedRect && cachedRect.el === el && now - cachedRect.ts < 16) return cachedRect.rect
     const rect = el.getBoundingClientRect()
@@ -14,13 +14,13 @@ export function useGridConversion() {
     return rect
   }
 
-  function pixelToGrid(
+  const pixelToGrid = (
     x: number,
     y: number,
     sectionEl: HTMLElement,
     config: BreakpointSize,
-    allowRowOverflow = false,
-  ): GridCoordinates {
+    allowRowOverflow = false
+  ): GridCoordinates => {
     const rect = getSectionRect(sectionEl)
     const totalGapW = config.gap * (config.cols - 1)
     const cellW = (rect.width - totalGapW) / config.cols
@@ -44,15 +44,15 @@ export function useGridConversion() {
     return { col: Math.max(1, Math.min(col, config.cols)), row: Math.max(1, row) }
   }
 
-  function calculateGridPosition(
+  const calculateGridPosition = (
     startX: number,
     startY: number,
     endX: number,
     endY: number,
     sectionEl: HTMLElement,
     config: BreakpointSize,
-    allowRowOverflow = false,
-  ): BlockCoords {
+    allowRowOverflow = false
+  ): BlockCoords => {
     const start = pixelToGrid(startX, startY, sectionEl, config, allowRowOverflow)
     const end = pixelToGrid(endX, endY, sectionEl, config, allowRowOverflow)
 
@@ -60,21 +60,15 @@ export function useGridConversion() {
       x: Math.min(start.col, end.col),
       y: Math.min(start.row, end.row),
       w: Math.abs(end.col - start.col) + 1,
-      h: Math.abs(end.row - start.row) + 1,
+      h: Math.abs(end.row - start.row) + 1
     }
   }
 
-  function rectsOverlap(a: BlockCoords, b: BlockCoords): boolean {
+  const rectsOverlap = (a: BlockCoords, b: BlockCoords): boolean => {
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
   }
 
-  function pushDown(
-    blocks: Block[],
-    modeKey: 'd' | 'm' | 't',
-    source: BlockCoords,
-    sourceId: number,
-    depth = 0,
-  ) {
+  const pushDown = (blocks: Block[], modeKey: 'd' | 'm' | 't', source: BlockCoords, sourceId: number, depth = 0) => {
     if (depth > 50) return
     for (const block of blocks) {
       if (block.id === sourceId) continue
@@ -87,12 +81,7 @@ export function useGridConversion() {
     }
   }
 
-  function findFreeCoords(
-    section: Section,
-    mode: ViewportMode,
-    w: number,
-    h: number,
-  ): BlockCoords {
+  const findFreeCoords = (section: Section, mode: ViewportMode, w: number, h: number): BlockCoords => {
     const bp = section[mode] as BreakpointSize
     const cw = Math.min(w, bp.cols)
     const ch = Math.min(h, bp.rows)
@@ -109,7 +98,7 @@ export function useGridConversion() {
     return { x: 1, y: maxY + 1, w: cw, h: ch }
   }
 
-  function ensureRows(section: Section, mode: ViewportMode) {
+  const ensureRows = (section: Section, mode: ViewportMode) => {
     const bp = section[mode] as BreakpointSize
     const key = MODE_KEY[mode] as keyof Block
     const maxBottom = section.blocks.reduce((max, b) => {
@@ -119,7 +108,7 @@ export function useGridConversion() {
     if (maxBottom > bp.rows) bp.rows = maxBottom
   }
 
-  function trimRows(section: Section) {
+  const trimRows = (section: Section) => {
     if (section.blocks.length === 0) return
     const modes: ViewportMode[] = ['mobile', 'tablet', 'desktop']
     for (const mode of modes) {
@@ -133,5 +122,13 @@ export function useGridConversion() {
     }
   }
 
-  return { pixelToGrid, calculateGridPosition, rectsOverlap, pushDown, findFreeCoords, ensureRows, trimRows }
+  return {
+    pixelToGrid,
+    calculateGridPosition,
+    rectsOverlap,
+    pushDown,
+    findFreeCoords,
+    ensureRows,
+    trimRows
+  }
 }
