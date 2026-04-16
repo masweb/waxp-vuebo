@@ -81,12 +81,16 @@ body {
     margin: auto;
 
     .section {
-      border: 1px dashed silver;
       border-top: 0;
       display: grid;
       width: 100%;
       position: relative;
       border-radius: 3px;
+
+      .section-cell {
+        aspect-ratio: 1 / 1;
+        background-color: rgba(128, 128, 128, 0.05);
+      }
     }
   }
 }

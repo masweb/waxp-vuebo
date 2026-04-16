@@ -114,6 +114,7 @@ declare global {
   const useValidateForm: typeof import('vee-validate').useValidateForm
   const useValidation: typeof import('./src/composables/useValidation').useValidation
   const validate: typeof import('vee-validate').validate
+  const viewportStore: typeof import('./src/stores/viewportStore').viewportStore
   const watch: typeof import('vue').watch
   const watchEffect: typeof import('vue').watchEffect
   const watchPostEffect: typeof import('vue').watchPostEffect
@@ -130,6 +131,9 @@ declare global {
   // @ts-ignore
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')
+  // @ts-ignore
+  export type { BreakpointSize, Section, ViewportMode } from './src/types/layout'
+  import('./src/types/layout')
   // @ts-ignore
   export type { PageType, PageSeo, Slug, Page, PageRoute, CreatePageRequest, UpdatePageRequest, ListPagesParams, ListPagesResponse, RoutesResponse } from './src/types/page'
   import('./src/types/page')

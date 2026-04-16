@@ -19,7 +19,7 @@ export interface Page {
   blog_id: number | null
   parent_id: number | null
   type: PageType
-  layout: Record<string, unknown>
+  layout: Section[]
   published_at: string | null
   title: string[]
   description: string[]
@@ -40,7 +40,7 @@ export interface CreatePageRequest {
   type: PageType
   blog_id?: number | null
   parent_id?: number | null
-  layout?: Record<string, unknown>
+  layout?: Section[]
   published_at?: string | null
   seo?: Omit<PageSeo, 'id'>[]
   slugs: Omit<Slug, 'id'>[]
@@ -48,7 +48,7 @@ export interface CreatePageRequest {
 
 export interface UpdatePageRequest {
   parent_id?: number | null
-  layout?: Record<string, unknown>
+  layout?: Section[]
   published_at?: string | null
   seo?: Omit<PageSeo, 'id'>[]
   slugs: Omit<Slug, 'id'>[]

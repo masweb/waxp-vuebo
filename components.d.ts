@@ -18,6 +18,7 @@ declare module 'vue' {
     MainBar: typeof import('./src/components/MainBar.vue')['default']
     Nothing: typeof import('./src/components/Nothing.vue')['default']
     PageForm: typeof import('./src/components/editor/settings/PageForm.vue')['default']
+    PageSection: typeof import('./src/components/editor/PageSection.vue')['default']
     PageSettings: typeof import('./src/components/editor/settings/PageSettings.vue')['default']
     PageTreeNode: typeof import('./src/components/editor/settings/PageTreeNode.vue')['default']
     RouterContent: typeof import('./src/components/editor/RouterContent.vue')['default']

@@ -14,9 +14,8 @@ watch(() => props.pageId, loadPage)
 </script>
 <template>
   <div class="page-content">
-    <div v-for="section in page?.layout" class="section">
-      {{ section.id }}
+    <div v-for="section in page?.layout" :key="section.id" class="section">
+      <PageSection :section="section" />
     </div>
-    {{ page?.layout }}
   </div>
 </template>

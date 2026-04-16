@@ -3,12 +3,14 @@ export interface siteOptions {
   lightColor: string
   darkBackColor: string
   lightBackColor: string
-  desktopWidth: number
   fontFamily: string
   fontSize: string
   fontWeight: number
   lineHeight: string
   darkMode: boolean
+  mobileBP: number
+  tabletBP: number
+  desktopWidth: number | null
 }
 
 export const siteOptions: siteOptions = {
@@ -16,10 +18,12 @@ export const siteOptions: siteOptions = {
   lightColor: '#333333',
   darkBackColor: '#111111',
   lightBackColor: '#EEEEEE',
-  desktopWidth: 1050,
   fontFamily: 'Montserrat',
   fontSize: '1em',
   fontWeight: 400,
   lineHeight: '1.4em',
-  darkMode: true
+  darkMode: true,
+  mobileBP: 767,
+  tabletBP: 1024,
+  desktopWidth: 1200
 }
