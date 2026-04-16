@@ -20,11 +20,17 @@ export const drawingStore = defineStore('drawing', () => {
     activeSectionId.value = sectionId
   }
 
+  const setMoveShadow = (newCoords: BlockCoords, sectionId: number) => {
+    coords.value = newCoords
+    isDrawing.value = true
+    activeSectionId.value = sectionId
+  }
+
   const resetDrawing = () => {
     isDrawing.value = false
     activeSectionId.value = null
     coords.value = null
   }
 
-  return { isDrawing, activeSectionId, coords, draw, resetDrawing }
+  return { isDrawing, activeSectionId, coords, draw, setMoveShadow, resetDrawing }
 })

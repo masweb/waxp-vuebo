@@ -23,8 +23,8 @@ declare global {
   const defineComponent: typeof import('vue').defineComponent
   const defineRule: typeof import('vee-validate').defineRule
   const defineStore: typeof import('pinia').defineStore
-  const MODE_KEY: typeof import('./src/types/layout').MODE_KEY
   const drawingStore: typeof import('./src/stores/drawingStore').drawingStore
+  const editorStore: typeof import('./src/stores/editorStore').editorStore
   const effectScope: typeof import('vue').effectScope
   const errorsStore: typeof import('./src/stores/errorsStore').errorsStore
   const getActivePinia: typeof import('pinia').getActivePinia
@@ -108,6 +108,7 @@ declare global {
   const useIsFormValid: typeof import('vee-validate').useIsFormValid
   const useIsSubmitting: typeof import('vee-validate').useIsSubmitting
   const useModel: typeof import('vue').useModel
+  const useMoveBlock: typeof import('./src/composables/useMoveBlock').useMoveBlock
   const useNewBlock: typeof import('./src/composables/useNewBlock').useNewBlock
   const usePagesApi: typeof import('./src/composables/usePagesApi').usePagesApi
   const useReferenceData: typeof import('./src/composables/useReferenceData').useReferenceData
@@ -136,6 +137,9 @@ declare global {
   // @ts-ignore
   export type { Theme } from './src/composables/useTheme'
   import('./src/composables/useTheme')
+  // @ts-ignore
+  export type { EditorMode } from './src/stores/editorStore'
+  import('./src/stores/editorStore')
   // @ts-ignore
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')

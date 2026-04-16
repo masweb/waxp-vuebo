@@ -6,6 +6,7 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
   const { coords: drCoords } = storeToRefs(dr)
   const vp = viewportStore()
   const st = siteStore()
+  const editor = editorStore()
   const { pixelToGrid, calculateGridPosition, pushDown, findFreeCoords, ensureRows, trimRows } = useGridConversion()
 
   let startCoords: { x: number; y: number } | null = null
@@ -93,9 +94,12 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
     interactable = interact(sectionEl.value)
     interactable
       .draggable({
+        ignoreFrom: '.blockui',
         listeners: {
           start(event) {
             cancelled = false
+            if (editor.mode !== 'draw') { cancelled = true; return }
+
             sectionRect = sectionEl.value!.getBoundingClientRect()
             const sx = ~~event.clientX - ~~sectionRect.left
             const sy = ~~event.clientY - ~~sectionRect.top

@@ -20,14 +20,20 @@ useNewBlock(sectionRef, () => props.section)
     @mouseleave="hovered = false"
   >
     <canvas ref="canvasRef" class="section-canvas" />
-    <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" />
+    <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
     <DrawingOverlay :section="section" :grid-style="gridStyle" />
-    <button class="btn btn-sm btn-link sectionui moveup"><IconArrowBigUpFilled size="22" /></button>
+    <button class="btn btn-sm btn-link sectionui moveup">
+      <IconArrowBigUpFilled size="22" />
+    </button>
     <button class="btn btn-sm btn-link sectionui movedown">
       <IconArrowBigDownFilled size="22" />
     </button>
-    <button class="btn btn-sm btn-link sectionui config"><IconSettingsFilled size="22" /></button>
-    <button class="btn btn-sm btn-link sectionui delete"><IconTrashFilled size="22" /></button>
+    <button class="btn btn-sm btn-link sectionui config">
+      <IconSettingsFilled size="22" />
+    </button>
+    <button class="btn btn-sm btn-link sectionui delete">
+      <IconTrashFilled size="22" />
+    </button>
   </div>
 
   <NewSection />
