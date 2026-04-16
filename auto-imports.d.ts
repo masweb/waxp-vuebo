@@ -10,6 +10,7 @@ declare global {
   const EffectScope: typeof import('vue').EffectScope
   const FieldContextKey: typeof import('vee-validate').FieldContextKey
   const FormContextKey: typeof import('vee-validate').FormContextKey
+  const MODE_KEY: typeof import('./src/types/layout').MODE_KEY
   const THEME_CHANGE_EVENT: typeof import('./src/composables/useTheme').THEME_CHANGE_EVENT
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const computed: typeof import('vue').computed
@@ -22,6 +23,8 @@ declare global {
   const defineComponent: typeof import('vue').defineComponent
   const defineRule: typeof import('vee-validate').defineRule
   const defineStore: typeof import('pinia').defineStore
+  const MODE_KEY: typeof import('./src/types/layout').MODE_KEY
+  const drawingStore: typeof import('./src/stores/drawingStore').drawingStore
   const effectScope: typeof import('vue').effectScope
   const errorsStore: typeof import('./src/stores/errorsStore').errorsStore
   const getActivePinia: typeof import('pinia').getActivePinia
@@ -93,6 +96,7 @@ declare global {
   const useFormErrors: typeof import('vee-validate').useFormErrors
   const useFormValues: typeof import('vee-validate').useFormValues
   const useGoogleFonts: typeof import('./src/composables/useGoogleFonts').default
+  const useGridConversion: typeof import('./src/composables/useGridConversion').useGridConversion
   const useGridVisibility: typeof import('./src/composables/useSectionGrid').useGridVisibility
   const useI18n: typeof import('vue-i18n').useI18n
   const useId: typeof import('vue').useId
@@ -104,6 +108,7 @@ declare global {
   const useIsFormValid: typeof import('vee-validate').useIsFormValid
   const useIsSubmitting: typeof import('vee-validate').useIsSubmitting
   const useModel: typeof import('vue').useModel
+  const useNewBlock: typeof import('./src/composables/useNewBlock').useNewBlock
   const usePagesApi: typeof import('./src/composables/usePagesApi').usePagesApi
   const useReferenceData: typeof import('./src/composables/useReferenceData').useReferenceData
   const useResetForm: typeof import('vee-validate').useResetForm

@@ -14,6 +14,7 @@ declare module 'vue' {
     AppSettings: typeof import('./src/views/AppSettings.vue')['default']
     ColorPicker: typeof import('./src/components/editor/settings/fields/ColorPicker.vue')['default']
     DashBoard: typeof import('./src/views/DashBoard.vue')['default']
+    DrawingOverlay: typeof import('./src/components/editor/DrawingOverlay.vue')['default']
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']

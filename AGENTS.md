@@ -42,6 +42,14 @@ Usa **Context7 MCP** para documentación de librerías/APIs, generación de cód
 **Tabler Icons for Vue**
 [docs/icons.md](docs/icons.md)
 
+### Block positioning
+**Posicionamiento de bloques en el CSS Grid**
+[docs/block-positioning.md](docs/block-positioning.md)
+
+### Block drawing
+**Sistema de dibujado de bloques con drag & drop**
+[docs/block-drawing.md](docs/block-drawing.md)
+
 ---
 
 ## i18n

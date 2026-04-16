@@ -58,7 +58,7 @@ body {
 }
 
 .site-editor * {
-  all: unset;
+  /* all: unset; */
   display: revert;
   box-sizing: border-box;
 }
@@ -119,6 +119,33 @@ body {
         min-height: 0;
         overflow: hidden;
         border: 1px dashed coral;
+      }
+
+      .drawing-overlay {
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .drawing-selection {
+        background: color-mix(in srgb, var(--se-color) 8%, transparent);
+        border: 2px solid color-mix(in srgb, var(--se-color) 30%, transparent);
+        border-radius: 4px;
+      }
+      .sectionui {
+        position: absolute;
+        right: -36px;
+        &.delete {
+          top: 90px;
+        }
+        &.moveup {
+          top: 30px;
+        }
+        &.movedown {
+          top: 60px;
+        }
+      }
+      &:hover .sectionui {
+        opacity: 1;
       }
     }
   }
