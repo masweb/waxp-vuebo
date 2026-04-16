@@ -58,13 +58,18 @@
       .block {
         min-width: 0;
         min-height: 0;
-        overflow: hidden;
+        overflow: visible;
+        contain: size;
         border: 1px dashed coral;
         position: relative;
 
         &--moving {
           z-index: 10;
           opacity: 0.7;
+        }
+
+        &--resizing {
+          z-index: 10;
         }
 
         .blockui {

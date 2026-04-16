@@ -113,6 +113,7 @@ declare global {
   const usePagesApi: typeof import('./src/composables/usePagesApi').usePagesApi
   const useReferenceData: typeof import('./src/composables/useReferenceData').useReferenceData
   const useResetForm: typeof import('vee-validate').useResetForm
+  const useResizeBlock: typeof import('./src/composables/useResizeBlock').useResizeBlock
   const useSectionGrid: typeof import('./src/composables/useSectionGrid').useSectionGrid
   const useSlots: typeof import('vue').useSlots
   const useSubmitCount: typeof import('vee-validate').useSubmitCount

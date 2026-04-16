@@ -15,6 +15,12 @@ useMoveBlock(
   () => props.block,
   () => props.section
 )
+
+useResizeBlock(
+  blockRef,
+  () => props.block,
+  () => props.section
+)
 </script>
 
 <template>

@@ -75,6 +75,7 @@ Estado reactivo:
 Métodos:
 
 - `draw(startX, startY, endX, endY, sectionEl, config, sectionId, allowRowOverflow?)` — Convierte píxeles a grid y actualiza el estado
+- `setMoveShadow(coords, sectionId)` — Setea coords directamente sin cálculo (usado por move y resize)
 - `resetDrawing()` — Limpia todo el estado
 
 ---
@@ -87,9 +88,11 @@ Se invoca desde `PageSection.vue` con el ref del elemento sección y un getter d
 
 Ciclo de vida del drag:
 
-1. **`start`** — Comprueba si el cursor cae sobre un bloque existente (`pixelToGrid` + check de solapamiento). Si es así, cancela el drag. Si no, cachea `sectionRect` y captura coordenadas iniciales
+1. **`start`** — Comprueba que `editor.mode === 'draw'`. Comprueba si el cursor cae sobre un bloque existente (`pixelToGrid` + check de solapamiento). Si es así, cancela el drag. Si no, cachea `sectionRect` y captura coordenadas iniciales
 2. **`move`** — Throttleado con `requestAnimationFrame`. Llama a `drawingStore.draw(…, allowRowOverflow=true)` para actualizar la selección. Si las coordenadas exceden las filas actuales, expande la sección
 3. **`end`** — Calcula posición final, crea el bloque via API (`POST /blocks/next-id`), resuelve colisiones, calcula coords para los otros modos, y limpia todo el estado
+
+El draggable de la sección tiene `ignoreFrom: '.blockui'` para no capturar eventos sobre los controles de bloque (move, resize, config, delete), evitando conflictos con los handlers de bloque.
 
 El throttle con rAF garantiza que el draw se ejecuta como máximo una vez por frame (60fps), sin depender de librerías externas.
 
@@ -117,36 +120,11 @@ Para los modos que no se están dibujando, `findFreeCoords(section, mode, w, h)`
 
 ---
 
-## Siguientes pasos: mover y redimensionar
+## Modo de edición
 
-### Mover bloques (`useMoveBlock`)
+**`src/stores/editorStore.ts`**
 
-- interactjs sobre los `.block` (no sobre la sección). **Importante**: actualmente el drag de `useNewBlock` está sobre la sección entera. Al añadir drag sobre bloques habrá que evitar conflictos (interactjs usa `event.target` para distinguir, pero hay que verificar que los eventos no se propaguen)
-- El bloque movido debe checkear colisiones igual que el dibujado: `pushDown` si solapa con otro, `ensureRows` para expandir, `trimRows` al finalizar
-- Actualizar las coords del modo activo directamente en el bloque reactivo (`block[modeKey].x = newX`, etc.)
-- Para los otros 2 modos: re-calcular con `findFreeCoords` o mantener posición proporcional
-
-### Redimensionar bloques (`useResizeBlock`)
-
-- interactjs con `resizable()` sobre los `.block`. Añadir handles visuales (esquinas/bordes)
-- Conversión de píxeles → grid igual que el dibujado: usar `pixelToGrid` para convertir el tamaño final del drag
-- Mismo sistema de colisiones: `pushDown` para bloques solapados por el resize
-- Clamping: el bloque no puede ser más pequeño que 1x1 ni más grande que el grid
-- Actualizar solo `w` y `h` del modo activo, recalcular otros modos
-
-### Composable de colisiones reutilizable
-
-Las funciones `pushDown`, `ensureRows`, `trimRows`, `rectsOverlap`, `findFreeCoords` ya son genéricas y están en `useGridConversion`. Mover y redimensionar pueden reutilizarlas directamente.
-
-### Store de interacción
-
-Actualmente `drawingStore` es específico del dibujado. Para mover/redimensionar se puede:
-- Reutilizar `drawingStore` renombrándolo a algo genérico (ej: `interactionStore`)
-- O crear stores separados con una interfaz común
-
-### Modo de edición
-
-El flujo futuro será: el usuario puede estar en modo "dibujar" o en modo "editar". En modo dibujar, el drag sobre la sección crea bloques. En modo editar, el drag sobre bloques los mueve/redimensiona. Esto requerirá un flag en un store (ej: `editorMode: 'draw' | 'edit'`) y condicionar los listeners de interactjs.
+Store con `mode: 'draw' | 'edit'`. El draw solo funciona en modo `'draw'`. El move y resize funcionan independientemente del modo (los handlers `.blockui.move` y `.blockui.resize` son interacciones explícitas).
 
 ---
 
@@ -156,7 +134,7 @@ El flujo futuro será: el usuario puede estar en modo "dibujar" o en modo "edita
 
 Capa absoluta (`position: absolute; inset: 0`) con el mismo grid template que la sección. Se posiciona encima de los bloques pero debajo del canvas de grid lines.
 
-Solo se activa cuando `drawingStore.activeSectionId === section.id`, mostrando un div semi-transparente posicionado con `grid-column` / `grid-row` en el área seleccionada.
+Se activa cuando `drawingStore.activeSectionId === section.id`, mostrando un div semi-transparente posicionado con `grid-column` / `grid-row` en el área seleccionada. Se usa tanto para dibujar como para move y resize (shadow de la posición/tamaño destino).
 
 ---
 
@@ -165,7 +143,18 @@ Solo se activa cuando `drawingStore.activeSectionId === section.id`, mostrando u
 | Archivo | Rol |
 |---|---|
 | `src/composables/useGridConversion.ts` | Conversión píxel → grid, colisiones, push-down, trim |
-| `src/stores/drawingStore.ts` | Estado reactivo del dibujo |
+| `src/stores/drawingStore.ts` | Estado reactivo del dibujo/move/resize |
+| `src/stores/editorStore.ts` | Modo de edición (draw/edit) |
 | `src/composables/useNewBlock.ts` | Handler de drag con interactjs, creación de bloques |
+| `src/composables/useMoveBlock.ts` | Handler de move con interactjs, cellHalf |
+| `src/composables/useResizeBlock.ts` | Handler de resize con interactjs, live grid snapping |
 | `src/components/editor/DrawingOverlay.vue` | Preview visual de la selección |
 | `src/types/layout.ts` | Tipos `BlockCoords`, `Block`, `Section`, `MODE_KEY` |
+
+---
+
+## Ver también
+
+- [Block positioning](block-positioning.md) — CSS Grid, `contain: size`, overlay
+- [Block move](block-move.md) — Mover bloques con drag & drop
+- [Block resize](block-resize.md) — Redimensionar bloques con live grid snapping

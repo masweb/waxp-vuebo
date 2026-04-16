@@ -52,10 +52,33 @@ El viewport se obtiene de `viewportStore().mode` (`'mobile' | 'tablet' | 'deskto
 | `src/components/editor/PageBlock.vue` | Componente que renderiza un bloque posicionado en el grid |
 | `src/components/editor/PageSection.vue` | Renderiza la sección grid + sus bloques |
 
+`PageBlock` recibe `block` y `section` como props, y usa los composables `useBlockGrid`, `useMoveBlock` y `useResizeBlock`.
+
 ---
 
 ## CSS
 
-Los bloques necesitan `min-width: 0; min-height: 0; overflow: hidden;` para comportarse correctamente dentro del CSS Grid (evitar overflow por defecto de grid items).
+### Bloque
 
-La sección usa `::before` con `aspect-ratio: 1/1` y `visibility: hidden` para forzar que las celdas del grid tengan altura cuando no hay contenido.
+```scss
+.block {
+  min-width: 0;
+  min-height: 0;
+  overflow: visible;
+  contain: size;
+  position: relative;
+}
+```
+
+- **`min-width: 0; min-height: 0`** — Evita que el grid item tenga un tamaño mínimo basado en su contenido (comportamiento por defecto de CSS Grid)
+- **`contain: size`** — Desacopla el tamaño intrínseco del contenido del grid item. El grid lo dimensiona puramente según `1fr`, sin importar el contenido. Necesario junto con `overflow: visible` para que `min-width/min-height: 0` funcione correctamente
+- **`overflow: visible`** — Permite que el contenido se muestre por fuera del bloque cuando este es más pequeño que su contenido (por ejemplo, al redimensionar a 1x1). Sin `contain: size`, `overflow: visible` haría que el grid item tuviera un tamaño mínimo igual al del contenido, impidiendo redimensionar a celdas pequeñas
+
+### Estados durante interacción
+
+- **`.block--moving`** — `z-index: 10; opacity: 0.7` — El bloque se hace semi-transparente durante el movimiento
+- **`.block--resizing`** — `z-index: 10` — El bloque se pone por encima del resto durante el resize
+
+### Sección
+
+La sección usa `::before` con `aspect-ratio: 1/1` y `visibility: hidden` para forzar que las celdas del grid tengan altura cuando no hay contenido. Este pseudo-elemento ocupa la primera celda del grid y, al ser cuadrado, fuerza que todas las filas `1fr` tengan la misma altura que el ancho de una columna.

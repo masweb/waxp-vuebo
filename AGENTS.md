@@ -50,6 +50,14 @@ Usa **Context7 MCP** para documentación de librerías/APIs, generación de cód
 **Sistema de dibujado de bloques con drag & drop**
 [docs/block-drawing.md](docs/block-drawing.md)
 
+### Block move
+**Mover bloques con drag & drop**
+[docs/block-move.md](docs/block-move.md)
+
+### Block resize
+**Redimensionar bloques con live grid snapping**
+[docs/block-resize.md](docs/block-resize.md)
+
 ---
 
 ## i18n
