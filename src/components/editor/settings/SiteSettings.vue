@@ -11,8 +11,7 @@ const { site } = storeToRefs(st)
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody>
-    <!-- <div>{{ st?.site?.options }}</div> -->
-    <!-- <div>{{ site?.options.lightColor }}</div> -->
+    <div>{{ st?.site?.options }}</div>
 
     <ColorPicker
       label="Color light"

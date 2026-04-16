@@ -2,6 +2,8 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 
 export function useSectionGrid(section: () => Section) {
   const vp = viewportStore()
+  const st = siteStore()
+  const { site } = storeToRefs(st)
   const sectionRef = ref<HTMLElement>()
   const canvasRef = ref<HTMLCanvasElement>()
   const hovered = ref(false)
@@ -36,7 +38,12 @@ export function useSectionGrid(section: () => Section) {
     const cellW = (rect.width - (cols - 1) * gap) / cols
     const cellH = (rect.height - (rows - 1) * gap) / rows
 
-    ctx.fillStyle = 'rgba(128, 128, 128, 0.05)'
+    let color = ''
+    if (site.value?.options.darkMode) color = 'rgba(255, 255, 255, .03)'
+    else color = 'rgba(0, 0, 0, 0.04)'
+
+    ctx.fillStyle = color
+
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         ctx.fillRect(c * (cellW + gap), r * (cellH + gap), cellW, cellH)
@@ -57,7 +64,7 @@ export function useSectionGrid(section: () => Section) {
 
   onUnmounted(() => ro?.disconnect())
 
-  watch([bpConfig, shouldShow], () => {
+  watch([bpConfig, shouldShow, () => site.value?.options.darkMode], () => {
     if (shouldShow.value) nextTick(drawGrid)
   })
 
