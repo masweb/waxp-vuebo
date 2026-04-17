@@ -95,5 +95,14 @@
     "color": {
       "none": "Sin color"
     }
+  },
+  "fonts": {
+    "title": "Tipografías",
+    "add": "Añadir fuente",
+    "search": "Buscar en Google Fonts...",
+    "change": "Cambiar",
+    "weights": "Pesos",
+    "empty": "No hay tipografías cargadas",
+    "globalFont": "Fuente global"
   }
 }

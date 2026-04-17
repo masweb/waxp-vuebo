@@ -3,17 +3,18 @@ import SettingsPane from './SettingsPane.vue'
 
 const store = siteStore()
 const vp = viewportStore()
-const { init, activateSiteFonts } = useGoogleFonts()
+const { init, loadSiteFonts } = useGoogleFonts()
 
 const dynamicStyle = computed(() => {
   const opts = store.site?.options
   if (!opts) return ''
   const color = opts.darkMode ? opts.darkColor : opts.lightColor
   const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor
+  const gf = opts.globalFontFamily
   return `.site-editor {
-  --se-font-family: '${opts.fontFamily}', sans-serif;
+  --se-font-family: '${gf.family}', sans-serif;
   --se-font-size: ${opts.fontSize};
-  --se-font-weight: ${opts.fontWeight};
+  --se-font-weight: ${gf.weight};
   --se-line-height: ${opts.lineHeight};
   --se-color: ${color};
   --se-bg-color: ${bgColor};
@@ -26,12 +27,11 @@ onMounted(async () => {
 })
 
 watch(
-  () => store.site?.options,
-  async options => {
-    if (!options) return
-    await activateSiteFonts(options.fontFamily, options.fontWeight)
+  () => store.site?.options?.fonts,
+  fonts => {
+    if (fonts) loadSiteFonts(fonts)
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 )
 </script>
 

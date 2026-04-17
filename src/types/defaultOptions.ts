@@ -3,14 +3,16 @@ export interface siteOptions {
   lightColor: string
   darkBackColor: string
   lightBackColor: string
-  fonts: Fonts
+  fonts: Fonts[]
   globalFontFamily: Font
   fontSize: string
   fontWeight: number
   lineHeight: string
   darkMode: boolean
   mobileBP: number
+  mobileTextZoom: number
   tabletBP: number
+  tabletTextZoom: number
   desktopWidth: number | null
 }
 
@@ -28,10 +30,12 @@ export const siteOptions: siteOptions = {
   lightColor: '#333333',
   darkBackColor: '#111111',
   lightBackColor: '#EEEEEE',
-  fonts: {
-    family: 'Montserrat',
-    weights: [400]
-  },
+  fonts: [
+    {
+      family: 'Montserrat',
+      weights: [400]
+    }
+  ],
   globalFontFamily: {
     family: 'Montserrat',
     weight: 400
@@ -41,6 +45,8 @@ export const siteOptions: siteOptions = {
   lineHeight: '1.4em',
   darkMode: true,
   mobileBP: 767,
+  mobileTextZoom: 3,
   tabletBP: 1024,
+  tabletTextZoom: 1.5,
   desktopWidth: 1200
 }

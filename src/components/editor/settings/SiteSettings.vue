@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const stt = settingsStore()
 const { showsettings } = storeToRefs(stt)
 const st = siteStore()
@@ -16,12 +16,6 @@ const updateOption = (key: string, value: number) => {
   hs.snapshot()
   ;(site.value.options as any)[key] = value
 }
-
-const updateStringOption = (key: string, value: string) => {
-  if (!site.value?.options) return
-  hs.snapshot()
-  ;(site.value.options as any)[key] = value
-}
 </script>
 
 <template>
@@ -30,8 +24,6 @@ const updateStringOption = (key: string, value: string) => {
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody>
-    <div>{{ st?.site?.options }}</div>
-
     <ColorPicker
       label="Color light"
       :color="site?.options.lightColor"
@@ -49,11 +41,7 @@ const updateStringOption = (key: string, value: string) => {
       @update:color="updateColor('darkBackColor', $event)"
     />
 
-    <FontFamilyField
-      :modelValue="site?.options.fontFamily ?? ''"
-      label="Tipo de letra"
-      @update:modelValue="updateStringOption('fontFamily', $event)"
-    />
+    <FontManager />
 
     <SectionRange
       :modelValue="site?.options.desktopWidth ?? 1200"
@@ -75,14 +63,6 @@ const updateStringOption = (key: string, value: string) => {
       :min="320"
       :max="site?.options.tabletBP ?? 1024"
       @update:modelValue="updateOption('mobileBP', $event)"
-    />
-    <SectionRange
-      :modelValue="site?.options.fontWeight ?? 400"
-      label="Font weight"
-      :min="100"
-      :max="900"
-      :step="100"
-      @update:modelValue="updateOption('fontWeight', $event)"
     />
   </COffcanvasBody>
 </template>

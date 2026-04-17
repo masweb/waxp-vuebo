@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { db } from '@/db/fonts'
 import type { GoogleFont, ActiveVariant } from '@/db/fonts'
+import type { Fonts } from '@/types/defaultOptions'
 
 type VariantStatus = Record<string, boolean>
 
@@ -267,6 +268,17 @@ export const useGoogleFonts = () => {
     injectFontLink(family, [w])
   }
 
+  const injectWeights = (family: string, weights: number[]): void => {
+    const variants = weights.map(w => (w === 400 ? 'regular' : w === 700 ? 'bold' : String(w)))
+    injectFontLink(family, variants)
+  }
+
+  const loadSiteFonts = (fonts: Fonts[]): void => {
+    for (const { family, weights } of fonts) {
+      injectWeights(family, weights)
+    }
+  }
+
   return {
     ready,
     loading,
@@ -284,7 +296,9 @@ export const useGoogleFonts = () => {
     activateAllVariants,
     deactivateAllVariants,
     activateSiteFonts,
-    loadPreview
+    loadPreview,
+    injectWeights,
+    loadSiteFonts
   }
 }
 

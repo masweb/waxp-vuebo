@@ -95,5 +95,14 @@
     "color": {
       "none": "No color"
     }
+  },
+  "fonts": {
+    "title": "Fonts",
+    "add": "Add font",
+    "search": "Search Google Fonts...",
+    "change": "Change",
+    "weights": "Weights",
+    "empty": "No fonts loaded",
+    "globalFont": "Global font"
   }
 }

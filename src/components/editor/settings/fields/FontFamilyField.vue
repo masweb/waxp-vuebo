@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const props = defineProps<{
   modelValue: string
   label?: string
@@ -8,11 +8,10 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-const { ready, results, init, search, getFont, loadPreview } = useGoogleFonts()
+const st = siteStore()
+const { site } = storeToRefs(st)
 
-onMounted(() => {
-  init()
-})
+const fonts = computed(() => site.value?.options?.fonts ?? [])
 
 const query = ref(props.modelValue)
 const isOpen = ref(false)
@@ -20,6 +19,13 @@ const inputRef = ref<HTMLInputElement | null>(null)
 const containerRef = ref<HTMLElement | null>(null)
 const highlightedIndex = ref(-1)
 const dropdownRef = ref<HTMLElement | null>(null)
+
+const filtered = computed(() => {
+  const list = fonts.value
+  if (!query.value.trim()) return list
+  const q = query.value.toLowerCase()
+  return list.filter(f => f.family.toLowerCase().includes(q))
+})
 
 watch(
   () => props.modelValue,
@@ -38,13 +44,11 @@ const onInput = (e: Event) => {
   query.value = (e.target as HTMLInputElement).value
   isOpen.value = true
   highlightedIndex.value = -1
-  search(query.value)
 }
 
 const onFocus = () => {
   isOpen.value = true
   highlightedIndex.value = -1
-  search(query.value)
 }
 
 const scrollItemIntoView = (index: number) => {
@@ -59,7 +63,7 @@ const scrollItemIntoView = (index: number) => {
 
 const onKeydown = (e: KeyboardEvent) => {
   if (!isOpen.value) return
-  const total = results.value.length
+  const total = filtered.value.length
 
   if (e.key === 'ArrowDown') {
     e.preventDefault()
@@ -72,7 +76,7 @@ const onKeydown = (e: KeyboardEvent) => {
   } else if (e.key === 'Enter') {
     e.preventDefault()
     if (highlightedIndex.value >= 0 && highlightedIndex.value < total) {
-      selectFamily(results.value[highlightedIndex.value].family)
+      selectFamily(filtered.value[highlightedIndex.value].family)
     }
   } else if (e.key === 'Escape') {
     isOpen.value = false
@@ -84,7 +88,6 @@ const selectFamily = (family: string) => {
   emit('update:modelValue', family)
   query.value = family
   isOpen.value = false
-  loadPreview(family, 'regular')
 }
 
 const clearFamily = () => {
@@ -115,26 +118,19 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
           type="text"
           :value="isOpen ? query : modelValue"
           placeholder="Buscar fuente..."
-          :disabled="!ready"
           autocomplete="off"
           @input="onInput"
           @focus="onFocus"
           @keydown="onKeydown"
         />
-        <button
-          v-if="modelValue"
-          class="font-clear-btn"
-          type="button"
-          title="Quitar fuente"
-          @click="clearFamily"
-        >
+        <button v-if="modelValue" class="font-clear-btn" type="button" title="Quitar fuente" @click="clearFamily">
           ×
         </button>
       </div>
 
       <div v-if="isOpen" ref="dropdownRef" class="font-dropdown">
         <button
-          v-for="(font, idx) in results"
+          v-for="(font, idx) in filtered"
           :key="font.family"
           type="button"
           class="font-dropdown-item"
@@ -142,11 +138,11 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
           @click="selectFamily(font.family)"
         >
           <span class="font-dropdown-family">{{ font.family }}</span>
-          <span class="font-dropdown-category">{{ font.category }}</span>
+          <span class="font-dropdown-category">
+            <span v-for="w in font.weights" :key="w" class="badge bg-secondary me-1">{{ w }}</span>
+          </span>
         </button>
-        <div v-if="!results.length && query.length > 1 && ready" class="font-dropdown-empty">
-          Sin resultados
-        </div>
+        <div v-if="!filtered.length && query.length > 1" class="font-dropdown-empty">Sin resultados</div>
       </div>
     </div>
   </div>
