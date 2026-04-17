@@ -68,16 +68,25 @@ export const useGridConversion = () => {
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
   }
 
-  const pushDown = (blocks: Block[], modeKey: 'd' | 'm' | 't', source: BlockCoords, sourceId: number, depth = 0) => {
-    if (depth > 50) return
+  const pushDown = (blocks: Block[], modeKey: 'd' | 'm' | 't', source: BlockCoords, sourceId: number) => {
+    const sourceBottom = source.y + source.h
+    const sourceLeft = source.x
+    const sourceRight = source.x + source.w
+
     for (const block of blocks) {
       if (block.id === sourceId) continue
       const target = block[modeKey]
-      if (!rectsOverlap(source, target)) continue
-      const overlapY = Math.min(source.y + source.h, target.y + target.h) - Math.max(source.y, target.y)
-      if (overlapY <= 0) continue
-      target.y += overlapY
-      pushDown(blocks, modeKey, target, block.id, depth + 1)
+      const targetBottom = target.y + target.h
+      const targetRight = target.x + target.w
+      const targetLeft = target.x
+
+      const overlapsX = targetRight > sourceLeft && targetRight > sourceLeft && targetLeft < sourceRight
+      const isBelow = targetBottom > source.y
+      const isIntersecting = overlapsX && isBelow
+
+      if (!isIntersecting) continue
+
+      target.y = sourceBottom
     }
   }
 
