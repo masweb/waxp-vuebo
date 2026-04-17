@@ -13,7 +13,7 @@ export const drawingStore = defineStore('drawing', () => {
     sectionEl: HTMLElement,
     config: BreakpointSize,
     sectionId: number,
-    allowRowOverflow = false,
+    allowRowOverflow = false
   ) => {
     coords.value = calculateGridPosition(startX, startY, endX, endY, sectionEl, config, allowRowOverflow)
     isDrawing.value = true

@@ -7,7 +7,9 @@ auth.initializeAuth()
 if (!auth.isAuthenticated) {
   nav.setView('login')
 } else if (nav.main === 'site') {
-  st.restoreSite().then(ok => { if (!ok) nav.setView('dashboard') })
+  st.restoreSite().then(ok => {
+    if (!ok) nav.setView('dashboard')
+  })
 }
 
 const views: Record<string, Component> = {

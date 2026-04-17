@@ -102,7 +102,10 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
         listeners: {
           start(event) {
             cancelled = false
-            if (editor.mode !== 'draw') { cancelled = true; return }
+            if (editor.mode !== 'draw') {
+              cancelled = true
+              return
+            }
 
             sectionRect = sectionEl.value!.getBoundingClientRect()
             const sx = ~~event.clientX - ~~sectionRect.left

@@ -13,7 +13,7 @@ export const navigationStore = defineStore('navigation', () => {
   const stored = loadFromStorage()
   const main = ref(stored.main)
 
-  watch(main, (value) => {
+  watch(main, value => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ main: value }))
   })
 

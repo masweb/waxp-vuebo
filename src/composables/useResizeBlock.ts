@@ -1,11 +1,7 @@
 import interact from 'interactjs'
 import type { InteractEvent } from '@interactjs/core/InteractEvent'
 
-export const useResizeBlock = (
-  blockEl: Ref<HTMLElement | undefined>,
-  block: () => Block,
-  section: () => Section,
-) => {
+export const useResizeBlock = (blockEl: Ref<HTMLElement | undefined>, block: () => Block, section: () => Section) => {
   const dr = drawingStore()
   const vp = viewportStore()
   const { pixelToGrid, pushDown, ensureRows, trimRows } = useGridConversion()
@@ -64,7 +60,10 @@ export const useResizeBlock = (
 
   const onStart = (event: InteractEvent) => {
     sectionElement = (event.target as HTMLElement).closest('.section') as HTMLElement
-    if (!sectionElement) { cancelled = true; return }
+    if (!sectionElement) {
+      cancelled = true
+      return
+    }
 
     sectionRect = sectionElement.getBoundingClientRect()
     originalCoords = { ...block()[MODE_KEY[vp.mode]] }
@@ -87,7 +86,10 @@ export const useResizeBlock = (
     }
 
     const coords = calcResize(event.rect)
-    if (!coords) { resetState(event); return }
+    if (!coords) {
+      resetState(event)
+      return
+    }
 
     hs.snapshot()
 
@@ -123,14 +125,14 @@ export const useResizeBlock = (
         allowFrom: '.blockui.resize',
         modifiers: [
           interact.modifiers.restrictSize({
-            min: { width: 1, height: 1 },
-          }),
+            min: { width: 1, height: 1 }
+          })
         ],
         listeners: {
           start: onStart,
           move: onMove,
-          end: onEnd,
-        },
+          end: onEnd
+        }
       })
       .styleCursor(false)
   })

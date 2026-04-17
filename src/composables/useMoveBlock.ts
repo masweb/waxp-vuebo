@@ -1,11 +1,7 @@
 import interact from 'interactjs'
 import type { InteractEvent } from '@interactjs/core/InteractEvent'
 
-export const useMoveBlock = (
-  blockEl: Ref<HTMLElement | undefined>,
-  block: () => Block,
-  section: () => Section,
-) => {
+export const useMoveBlock = (blockEl: Ref<HTMLElement | undefined>, block: () => Block, section: () => Section) => {
   const dr = drawingStore()
   const vp = viewportStore()
   const { pixelToGrid, pushDown, ensureRows, trimRows } = useGridConversion()
@@ -50,7 +46,10 @@ export const useMoveBlock = (
 
   const onStart = (event: InteractEvent) => {
     sectionElement = (event.target as HTMLElement).closest('.section') as HTMLElement
-    if (!sectionElement) { cancelled = true; return }
+    if (!sectionElement) {
+      cancelled = true
+      return
+    }
 
     sectionRect = sectionElement.getBoundingClientRect()
     originalCoords = { ...block()[MODE_KEY[vp.mode]] }
@@ -90,7 +89,7 @@ export const useMoveBlock = (
       x: Math.max(1, Math.min(gridPos.col, maxX)),
       y: Math.max(1, gridPos.row),
       w: originalCoords.w,
-      h: originalCoords.h,
+      h: originalCoords.h
     }
 
     const b = block()
@@ -129,8 +128,8 @@ export const useMoveBlock = (
         listeners: {
           start: onStart,
           move: onMove,
-          end: onEnd,
-        },
+          end: onEnd
+        }
       })
       .styleCursor(false)
   })

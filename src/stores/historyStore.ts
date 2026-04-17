@@ -31,6 +31,7 @@ export const historyStore = defineStore('history', () => {
 
   const restore = (snap: Snapshot) => {
     if (!ps.page) return
+    ps.setActiveBlock(null)
     ps.page.layout = JSON.parse(snap.layout)
     if (snap.siteOptions && ss.site) ss.site.options = JSON.parse(snap.siteOptions)
   }

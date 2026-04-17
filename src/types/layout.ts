@@ -33,5 +33,5 @@ export type ViewportMode = 'mobile' | 'tablet' | 'desktop'
 export const MODE_KEY: Record<ViewportMode, 'd' | 'm' | 't'> = {
   mobile: 'm',
   tablet: 't',
-  desktop: 'd',
+  desktop: 'd'
 }

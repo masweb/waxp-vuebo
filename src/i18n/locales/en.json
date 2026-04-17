@@ -62,5 +62,38 @@
       "lowercase": "Password must contain at least one lowercase letter",
       "symbol": "Password must contain at least one symbol"
     }
+  },
+  "editor": {
+    "toolbar": {
+      "undo": "Undo",
+      "redo": "Redo",
+      "bold": "Bold",
+      "italic": "Italic",
+      "strike": "Strikethrough",
+      "underline": "Underline",
+      "code": "Code",
+      "heading": "Heading",
+      "align": "Alignment",
+      "lists": "Lists",
+      "highlight": "Highlight",
+      "hr": "Horizontal rule",
+      "link": "Link",
+      "unlink": "Remove link",
+      "color": "Color",
+      "close": "Close editor"
+    },
+    "align": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right",
+      "justify": "Justify"
+    },
+    "list": {
+      "bullet": "Bullet list",
+      "ordered": "Ordered list"
+    },
+    "color": {
+      "none": "No color"
+    }
   }
 }

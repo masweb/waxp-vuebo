@@ -70,6 +70,15 @@
         border: 1px dashed coral;
         position: relative;
 
+        &--active {
+          border-color: var(--cui-primary);
+          border-style: solid;
+          cursor: text;
+          .blockui {
+            display: none;
+          }
+        }
+
         &--moving {
           z-index: 10;
           opacity: 0.7;
@@ -79,8 +88,48 @@
           z-index: 10;
         }
 
+        .tiptap {
+          outline: none;
+          cursor: text;
+          &.tiptap-readonly {
+            pointer-events: none;
+            cursor: default;
+            p {
+              min-height: var(--se-line-height);
+            }
+          }
+          p {
+            margin: 0;
+          }
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            margin: 0;
+          }
+          ul,
+          ol {
+            padding-left: 1.5em;
+            margin: 0;
+          }
+          hr {
+            border: none;
+            border-top: 2px solid var(--se-color);
+            opacity: 0.3;
+            margin: 0.5em 0;
+          }
+          mark {
+            background-color: #fef08a;
+            padding: 0 2px;
+            border-radius: 2px;
+          }
+        }
+
         .blockui {
           position: absolute;
+          z-index: 5;
 
           &.delete {
             width: 20px;

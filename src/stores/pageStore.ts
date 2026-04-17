@@ -1,6 +1,7 @@
 export const pageStore = defineStore('page', () => {
   const page: Ref<Page | null> = ref(null)
   const activeSection: Ref<Section | null> = ref(null)
+  const activeBlock: Ref<Block | null> = ref(null)
   const st = siteStore()
 
   const getPage = async (pageId: number) => {
@@ -25,11 +26,17 @@ export const pageStore = defineStore('page', () => {
   const setActiveSection = (id_section: number) =>
     (activeSection.value = page.value?.layout.find(section => section.id === id_section) ?? null)
 
+  const setActiveBlock = (block: Block | null) => {
+    activeBlock.value = block
+  }
+
   return {
     page,
     activeSection,
+    activeBlock,
     getPage,
     updatePage,
-    setActiveSection
+    setActiveSection,
+    setActiveBlock
   }
 })

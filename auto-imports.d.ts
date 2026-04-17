@@ -121,6 +121,7 @@ declare global {
   const useSubmitForm: typeof import('vee-validate').useSubmitForm
   const useTemplateRef: typeof import('vue').useTemplateRef
   const useTheme: typeof import('./src/composables/useTheme').useTheme
+  const useTipTap: typeof import('./src/composables/useTipTap').useTipTap
   const useValidateField: typeof import('vee-validate').useValidateField
   const useValidateForm: typeof import('vee-validate').useValidateForm
   const useValidation: typeof import('./src/composables/useValidation').useValidation

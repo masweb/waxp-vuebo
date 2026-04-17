@@ -18,13 +18,16 @@ const selectionStyle = computed(() => {
   const c = coords.value!
   return {
     gridColumn: `${c.x} / span ${c.w}`,
-    gridRow: `${c.y} / span ${c.h}`,
+    gridRow: `${c.y} / span ${c.h}`
   }
 })
 </script>
 
 <template>
-  <div class="drawing-overlay" :style="{ ...gridStyle, display: 'grid', position: 'absolute', inset: '0', pointerEvents: 'none' }">
+  <div
+    class="drawing-overlay"
+    :style="{ ...gridStyle, display: 'grid', position: 'absolute', inset: '0', pointerEvents: 'none' }"
+  >
     <div v-if="isActive && hasValidCoords" class="drawing-selection" :style="selectionStyle" />
   </div>
 </template>
