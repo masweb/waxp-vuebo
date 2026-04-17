@@ -9,6 +9,7 @@ export const useResizeBlock = (
   const dr = drawingStore()
   const vp = viewportStore()
   const { pixelToGrid, pushDown, ensureRows, trimRows } = useGridConversion()
+  const hs = historyStore()
 
   let sectionElement: HTMLElement | null = null
   let sectionRect: DOMRect | null = null
@@ -87,6 +88,8 @@ export const useResizeBlock = (
 
     const coords = calcResize(event.rect)
     if (!coords) { resetState(event); return }
+
+    hs.snapshot()
 
     const b = block()
     const sec = section()

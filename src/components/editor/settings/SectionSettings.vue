@@ -5,6 +5,7 @@ const stt = settingsStore()
 const pg = pageStore()
 const { activeSection } = storeToRefs(pg)
 const { showsettings } = storeToRefs(stt)
+const hs = historyStore()
 
 const modes: { key: ViewportMode; label: string; icon: any }[] = [
   { key: 'desktop', label: 'Desktop', icon: IconDeviceDesktop },
@@ -27,7 +28,10 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
     c = computed({
       get: () => (activeSection.value?.[mode] as BreakpointSize)?.[key] ?? 0,
       set: (v: number) => {
-        if (activeSection.value) (activeSection.value[mode] as BreakpointSize)[key] = v
+        if (activeSection.value) {
+          hs.snapshot()
+          ;(activeSection.value[mode] as BreakpointSize)[key] = v
+        }
       }
     })
     fieldMap.set(id, c)

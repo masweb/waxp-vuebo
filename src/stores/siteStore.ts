@@ -27,6 +27,16 @@ export const siteStore = defineStore('site', () => {
     } else errorsStore().addError(resp)
   }
 
+  const updateSite = async () => {
+    const resp = await useApi(`/api/sites/${site?.value?.id}`, {
+      method: 'PUT',
+      body: site?.value
+    }).catch(error => error.data as ApiError)
+    if (resp.id) {
+      site.value = resp
+    }
+  }
+
   const closeSite = async () => {
     clearRoutes()
     site.value = null
@@ -51,6 +61,7 @@ export const siteStore = defineStore('site', () => {
     REACT401,
     openSite,
     closeSite,
-    restoreSite
+    restoreSite,
+    updateSite
   }
 })

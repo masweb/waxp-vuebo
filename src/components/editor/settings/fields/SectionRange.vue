@@ -1,40 +1,47 @@
 <script lang="ts" setup>
-const props = withDefaults(defineProps<{
-  modelValue: string
-  label?: string
-  min?: number
-  max?: number
-  step?: number
-}>(), {
-  min: 1,
-  max: 48,
-  step: 1,
-})
+const props = withDefaults(
+  defineProps<{
+    modelValue: number
+    label?: string
+    min?: number
+    max?: number
+    step?: number
+  }>(),
+  {
+    min: 1,
+    max: 48,
+    step: 1
+  }
+)
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value: number): void
 }>()
 
-const local = ref(props.modelValue)
+const local = ref(String(props.modelValue))
 
-watch(() => props.modelValue, v => { local.value = v })
-watch(local, v => emit('update:modelValue', v))
+watch(
+  () => props.modelValue,
+  v => {
+    local.value = String(v)
+  }
+)
+watch(local, v => emit('update:modelValue', Number(v)))
 </script>
 
 <template>
   <div class="mb-2">
-    <label v-if="label" class="form-label small mb-1">{{ label }}</label>
+    <label v-if="label" class="form-label mb-1">{{ label }}</label>
     <div class="d-flex align-items-center gap-2">
       <CFormRange v-model="local" :min="min" :max="max" :step="step" />
       <input
         type="number"
         class="form-control form-control-sm text-center p-0"
         style="width: 3.5rem"
-        :value="local"
+        v-model="local"
         :min="min"
         :max="max"
         :step="step"
-        @input="local = String(($event.target as HTMLInputElement).value)"
       />
     </div>
   </div>

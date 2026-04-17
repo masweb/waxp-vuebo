@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ColorPicker from '/public/colorpicker/colorpicker.min.js'
-import '/public/colorpicker/colorpicker.min.css'
+import ColorPicker from '@/deps/colorpicker/colorpicker.min.js'
+import '@/deps/colorpicker/colorpicker.min.css'
 
 const props = withDefaults(
   defineProps<{

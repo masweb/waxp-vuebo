@@ -143,9 +143,6 @@ declare global {
   export type { EditorMode } from './src/stores/editorStore'
   import('./src/stores/editorStore')
   // @ts-ignore
-  export type { Action } from './src/stores/historyStore'
-  import('./src/stores/historyStore')
-  // @ts-ignore
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')
   // @ts-ignore

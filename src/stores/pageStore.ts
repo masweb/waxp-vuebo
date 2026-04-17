@@ -5,7 +5,10 @@ export const pageStore = defineStore('page', () => {
 
   const getPage = async (pageId: number) => {
     const resp: Page = await useApi(`/api/sites/${st?.site?.id}/pages/${pageId}`).catch(error => error.data as ApiError)
-    if (resp.id) page.value = resp
+    if (resp.id) {
+      page.value = resp
+      historyStore().clear(resp.id)
+    }
   }
 
   const updatePage = async () => {
@@ -13,7 +16,10 @@ export const pageStore = defineStore('page', () => {
       method: 'PUT',
       body: page.value
     }).catch(error => error.data as ApiError)
-    if (resp.id) page.value = resp
+    if (resp.id) {
+      page.value = resp
+      historyStore().clear(resp.id)
+    }
   }
 
   const setActiveSection = (id_section: number) =>

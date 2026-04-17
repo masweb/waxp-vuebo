@@ -49,8 +49,12 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
     })
   }
 
+  const hs = historyStore()
+
   const onEnd = async (event: InteractEvent) => {
     if (cancelled || !startCoords || !sectionEl.value || !sectionRect) return
+
+    hs.snapshot()
     const config = getBpConfig()
     const endX = ~~event.clientX - ~~sectionRect.left
     const endY = ~~event.clientY - ~~sectionRect.top

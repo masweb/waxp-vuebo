@@ -22,8 +22,10 @@ const nav = navigationStore()
 const st = siteStore()
 const stt = settingsStore()
 const pg = pageStore()
+const hs = historyStore()
 
 const { site } = storeToRefs(st)
+const { canUndo, canRedo } = storeToRefs(hs)
 
 const vp = viewportStore()
 const toggleGridVisibility = () => (vp.showGrids = !vp.showGrids)
@@ -47,6 +49,21 @@ const backToDashboard = () => {
   st.closeSite()
   nav.setView('dashboard')
 }
+
+const onKeydown = (e: KeyboardEvent) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
+    e.preventDefault()
+    e.shiftKey ? hs.redo() : hs.undo()
+  }
+}
+
+const updateAll = () => {
+  pg.updatePage()
+  st.updateSite()
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
@@ -88,15 +105,18 @@ const backToDashboard = () => {
     </div>
     <ErrorsNotifier />
     <div class="d-flex align-items-center">
-      <button class="btn btn-sm btn-link pe-3">
-        <IconArrowBackUp :size="24" stroke-width="2.2" />
-      </button>
-      <button class="btn btn-sm btn-link pe-3">
-        <IconArrowForward :size="24" stroke-width="2.2" />
-      </button>
-      <button @click="pg.updatePage()" class="btn btn-sm btn-link pe-3">
-        <IconDeviceFloppyFilled :size="24" stroke-width="2.2" />
-      </button>
+      <template v-if="site?.options">
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canUndo" @click="hs.undo()">
+          <IconArrowBackUp :size="24" stroke-width="2.2" />
+        </button>
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canRedo" @click="hs.redo()">
+          <IconArrowForward :size="24" stroke-width="2.2" />
+        </button>
+        <button @click="updateAll()" class="btn btn-sm btn-link pe-3" :disabled="!canUndo">
+          <IconDeviceFloppyFilled :size="24" stroke-width="2.2" />
+        </button>
+      </template>
+
       <button @click="auth.logout()" class="btn btn-sm btn-link pe-3">
         <IconPower :size="24" stroke-width="2.2" />
       </button>

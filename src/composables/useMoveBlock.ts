@@ -9,6 +9,7 @@ export const useMoveBlock = (
   const dr = drawingStore()
   const vp = viewportStore()
   const { pixelToGrid, pushDown, ensureRows, trimRows } = useGridConversion()
+  const hs = historyStore()
 
   const position = { x: 0, y: 0 }
 
@@ -74,6 +75,8 @@ export const useMoveBlock = (
       resetState()
       return
     }
+
+    hs.snapshot()
 
     const config = getBpConfig()
     const blockRect = blockEl.value.getBoundingClientRect()
