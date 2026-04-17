@@ -16,6 +16,12 @@ const updateOption = (key: string, value: number) => {
   hs.snapshot()
   ;(site.value.options as any)[key] = value
 }
+
+const updateStringOption = (key: string, value: string) => {
+  if (!site.value?.options) return
+  hs.snapshot()
+  ;(site.value.options as any)[key] = value
+}
 </script>
 
 <template>
@@ -41,6 +47,12 @@ const updateOption = (key: string, value: number) => {
       label="Background dark"
       :color="site?.options.darkBackColor"
       @update:color="updateColor('darkBackColor', $event)"
+    />
+
+    <FontFamilyField
+      :modelValue="site?.options.fontFamily ?? ''"
+      label="Tipo de letra"
+      @update:modelValue="updateStringOption('fontFamily', $event)"
     />
 
     <SectionRange

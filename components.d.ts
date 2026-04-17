@@ -17,6 +17,7 @@ declare module 'vue' {
     DrawingOverlay: typeof import('./src/components/editor/DrawingOverlay.vue')['default']
     EditorToolbar: typeof import('./src/components/editor/EditorToolbar.vue')['default']
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
+    FontFamilyField: typeof import('./src/components/editor/settings/fields/FontFamilyField.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
     NewSection: typeof import('./src/components/editor/NewSection.vue')['default']
