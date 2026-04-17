@@ -10,13 +10,18 @@ import {
   IconLayoutGridFilled,
   IconDeviceDesktop,
   IconDeviceMobile,
-  IconDeviceTablet
+  IconDeviceTablet,
+  IconDeviceFloppy,
+  IconDeviceFloppyFilled,
+  IconArrowBackUp,
+  IconArrowForward
 } from '@tabler/icons-vue'
 
 const auth = useAuthStore()
 const nav = navigationStore()
 const st = siteStore()
 const stt = settingsStore()
+const pg = pageStore()
 
 const { site } = storeToRefs(st)
 
@@ -83,6 +88,15 @@ const backToDashboard = () => {
     </div>
     <ErrorsNotifier />
     <div class="d-flex align-items-center">
+      <button class="btn btn-sm btn-link pe-3">
+        <IconArrowBackUp :size="24" stroke-width="2.2" />
+      </button>
+      <button class="btn btn-sm btn-link pe-3">
+        <IconArrowForward :size="24" stroke-width="2.2" />
+      </button>
+      <button @click="pg.updatePage()" class="btn btn-sm btn-link pe-3">
+        <IconDeviceFloppyFilled :size="24" stroke-width="2.2" />
+      </button>
       <button @click="auth.logout()" class="btn btn-sm btn-link pe-3">
         <IconPower :size="24" stroke-width="2.2" />
       </button>

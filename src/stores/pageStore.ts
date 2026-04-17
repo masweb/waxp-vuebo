@@ -8,6 +8,14 @@ export const pageStore = defineStore('page', () => {
     if (resp.id) page.value = resp
   }
 
+  const updatePage = async () => {
+    const resp = await useApi(`/api/sites/${st?.site?.id}/pages/${page?.value?.id}`, {
+      method: 'PUT',
+      body: page.value
+    }).catch(error => error.data as ApiError)
+    if (resp.id) page.value = resp
+  }
+
   const setActiveSection = (id_section: number) =>
     (activeSection.value = page.value?.layout.find(section => section.id === id_section) ?? null)
 
@@ -15,6 +23,7 @@ export const pageStore = defineStore('page', () => {
     page,
     activeSection,
     getPage,
+    updatePage,
     setActiveSection
   }
 })

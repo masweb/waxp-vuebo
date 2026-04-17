@@ -32,6 +32,7 @@ declare global {
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
   const h: typeof import('vue').h
+  const historyStore: typeof import('./src/stores/historyStore').historyStore
   const initTheme: typeof import('./src/composables/useTheme').initTheme
   const inject: typeof import('vue').inject
   const isProxy: typeof import('vue').isProxy
@@ -141,6 +142,9 @@ declare global {
   // @ts-ignore
   export type { EditorMode } from './src/stores/editorStore'
   import('./src/stores/editorStore')
+  // @ts-ignore
+  export type { Action } from './src/stores/historyStore'
+  import('./src/stores/historyStore')
   // @ts-ignore
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')
