@@ -3,6 +3,7 @@ export const viewportStore = defineStore('viewport', () => {
 
   const mobileBP = computed(() => st.site?.options?.mobileBP ?? 580)
   const tabletBP = computed(() => st.site?.options?.tabletBP ?? 768)
+  const desktopWidth = computed(() => st.site?.options?.desktopWidth ?? 768)
 
   const width: Ref<number> = ref(typeof window !== 'undefined' ? window.innerWidth : 1024)
   const forcedMode: Ref<ViewportMode | null> = ref(null)
@@ -26,5 +27,5 @@ export const viewportStore = defineStore('viewport', () => {
   onMounted(() => window.addEventListener('resize', onResize))
   onScopeDispose(() => window.removeEventListener('resize', onResize))
 
-  return { mode, width, forcedMode, mobileBP, tabletBP, showGrids }
+  return { mode, width, forcedMode, mobileBP, tabletBP, desktopWidth, showGrids }
 })

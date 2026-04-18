@@ -7,7 +7,6 @@ const props = defineProps<{
   section: Section
 }>()
 
-const pg = pageStore()
 const { editor, activate, isActive } = useTipTap()
 
 const blockRef = ref<HTMLElement>()

@@ -12,18 +12,20 @@ onMounted(() => {
 })
 
 const fonts = computed<Fonts[]>(() => site.value?.options?.fonts ?? [])
-const globalFont = computed(() => site.value?.options?.globalFontFamily ?? { family: '', weight: 400 })
+const globalFont = computed(() => site.value?.options?.globalFontFamily ?? { family: '', weight: 400, italic: false })
 
 const isAdding = ref(false)
 const searchQuery = ref('')
 const selectedFamily = ref('')
 const selectedWeights = ref<number[]>([400])
+const selectedItalics = ref<number[]>([])
 
 const showAddForm = () => {
   isAdding.value = true
   searchQuery.value = ''
   selectedFamily.value = ''
   selectedWeights.value = [400]
+  selectedItalics.value = []
 }
 
 const cancelAdd = () => {
@@ -31,6 +33,7 @@ const cancelAdd = () => {
   searchQuery.value = ''
   selectedFamily.value = ''
   selectedWeights.value = [400]
+  selectedItalics.value = []
 }
 
 const onSearchInput = (e: Event) => {
@@ -73,6 +76,24 @@ const toggleWeight = (w: number) => {
   }
 }
 
+const availableItalics = computed(() => {
+  const font = getFont(selectedFamily.value)
+  if (!font) return ALL_WEIGHTS
+  return ALL_WEIGHTS.filter(w => {
+    const v = w === 400 ? 'regular' : String(w)
+    return font.variants.includes(`${v}italic`)
+  })
+})
+
+const toggleItalic = (w: number) => {
+  const idx = selectedItalics.value.indexOf(w)
+  if (idx >= 0) {
+    selectedItalics.value.splice(idx, 1)
+  } else {
+    selectedItalics.value.push(w)
+  }
+}
+
 const addFont = () => {
   if (!selectedFamily.value || selectedWeights.value.length === 0) return
   if (!site.value?.options) return
@@ -80,17 +101,19 @@ const addFont = () => {
 
   const existing = fonts.value.find(f => f.family === selectedFamily.value)
   if (existing) {
-    const merged = [...new Set([...existing.weights, ...selectedWeights.value])].sort((a, b) => a - b)
+    const mergedWeights = [...new Set([...existing.weights, ...selectedWeights.value])].sort((a, b) => a - b)
+    const mergedItalics = [...new Set([...(existing.italics ?? []), ...selectedItalics.value])].sort((a, b) => a - b)
     const idx = site.value.options.fonts.indexOf(existing)
-    site.value.options.fonts[idx] = { ...existing, weights: merged }
+    site.value.options.fonts[idx] = { ...existing, weights: mergedWeights, italics: mergedItalics }
   } else {
     site.value.options.fonts.push({
       family: selectedFamily.value,
-      weights: [...selectedWeights.value].sort((a, b) => a - b)
+      weights: [...selectedWeights.value].sort((a, b) => a - b),
+      italics: [...selectedItalics.value].sort((a, b) => a - b)
     })
   }
 
-  injectWeights(selectedFamily.value, selectedWeights.value)
+  injectWeights(selectedFamily.value, selectedWeights.value, selectedItalics.value)
   cancelAdd()
 }
 
@@ -103,22 +126,25 @@ const removeFont = (family: string) => {
   if (globalFont.value.family === family) {
     const first = site.value.options.fonts[0]
     site.value.options.globalFontFamily = first
-      ? { family: first.family, weight: first.weights[0] ?? 400 }
-      : { family: '', weight: 400 }
+      ? { family: first.family, weight: first.weights[0] ?? 400, italic: false }
+      : { family: '', weight: 400, italic: false }
   }
 }
 
 const editingFamily = ref<string | null>(null)
 const editWeights = ref<number[]>([])
+const editItalics = ref<number[]>([])
 
 const startEdit = (font: Fonts) => {
   editingFamily.value = font.family
   editWeights.value = [...font.weights]
+  editItalics.value = [...(font.italics ?? [])]
 }
 
 const cancelEdit = () => {
   editingFamily.value = null
   editWeights.value = []
+  editItalics.value = []
 }
 
 const saveEdit = () => {
@@ -128,17 +154,24 @@ const saveEdit = () => {
   if (!font) return
 
   font.weights = [...editWeights.value].sort((a, b) => a - b)
-  injectWeights(font.family, font.weights)
+  font.italics = [...editItalics.value].sort((a, b) => a - b)
+  injectWeights(font.family, font.weights, font.italics)
 
-  if (globalFont.value.family === font.family && !font.weights.includes(globalFont.value.weight)) {
-    site.value.options.globalFontFamily = {
-      family: font.family,
-      weight: font.weights[0] ?? 400
+  if (globalFont.value.family === font.family) {
+    const hasWeight = font.weights.includes(globalFont.value.weight)
+    const hasItalic = globalFont.value.italic && (font.italics ?? []).includes(globalFont.value.weight)
+    if (!hasWeight || (globalFont.value.italic && !hasItalic)) {
+      site.value.options.globalFontFamily = {
+        family: font.family,
+        weight: font.weights[0] ?? 400,
+        italic: false
+      }
     }
   }
 
   editingFamily.value = null
   editWeights.value = []
+  editItalics.value = []
 }
 
 const toggleEditWeight = (w: number) => {
@@ -150,10 +183,19 @@ const toggleEditWeight = (w: number) => {
   }
 }
 
-const setGlobalFont = (family: string, weight: number) => {
+const toggleEditItalic = (w: number) => {
+  const idx = editItalics.value.indexOf(w)
+  if (idx >= 0) {
+    editItalics.value.splice(idx, 1)
+  } else {
+    editItalics.value.push(w)
+  }
+}
+
+const setGlobalFont = (family: string, weight: number, italic: boolean = false) => {
   if (!site.value?.options) return
   hs.snapshot()
-  site.value.options.globalFontFamily = { family, weight }
+  site.value.options.globalFontFamily = { family, weight, italic }
 }
 
 const globalWeightOptions = computed(() => {
@@ -232,6 +274,22 @@ const weightsForFont = (family: string): number[] => {
           </div>
         </div>
 
+        <div v-if="availableItalics.length > 0" class="mb-2">
+          <label class="small mb-1">Italic</label>
+          <div class="d-flex flex-wrap gap-1">
+            <button
+              v-for="w in availableItalics"
+              :key="w"
+              type="button"
+              class="btn btn-sm"
+              :class="selectedItalics.includes(w) ? 'btn-primary' : 'btn-outline-secondary'"
+              @click="toggleItalic(w)"
+            >
+              {{ w }}i
+            </button>
+          </div>
+        </div>
+
         <div class="d-flex gap-2">
           <button class="btn btn-sm btn-primary" @click="addFont" :disabled="selectedWeights.length === 0">
             {{ t('common.add') }}
@@ -267,6 +325,19 @@ const weightsForFont = (family: string): number[] => {
               {{ w }}
             </button>
           </div>
+          <div class="d-flex flex-wrap gap-1 mb-2">
+            <button
+              v-for="w in ALL_WEIGHTS"
+              :key="'i'+w"
+              type="button"
+              class="btn btn-sm"
+              :class="editItalics.includes(w) ? 'btn-primary' : 'btn-outline-secondary'"
+              :disabled="!weightsForFont(font.family).includes(w)"
+              @click="toggleEditItalic(w)"
+            >
+              {{ w }}i
+            </button>
+          </div>
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-primary" @click="saveEdit">{{ t('common.save') }}</button>
             <button class="btn btn-sm btn-outline-secondary" @click="cancelEdit">{{ t('common.cancel') }}</button>
@@ -275,6 +346,7 @@ const weightsForFont = (family: string): number[] => {
 
         <div v-else class="mt-1">
           <span v-for="w in font.weights" :key="w" class="badge bg-secondary me-1">{{ w }}</span>
+          <span v-for="w in (font.italics ?? [])" :key="'i'+w" class="badge bg-primary me-1">{{ w }}i</span>
         </div>
       </div>
 
@@ -288,7 +360,7 @@ const weightsForFont = (family: string): number[] => {
           class="form-select form-select-sm"
           style="max-width: 200px"
           :value="globalFont.family"
-          @change="setGlobalFont(($event.target as HTMLSelectElement).value, globalWeightOptions[0] ?? 400)"
+          @change="setGlobalFont(($event.target as HTMLSelectElement).value, globalWeightOptions[0] ?? 400, globalFont.italic ?? false)"
         >
           <option v-for="f in fonts" :key="f.family" :value="f.family">{{ f.family }}</option>
         </select>
@@ -296,10 +368,19 @@ const weightsForFont = (family: string): number[] => {
           class="form-select form-select-sm"
           style="max-width: 100px"
           :value="globalFont.weight"
-          @change="setGlobalFont(globalFont.family, Number(($event.target as HTMLSelectElement).value))"
+          @change="setGlobalFont(globalFont.family, Number(($event.target as HTMLSelectElement).value), globalFont.italic ?? false)"
         >
           <option v-for="w in globalWeightOptions" :key="w" :value="w">{{ w }}</option>
         </select>
+        <label class="form-check form-check-inline mb-0">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            :checked="globalFont.italic ?? false"
+            @change="setGlobalFont(globalFont.family, globalFont.weight, ($event.target as HTMLInputElement).checked)"
+          />
+          <span class="small">Italic</span>
+        </label>
       </div>
     </div>
   </div>

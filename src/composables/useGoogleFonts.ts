@@ -268,14 +268,22 @@ export const useGoogleFonts = () => {
     injectFontLink(family, [w])
   }
 
-  const injectWeights = (family: string, weights: number[]): void => {
-    const variants = weights.map(w => (w === 400 ? 'regular' : w === 700 ? 'bold' : String(w)))
+  const injectWeights = (family: string, weights: number[], italics: number[] = []): void => {
+    const variants: string[] = []
+    for (const w of weights) {
+      const base = w === 400 ? 'regular' : w === 700 ? 'bold' : String(w)
+      variants.push(base)
+    }
+    for (const w of italics) {
+      const base = w === 400 ? 'regular' : w === 700 ? 'bold' : String(w)
+      variants.push(`${base}italic`)
+    }
     injectFontLink(family, variants)
   }
 
   const loadSiteFonts = (fonts: Fonts[]): void => {
-    for (const { family, weights } of fonts) {
-      injectWeights(family, weights)
+    for (const { family, weights, italics } of fonts) {
+      injectWeights(family, weights, italics ?? [])
     }
   }
 

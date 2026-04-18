@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import type { Font, Fonts } from '@/types/defaultOptions'
+
 const props = defineProps<{
-  modelValue: string
+  modelValue: Font
   label?: string
 }>()
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
+  'update:modelValue': [value: Font]
 }>()
 
 const st = siteStore()
@@ -13,7 +15,7 @@ const { site } = storeToRefs(st)
 
 const fonts = computed(() => site.value?.options?.fonts ?? [])
 
-const query = ref(props.modelValue)
+const query = ref(props.modelValue.family)
 const isOpen = ref(false)
 const inputRef = ref<HTMLInputElement | null>(null)
 const containerRef = ref<HTMLElement | null>(null)
@@ -28,15 +30,18 @@ const filtered = computed(() => {
 })
 
 watch(
-  () => props.modelValue,
+  () => props.modelValue.family,
   val => {
-    query.value = val
+    if (!isOpen.value) query.value = val
   }
 )
 
 watch(isOpen, open => {
   if (open) {
     highlightedIndex.value = -1
+    query.value = ''
+  } else {
+    query.value = props.modelValue.family
   }
 })
 
@@ -76,31 +81,47 @@ const onKeydown = (e: KeyboardEvent) => {
   } else if (e.key === 'Enter') {
     e.preventDefault()
     if (highlightedIndex.value >= 0 && highlightedIndex.value < total) {
-      selectFamily(filtered.value[highlightedIndex.value].family)
+      pickFamily(filtered.value[highlightedIndex.value])
     }
   } else if (e.key === 'Escape') {
     isOpen.value = false
-    query.value = props.modelValue
   }
 }
 
-const selectFamily = (family: string) => {
-  emit('update:modelValue', family)
-  query.value = family
+const currentFont = computed<Fonts | undefined>(() =>
+  fonts.value.find(f => f.family === props.modelValue.family)
+)
+
+const availableWeights = computed(() => currentFont.value?.weights ?? [])
+const availableItalics = computed(() => currentFont.value?.italics ?? [])
+
+const pickFamily = (font: Fonts) => {
+  emit('update:modelValue', {
+    family: font.family,
+    weight: font.weights[0] ?? 400,
+    italic: false
+  })
   isOpen.value = false
 }
 
 const clearFamily = () => {
-  emit('update:modelValue', '')
+  emit('update:modelValue', { family: '', weight: 400, italic: false })
   query.value = ''
   isOpen.value = false
   nextTick(() => inputRef.value?.focus())
 }
 
+const setWeight = (w: number) => {
+  emit('update:modelValue', { ...props.modelValue, weight: w })
+}
+
+const toggleItalic = () => {
+  emit('update:modelValue', { ...props.modelValue, italic: !props.modelValue.italic })
+}
+
 const onDocClick = (e: MouseEvent) => {
   if (!containerRef.value?.contains(e.target as Node)) {
     isOpen.value = false
-    query.value = props.modelValue
   }
 }
 onMounted(() => document.addEventListener('click', onDocClick))
@@ -116,14 +137,14 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
           ref="inputRef"
           class="form-control form-control-sm font-search-input"
           type="text"
-          :value="isOpen ? query : modelValue"
+          :value="isOpen ? query : modelValue.family"
           placeholder="Buscar fuente..."
           autocomplete="off"
           @input="onInput"
           @focus="onFocus"
           @keydown="onKeydown"
         />
-        <button v-if="modelValue" class="font-clear-btn" type="button" title="Quitar fuente" @click="clearFamily">
+        <button v-if="modelValue.family" class="font-clear-btn" type="button" title="Quitar fuente" @click="clearFamily">
           ×
         </button>
       </div>
@@ -134,16 +155,40 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
           :key="font.family"
           type="button"
           class="font-dropdown-item"
-          :class="{ active: font.family === modelValue, highlighted: highlightedIndex === idx }"
-          @click="selectFamily(font.family)"
+          :class="{ active: font.family === modelValue.family, highlighted: highlightedIndex === idx }"
+          @click="pickFamily(font)"
         >
           <span class="font-dropdown-family">{{ font.family }}</span>
           <span class="font-dropdown-category">
             <span v-for="w in font.weights" :key="w" class="badge bg-secondary me-1">{{ w }}</span>
+            <span v-for="w in (font.italics ?? [])" :key="'i'+w" class="badge bg-primary me-1">{{ w }}i</span>
           </span>
         </button>
         <div v-if="!filtered.length && query.length > 1" class="font-dropdown-empty">Sin resultados</div>
       </div>
+    </div>
+
+    <div v-if="currentFont" class="font-variant-row mt-1">
+      <button
+        v-for="w in availableWeights"
+        :key="w"
+        type="button"
+        class="btn btn-sm"
+        :class="modelValue.weight === w && !modelValue.italic ? 'btn-primary' : 'btn-outline-secondary'"
+        @click="setWeight(w)"
+      >
+        {{ w }}
+      </button>
+      <button
+        v-for="w in availableItalics"
+        :key="'i'+w"
+        type="button"
+        class="btn btn-sm"
+        :class="modelValue.weight === w && modelValue.italic ? 'btn-primary' : 'btn-outline-secondary'"
+        @click="emit('update:modelValue', { family: modelValue.family, weight: w, italic: true })"
+      >
+        {{ w }}i
+      </button>
     </div>
   </div>
 </template>

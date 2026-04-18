@@ -5,9 +5,8 @@ export interface siteOptions {
   lightBackColor: string
   fonts: Fonts[]
   globalFontFamily: Font
-  fontSize: string
-  fontWeight: number
-  lineHeight: string
+  fontSize: number
+  lineHeight: number
   darkMode: boolean
   mobileBP: number
   mobileTextZoom: number
@@ -19,10 +18,12 @@ export interface siteOptions {
 export interface Fonts {
   family: string
   weights: number[]
+  italics?: number[]
 }
 export interface Font {
   family: string
   weight: number
+  italic?: boolean
 }
 
 export const siteOptions: siteOptions = {
@@ -33,16 +34,17 @@ export const siteOptions: siteOptions = {
   fonts: [
     {
       family: 'Montserrat',
-      weights: [400]
+      weights: [400],
+      italics: []
     }
   ],
   globalFontFamily: {
     family: 'Montserrat',
-    weight: 400
+    weight: 400,
+    italic: false
   },
-  fontSize: '1em',
-  fontWeight: 400,
-  lineHeight: '1.4em',
+  fontSize: 1,
+  lineHeight: 1.4,
   darkMode: true,
   mobileBP: 767,
   mobileTextZoom: 3,
