@@ -54,6 +54,7 @@ export const useSectionGrid = (section: () => Section) => {
   }
 
   const shouldShow = computed(() => vp.showGrids || hovered.value)
+  const shouldShowBlocks = computed(() => vp.showBlocks || hovered.value)
 
   let ro: ResizeObserver | null = null
 
@@ -70,5 +71,5 @@ export const useSectionGrid = (section: () => Section) => {
     if (shouldShow.value) nextTick(drawGrid)
   })
 
-  return { sectionRef, canvasRef, bpConfig, gridStyle, hovered, shouldShow, drawGrid }
+  return { sectionRef, canvasRef, bpConfig, gridStyle, hovered, shouldShow, shouldShowBlocks, drawGrid }
 }

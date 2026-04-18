@@ -78,10 +78,10 @@ const blockSettings = () => {
     <div class="blockui move">
       <IconArrowsMaximize size="16" />
     </div>
-    <button class="btn btn-sm btn-link blockui config" @click="blockSettings">
+    <button class="btn btn-sm blockui config" @click="blockSettings">
       <IconSettingsFilled size="18" />
     </button>
-    <button class="btn btn-sm btn-link blockui delete" @click="deleteBlock">
+    <button class="btn btn-sm blockui delete" @click="deleteBlock">
       <IconTrashFilled size="18" />
     </button>
     <div class="blockui resize">

@@ -39,7 +39,8 @@ import {
   IconAlignRight,
   IconHighlight,
   IconX,
-  IconWorldFilled
+  IconWorldFilled,
+  IconBorderAll
 } from '@tabler/icons-vue'
 
 const auth = useAuthStore()
@@ -54,6 +55,7 @@ const { canUndo, canRedo } = storeToRefs(hs)
 
 const vp = viewportStore()
 const toggleGridVisibility = () => (vp.showGrids = !vp.showGrids)
+const toggleBlockVisibility = () => (vp.showBlocks = !vp.showBlocks)
 
 const viewportModes: { mode: ViewportMode; icon: any }[] = [
   { mode: 'mobile', icon: IconDeviceMobileFilled },
@@ -267,8 +269,12 @@ onUnmounted(() => {
           <IconSunHighFilled v-if="site.options.darkMode" :size="24" />
           <IconMoonFilled v-else :size="24" />
         </button>
+
         <button @click="toggleGridVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showGrids }">
           <IconLayoutGridFilled :size="24" />
+        </button>
+        <button @click="toggleBlockVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showBlocks }">
+          <IconBorderAll :size="24" />
         </button>
         <div class="d-flex align-items-center ms-1 border-start ps-1">
           <button

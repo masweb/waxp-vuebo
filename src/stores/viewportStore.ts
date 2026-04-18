@@ -21,11 +21,13 @@ export const viewportStore = defineStore('viewport', () => {
   }
 
   const showGrids: Ref<boolean> = ref(localStorage.getItem('showGrids') === 'true')
+  const showBlocks: Ref<boolean> = ref(localStorage.getItem('showBlocks') === 'true')
 
   watch(showGrids, v => localStorage.setItem('showGrids', String(v)))
+  watch(showBlocks, v => localStorage.setItem('showBlocks', String(v)))
 
   onMounted(() => window.addEventListener('resize', onResize))
   onScopeDispose(() => window.removeEventListener('resize', onResize))
 
-  return { mode, width, forcedMode, mobileBP, tabletBP, desktopWidth, showGrids }
+  return { mode, width, forcedMode, mobileBP, tabletBP, desktopWidth, showGrids, showBlocks }
 })

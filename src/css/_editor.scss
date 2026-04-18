@@ -1,3 +1,7 @@
+$toolColor: #804244;
+$toolColorHover: #b94c47;
+$darkToolColor: #804244;
+$darkToolColorHover: #b94c47;
 .site-editor * {
   /* all: unset; */
   display: revert;
@@ -74,7 +78,7 @@
         min-height: 0;
         overflow: visible;
         contain: size;
-        border: 1px dashed coral;
+        border: 1px dashed transparent;
         position: relative;
 
         &--active {
@@ -137,7 +141,12 @@
         .blockui {
           position: absolute;
           z-index: 5;
-
+          color: $toolColor;
+          opacity: 0;
+          transition: opacity 0.15s ease;
+          &:hover {
+            color: $toolColorHover;
+          }
           &.delete {
             width: 20px;
             height: 20px;
@@ -150,7 +159,7 @@
             height: 20px;
             left: 3px;
             top: 1px;
-            color: coral;
+
             transform: rotate(45deg);
             cursor: move;
           }
@@ -165,12 +174,22 @@
           &.resize {
             width: 20px;
             height: 20px;
-            color: coral;
+
             cursor: nw-resize;
             right: -1px;
             bottom: 1px;
           }
         }
+      }
+
+      &--hovered .block,
+      &--show-blocks .block {
+        border-color: $toolColor;
+      }
+
+      &--hovered .block .blockui,
+      &--show-blocks .block .blockui {
+        opacity: 1;
       }
 
       .drawing-overlay {
@@ -184,6 +203,12 @@
         border-radius: 4px;
       }
       .sectionui {
+        color: $toolColor;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        &:hover {
+          color: $toolColorHover;
+        }
         position: absolute;
         right: -36px;
         &.delete {

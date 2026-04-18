@@ -8,7 +8,7 @@ const stt = settingsStore()
 const pg = pageStore()
 const hs = historyStore()
 const { deactivate } = useTipTap()
-const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(() => props.section)
+const { sectionRef, canvasRef, gridStyle, hovered, shouldShow, shouldShowBlocks } = useSectionGrid(() => props.section)
 
 useNewBlock(sectionRef, () => props.section)
 
@@ -19,7 +19,7 @@ const sectionSettings = () => {
 
 const sectionIndex = computed(() => pg.page?.layout.findIndex(s => s.id === props.section.id) ?? -1)
 const isFirst = computed(() => sectionIndex.value === 0)
-const isLast = computed(() => pg.page ? sectionIndex.value === pg.page.layout.length - 1 : false)
+const isLast = computed(() => (pg.page ? sectionIndex.value === pg.page.layout.length - 1 : false))
 
 const moveUp = () => {
   if (isFirst.value) return
@@ -54,7 +54,7 @@ const deleteSection = () => {
   <div
     ref="sectionRef"
     class="section"
-    :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow }"
+    :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow, 'section--show-blocks': shouldShowBlocks }"
     :style="gridStyle"
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
@@ -62,16 +62,16 @@ const deleteSection = () => {
     <canvas ref="canvasRef" class="section-canvas" />
     <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
     <DrawingOverlay :section="section" :grid-style="gridStyle" />
-    <button class="btn btn-sm btn-link sectionui moveup" :disabled="isFirst" @click="moveUp">
+    <button class="btn btn-sm sectionui moveup" :disabled="isFirst" @click="moveUp">
       <IconArrowBigUpFilled size="22" />
     </button>
-    <button class="btn btn-sm btn-link sectionui movedown" :disabled="isLast" @click="moveDown">
+    <button class="btn btn-sm sectionui movedown" :disabled="isLast" @click="moveDown">
       <IconArrowBigDownFilled size="22" />
     </button>
-    <button @click="sectionSettings()" class="btn btn-sm btn-link sectionui config">
+    <button @click="sectionSettings()" class="btn btn-sm sectionui config">
       <IconSettingsFilled size="22" />
     </button>
-    <button class="btn btn-sm btn-link sectionui delete" @click="deleteSection">
+    <button class="btn btn-sm sectionui delete" @click="deleteSection">
       <IconTrashFilled size="22" />
     </button>
   </div>
