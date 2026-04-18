@@ -94,6 +94,7 @@ const onBodyClick = (e: MouseEvent) => {
   if (t.closest('.block--active')) return
   if (t.closest('.main-bar')) return
   if (t.closest('.editor-dropdown')) return
+  if (t.closest('.setting-pane')) return
   deactivate()
 }
 

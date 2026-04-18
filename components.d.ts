@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppSettings: typeof import('./src/views/AppSettings.vue')['default']
+    BlockSettings: typeof import('./src/components/editor/settings/BlockSettings.vue')['default']
     ColorPicker: typeof import('./src/components/editor/settings/fields/ColorPicker.vue')['default']
     DashBoard: typeof import('./src/views/DashBoard.vue')['default']
     DrawingOverlay: typeof import('./src/components/editor/DrawingOverlay.vue')['default']

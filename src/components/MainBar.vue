@@ -4,6 +4,7 @@ import {
   IconSettingsFilled,
   IconLayoutDashboardFilled,
   IconFileFilled,
+  IconFrame,
   IconSitemapFilled,
   IconSunHighFilled,
   IconMoonFilled,
@@ -37,7 +38,8 @@ import {
   IconAlignLeft,
   IconAlignRight,
   IconHighlight,
-  IconX
+  IconX,
+  IconWorldFilled
 } from '@tabler/icons-vue'
 
 const auth = useAuthStore()
@@ -256,7 +258,7 @@ onUnmounted(() => {
       </button>
       <template v-if="site?.options">
         <button @click="stt.setSetting('SiteSettings')" class="btn btn-sm btn-link">
-          <IconFileFilled :size="24" />
+          <IconWorldFilled :size="24" />
         </button>
         <button @click="stt.setSetting('RoutingSettings')" class="btn btn-sm btn-link">
           <IconSitemapFilled :size="24" />

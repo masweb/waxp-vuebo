@@ -9,6 +9,7 @@ const props = defineProps<{
 
 const ps = pageStore()
 const hs = historyStore()
+const stt = settingsStore()
 const { editor, activate, deactivate, isActive } = useTipTap()
 
 const blockRef = ref<HTMLElement>()
@@ -30,10 +31,11 @@ useResizeBlock(
 const isBlockActive = computed(() => isActive(props.block.id))
 
 const onBlockClick = (e: MouseEvent) => {
-  if (props.block.type !== 'Text') return
   if ((e.target as HTMLElement).closest('.blockui')) return
-  if (!isBlockActive.value) {
-    activate(props.block)
+  if (props.block.type === 'Text') {
+    if (!isBlockActive.value) activate(props.block)
+  } else {
+    ps.setActiveBlock(props.block)
   }
 }
 
@@ -45,6 +47,15 @@ const deleteBlock = () => {
   const { trimRows } = useGridConversion()
   trimRows(props.section)
   ps.setActiveBlock(null)
+}
+
+const blockSettings = () => {
+  if (props.block.type === 'Text') {
+    if (!isBlockActive.value) activate(props.block)
+  } else {
+    ps.setActiveBlock(props.block)
+  }
+  stt.setSetting('BlockSettings')
 }
 </script>
 
@@ -67,7 +78,7 @@ const deleteBlock = () => {
     <div class="blockui move">
       <IconArrowsMaximize size="16" />
     </div>
-    <button class="btn btn-sm btn-link blockui config">
+    <button class="btn btn-sm btn-link blockui config" @click="blockSettings">
       <IconSettingsFilled size="18" />
     </button>
     <button class="btn btn-sm btn-link blockui delete" @click="deleteBlock">
