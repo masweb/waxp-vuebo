@@ -7,7 +7,9 @@ const props = defineProps<{
   section: Section
 }>()
 
-const { editor, activate, isActive } = useTipTap()
+const ps = pageStore()
+const hs = historyStore()
+const { editor, activate, deactivate, isActive } = useTipTap()
 
 const blockRef = ref<HTMLElement>()
 
@@ -34,6 +36,16 @@ const onBlockClick = (e: MouseEvent) => {
     activate(props.block)
   }
 }
+
+const deleteBlock = () => {
+  if (isBlockActive.value) deactivate()
+  hs.snapshot()
+  const idx = props.section.blocks.findIndex(b => b.id === props.block.id)
+  if (idx !== -1) props.section.blocks.splice(idx, 1)
+  const { trimRows } = useGridConversion()
+  trimRows(props.section)
+  ps.setActiveBlock(null)
+}
 </script>
 
 <template>
@@ -58,7 +70,7 @@ const onBlockClick = (e: MouseEvent) => {
     <button class="btn btn-sm btn-link blockui config">
       <IconSettingsFilled size="18" />
     </button>
-    <button class="btn btn-sm btn-link blockui delete">
+    <button class="btn btn-sm btn-link blockui delete" @click="deleteBlock">
       <IconTrashFilled size="18" />
     </button>
     <div class="blockui resize">

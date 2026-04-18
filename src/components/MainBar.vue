@@ -8,9 +8,9 @@ import {
   IconSunHighFilled,
   IconMoonFilled,
   IconLayoutGridFilled,
-  IconDeviceDesktop,
-  IconDeviceMobile,
-  IconDeviceTablet,
+  IconDeviceDesktopFilled,
+  IconDeviceMobileFilled,
+  IconDeviceTabletFilled,
   IconDeviceFloppyFilled,
   IconArrowBackUp,
   IconArrowForward,
@@ -54,9 +54,9 @@ const vp = viewportStore()
 const toggleGridVisibility = () => (vp.showGrids = !vp.showGrids)
 
 const viewportModes: { mode: ViewportMode; icon: any }[] = [
-  { mode: 'mobile', icon: IconDeviceMobile },
-  { mode: 'tablet', icon: IconDeviceTablet },
-  { mode: 'desktop', icon: IconDeviceDesktop }
+  { mode: 'mobile', icon: IconDeviceMobileFilled },
+  { mode: 'tablet', icon: IconDeviceTabletFilled },
+  { mode: 'desktop', icon: IconDeviceDesktopFilled }
 ]
 
 const toggleViewportMode = (mode: ViewportMode) => {
