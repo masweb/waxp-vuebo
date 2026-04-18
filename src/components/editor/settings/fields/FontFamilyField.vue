@@ -10,6 +10,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: Font]
 }>()
 
+const { t } = useI18n()
 const st = siteStore()
 const { site } = storeToRefs(st)
 
@@ -138,13 +139,13 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
           class="form-control form-control-sm font-search-input"
           type="text"
           :value="isOpen ? query : modelValue.family"
-          placeholder="Buscar fuente..."
+          :placeholder="t('fonts.searchPlaceholder')"
           autocomplete="off"
           @input="onInput"
           @focus="onFocus"
           @keydown="onKeydown"
         />
-        <button v-if="modelValue.family" class="font-clear-btn" type="button" title="Quitar fuente" @click="clearFamily">
+        <button v-if="modelValue.family" class="font-clear-btn" type="button" :title="t('fonts.removeFont')" @click="clearFamily">
           ×
         </button>
       </div>
@@ -164,7 +165,7 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
             <span v-for="w in (font.italics ?? [])" :key="'i'+w" class="badge bg-primary me-1">{{ w }}i</span>
           </span>
         </button>
-        <div v-if="!filtered.length && query.length > 1" class="font-dropdown-empty">Sin resultados</div>
+        <div v-if="!filtered.length && query.length > 1" class="font-dropdown-empty">{{ t('common.noResults') }}</div>
       </div>
     </div>
 

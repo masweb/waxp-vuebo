@@ -16,8 +16,9 @@
   "domain": "Dominio",
   "select": "Seleccionar...",
   "section": {
+    "App settings": "Opciones de la aplicación",
     "Dashboard": "Panel de control",
-    "App settings": "Opciones de la aplicación"
+    "options": "Opciones de sección"
   },
   "common": {
     "add": "Añadir",
@@ -97,12 +98,39 @@
     }
   },
   "fonts": {
-    "title": "Tipografías",
     "add": "Añadir fuente",
-    "search": "Buscar en Google Fonts...",
     "change": "Cambiar",
-    "weights": "Pesos",
     "empty": "No hay tipografías cargadas",
-    "globalFont": "Fuente global"
+    "globalFont": "Fuente global",
+    "italic": "Cursiva",
+    "removeFont": "Quitar fuente",
+    "search": "Buscar en Google Fonts...",
+    "searchPlaceholder": "Buscar fuente...",
+    "title": "Tipografías",
+    "weights": "Pesos"
+  },
+  "block": {
+    "options": "Opciones de bloque",
+    "type": "Tipo"
+  },
+  "grid": {
+    "cols": "Columnas",
+    "gap": "Espacio",
+    "rows": "Filas"
+  },
+  "siteSettings": {
+    "title": "Opciones del sitio",
+    "backgroundDark": "Fondo modo oscuro",
+    "backgroundLight": "Fondo modo claro",
+    "colorDark": "Color modo oscuro",
+    "colorLight": "Color modo claro",
+    "desktopWidth": "Ancho escritorio",
+    "mobileBreakpoint": "Punto de corte móvil",
+    "tabletBreakpoint": "Punto de corte tablet"
+  },
+  "viewport": {
+    "desktop": "Escritorio",
+    "mobile": "Móvil",
+    "tablet": "Tablet"
   }
 }

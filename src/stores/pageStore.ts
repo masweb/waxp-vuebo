@@ -23,8 +23,19 @@ export const pageStore = defineStore('page', () => {
     }
   }
 
-  const setActiveSection = (id_section: number) =>
-    (activeSection.value = page.value?.layout.find(section => section.id === id_section) ?? null)
+  const setActiveSection = (id_section: number) => {
+    if (st.site?.options) {
+      if (st.site.options.header?.id === id_section) {
+        activeSection.value = st.site.options.header
+        return
+      }
+      if (st.site.options.footer?.id === id_section) {
+        activeSection.value = st.site.options.footer
+        return
+      }
+    }
+    activeSection.value = page.value?.layout.find(section => section.id === id_section) ?? null
+  }
 
   const setActiveBlock = (block: Block | null) => {
     activeBlock.value = block

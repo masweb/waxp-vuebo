@@ -6,17 +6,18 @@ const pg = pageStore()
 const { activeSection } = storeToRefs(pg)
 const { showsettings } = storeToRefs(stt)
 const hs = historyStore()
+const { t } = useI18n()
 
 const modes: { key: ViewportMode; label: string; icon: any }[] = [
-  { key: 'desktop', label: 'Desktop', icon: IconDeviceDesktop },
-  { key: 'tablet', label: 'Tablet', icon: IconDeviceTablet },
-  { key: 'mobile', label: 'Mobile', icon: IconDeviceMobile }
+  { key: 'desktop', label: t('viewport.desktop'), icon: IconDeviceDesktop },
+  { key: 'tablet', label: t('viewport.tablet'), icon: IconDeviceTablet },
+  { key: 'mobile', label: t('viewport.mobile'), icon: IconDeviceMobile }
 ]
 
 const keys: { key: keyof BreakpointSize; label: string; min: number; max: number }[] = [
-  { key: 'cols', label: 'Cols', min: 1, max: 48 },
-  { key: 'rows', label: 'Rows', min: 0, max: 100 },
-  { key: 'gap', label: 'Gap', min: 0, max: 40 }
+  { key: 'cols', label: t('grid.cols'), min: 1, max: 48 },
+  { key: 'rows', label: t('grid.rows'), min: 0, max: 100 },
+  { key: 'gap', label: t('grid.gap'), min: 0, max: 40 }
 ]
 
 const fieldMap = reactive(new Map<string, any>())
@@ -42,10 +43,11 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
 
 <template>
   <COffcanvasHeader>
-    <COffcanvasTitle>Opciones de sección</COffcanvasTitle>
+    <COffcanvasTitle>{{ t('section.options') }}</COffcanvasTitle>
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody v-if="activeSection">
+    {{ activeSection }}
     <div v-for="m in modes" :key="m.key" class="mb-4">
       <div class="d-flex align-items-center gap-1 mb-2">
         <component :is="m.icon" :size="16" />

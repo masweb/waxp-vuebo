@@ -16,8 +16,9 @@
   "domain": "Domain",
   "select": "Select...",
   "section": {
+    "App settings": "App settings",
     "Dashboard": "Dashboard",
-    "App settings": "App settings"
+    "options": "Section options"
   },
   "common": {
     "add": "Add",
@@ -97,12 +98,39 @@
     }
   },
   "fonts": {
-    "title": "Fonts",
     "add": "Add font",
-    "search": "Search Google Fonts...",
     "change": "Change",
-    "weights": "Weights",
     "empty": "No fonts loaded",
-    "globalFont": "Global font"
+    "globalFont": "Global font",
+    "italic": "Italic",
+    "removeFont": "Remove font",
+    "search": "Search Google Fonts...",
+    "searchPlaceholder": "Search font...",
+    "title": "Fonts",
+    "weights": "Weights"
+  },
+  "block": {
+    "options": "Block options",
+    "type": "Type"
+  },
+  "grid": {
+    "cols": "Columns",
+    "gap": "Gap",
+    "rows": "Rows"
+  },
+  "siteSettings": {
+    "title": "Site options",
+    "backgroundDark": "Background dark",
+    "backgroundLight": "Background light",
+    "colorDark": "Color dark",
+    "colorLight": "Color light",
+    "desktopWidth": "Desktop width",
+    "mobileBreakpoint": "Mobile breakpoint",
+    "tabletBreakpoint": "Tablet breakpoint"
+  },
+  "viewport": {
+    "desktop": "Desktop",
+    "mobile": "Mobile",
+    "tablet": "Tablet"
   }
 }

@@ -6,11 +6,12 @@ const pg = pageStore()
 const { activeBlock } = storeToRefs(pg)
 const { showsettings } = storeToRefs(stt)
 const hs = historyStore()
+const { t } = useI18n()
 
 const modes: { key: ViewportMode; label: string; icon: any }[] = [
-  { key: 'desktop', label: 'Desktop', icon: IconDeviceDesktop },
-  { key: 'tablet', label: 'Tablet', icon: IconDeviceTablet },
-  { key: 'mobile', label: 'Mobile', icon: IconDeviceMobile }
+  { key: 'desktop', label: t('viewport.desktop'), icon: IconDeviceDesktop },
+  { key: 'tablet', label: t('viewport.tablet'), icon: IconDeviceTablet },
+  { key: 'mobile', label: t('viewport.mobile'), icon: IconDeviceMobile }
 ]
 
 const coordsKeys: { key: keyof BlockCoords; label: string; min: number }[] = [
@@ -47,13 +48,13 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
 
 <template>
   <COffcanvasHeader>
-    <COffcanvasTitle>Opciones de bloque</COffcanvasTitle>
+    <COffcanvasTitle>{{ t('block.options') }}</COffcanvasTitle>
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody v-if="activeBlock">
     {{ activeBlock }}
     <div class="mb-3">
-      <label class="small text-secondary">Tipo</label>
+      <label class="small text-secondary">{{ t('block.type') }}</label>
       <div class="fw-semibold">{{ activeBlock.type }}</div>
     </div>
     <div v-for="m in modes" :key="m.key" class="mb-4">

@@ -275,7 +275,7 @@ const weightsForFont = (family: string): number[] => {
         </div>
 
         <div v-if="availableItalics.length > 0" class="mb-2">
-          <label class="small mb-1">Italic</label>
+          <label class="small mb-1">{{ t('fonts.italic') }}</label>
           <div class="d-flex flex-wrap gap-1">
             <button
               v-for="w in availableItalics"
@@ -379,7 +379,7 @@ const weightsForFont = (family: string): number[] => {
             :checked="globalFont.italic ?? false"
             @change="setGlobalFont(globalFont.family, globalFont.weight, ($event.target as HTMLInputElement).checked)"
           />
-          <span class="small">Italic</span>
+          <span class="small">{{ t('fonts.italic') }}</span>
         </label>
       </div>
     </div>

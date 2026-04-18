@@ -3,6 +3,7 @@ import { IconSettingsFilled, IconTrashFilled, IconArrowBigUpFilled, IconArrowBig
 
 const props = defineProps<{
   section: Section
+  fixed?: boolean
 }>()
 const stt = settingsStore()
 const pg = pageStore()
@@ -62,19 +63,19 @@ const deleteSection = () => {
     <canvas ref="canvasRef" class="section-canvas" />
     <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
     <DrawingOverlay :section="section" :grid-style="gridStyle" />
-    <button class="btn btn-sm sectionui moveup" :disabled="isFirst" @click="moveUp">
+    <button v-if="!fixed" class="btn btn-sm sectionui moveup" :disabled="isFirst" @click="moveUp">
       <IconArrowBigUpFilled size="22" />
     </button>
-    <button class="btn btn-sm sectionui movedown" :disabled="isLast" @click="moveDown">
+    <button v-if="!fixed" class="btn btn-sm sectionui movedown" :disabled="isLast" @click="moveDown">
       <IconArrowBigDownFilled size="22" />
     </button>
     <button @click="sectionSettings()" class="btn btn-sm sectionui config">
       <IconSettingsFilled size="22" />
     </button>
-    <button class="btn btn-sm sectionui delete" @click="deleteSection">
+    <button v-if="!fixed" class="btn btn-sm sectionui delete" @click="deleteSection">
       <IconTrashFilled size="22" />
     </button>
   </div>
 
-  <NewSection />
+  <NewSection v-if="!fixed" />
 </template>
