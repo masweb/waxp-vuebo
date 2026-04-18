@@ -6,6 +6,8 @@ const props = defineProps<{
 }>()
 const stt = settingsStore()
 const pg = pageStore()
+const hs = historyStore()
+const { deactivate } = useTipTap()
 const { sectionRef, canvasRef, gridStyle, hovered, shouldShow } = useSectionGrid(() => props.section)
 
 useNewBlock(sectionRef, () => props.section)
@@ -13,6 +15,16 @@ useNewBlock(sectionRef, () => props.section)
 const sectionSettings = () => {
   pg.setActiveSection(props.section.id)
   stt.setSetting('SectionSettings')
+}
+
+const deleteSection = () => {
+  const hasActiveBlock = pg.activeBlock && props.section.blocks.some(b => b.id === pg.activeBlock!.id)
+  if (hasActiveBlock) deactivate()
+  hs.snapshot()
+  const idx = pg.page!.layout.findIndex(s => s.id === props.section.id)
+  if (idx !== -1) pg.page!.layout.splice(idx, 1)
+  pg.setActiveBlock(null)
+  if (pg.activeSection?.id === props.section.id) pg.activeSection = null
 }
 </script>
 
@@ -37,7 +49,7 @@ const sectionSettings = () => {
     <button @click="sectionSettings()" class="btn btn-sm btn-link sectionui config">
       <IconSettingsFilled size="22" />
     </button>
-    <button class="btn btn-sm btn-link sectionui delete">
+    <button class="btn btn-sm btn-link sectionui delete" @click="deleteSection">
       <IconTrashFilled size="22" />
     </button>
   </div>
