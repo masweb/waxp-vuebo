@@ -11,19 +11,26 @@ const dynamicStyle = computed(() => {
   const color = opts.darkMode ? opts.darkColor : opts.lightColor
   const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor
   const gf = opts.globalFontFamily
-  let finalFontSize = opts.fontSize
-  let finalLineHeight = opts.lineHeight
+  let finalFontSize: string | number = opts.fontSize
+  let finalLineHeight: string | number = opts.lineHeight
   let fStyle = 'normal'
-  if (vp.mode == 'desktop' && vp.desktopWidth >= vp.width) {
+
+  const toPx = (base: number, vwAdd: number, width: number) =>
+    (base + vwAdd) * width / 100 + 'px'
+
+  if (vp.mode == 'desktop' && (vp.forcedMode == 'desktop' || (!vp.forcedMode && vp.desktopWidth >= vp.width))) {
     const factor = 1.491 - 0.000965 * vp.desktopWidth
-    finalFontSize = finalFontSize + factor + 'vw'
-    finalLineHeight = finalLineHeight + factor + 'vw'
-  } else if (vp.mode == 'tablet') {
-    finalFontSize = finalFontSize + 0.933 + 'vw'
-    finalLineHeight = finalLineHeight + 0.933 + 'vw'
-  } else if (vp.mode == 'mobile') {
-    finalFontSize = finalFontSize + 3 + 'vw'
-    finalLineHeight = finalLineHeight + 3 + 'vw'
+    const targetWidth = vp.forcedMode ? vp.desktopWidth : vp.width
+    finalFontSize = toPx(opts.fontSize, factor, targetWidth)
+    finalLineHeight = toPx(opts.lineHeight, factor, targetWidth)
+  } else if (vp.mode == 'tablet' || vp.forcedMode == 'tablet') {
+    const targetWidth = vp.forcedMode ? 820 : vp.width
+    finalFontSize = toPx(opts.fontSize, 0.933, targetWidth)
+    finalLineHeight = toPx(opts.lineHeight, 0.933, targetWidth)
+  } else if (vp.mode == 'mobile' || vp.forcedMode == 'mobile') {
+    const targetWidth = vp.forcedMode ? 480 : vp.width
+    finalFontSize = toPx(opts.fontSize, 3, targetWidth)
+    finalLineHeight = toPx(opts.lineHeight, 3, targetWidth)
   } else {
     finalFontSize = opts.fontSize + 'em'
     finalLineHeight = opts.lineHeight + 'em'
