@@ -17,6 +17,28 @@ const sectionSettings = () => {
   stt.setSetting('SectionSettings')
 }
 
+const sectionIndex = computed(() => pg.page?.layout.findIndex(s => s.id === props.section.id) ?? -1)
+const isFirst = computed(() => sectionIndex.value === 0)
+const isLast = computed(() => pg.page ? sectionIndex.value === pg.page.layout.length - 1 : false)
+
+const moveUp = () => {
+  if (isFirst.value) return
+  hs.snapshot()
+  const idx = sectionIndex.value
+  const layout = pg.page!.layout
+  const [section] = layout.splice(idx, 1)
+  layout.splice(idx - 1, 0, section)
+}
+
+const moveDown = () => {
+  if (isLast.value) return
+  hs.snapshot()
+  const idx = sectionIndex.value
+  const layout = pg.page!.layout
+  const [section] = layout.splice(idx, 1)
+  layout.splice(idx + 1, 0, section)
+}
+
 const deleteSection = () => {
   const hasActiveBlock = pg.activeBlock && props.section.blocks.some(b => b.id === pg.activeBlock!.id)
   if (hasActiveBlock) deactivate()
@@ -40,10 +62,10 @@ const deleteSection = () => {
     <canvas ref="canvasRef" class="section-canvas" />
     <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
     <DrawingOverlay :section="section" :grid-style="gridStyle" />
-    <button class="btn btn-sm btn-link sectionui moveup">
+    <button class="btn btn-sm btn-link sectionui moveup" :disabled="isFirst" @click="moveUp">
       <IconArrowBigUpFilled size="22" />
     </button>
-    <button class="btn btn-sm btn-link sectionui movedown">
+    <button class="btn btn-sm btn-link sectionui movedown" :disabled="isLast" @click="moveDown">
       <IconArrowBigDownFilled size="22" />
     </button>
     <button @click="sectionSettings()" class="btn btn-sm btn-link sectionui config">

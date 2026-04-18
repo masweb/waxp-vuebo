@@ -19,6 +19,7 @@
   color: var(--se-color);
   background-color: var(--se-bg-color);
   overflow-x: hidden;
+  overflow-y: hidden;
 
   &.sim-mobile .page-content {
     max-width: 480px !important;
