@@ -25,6 +25,7 @@ const currentView = computed(() => views[nav.main])
 <template>
   <MainBar />
   <div class="main-content">
+    <ModalNewBlock />
     <component :is="currentView" />
   </div>
 </template>

@@ -86,6 +86,7 @@ declare global {
   const useApi: typeof import('./src/composables/useApi').useApi
   const useAttrs: typeof import('vue').useAttrs
   const useAuthStore: typeof import('./src/stores/authStore').useAuthStore
+  const useBlockBase: typeof import('./src/composables/useBlockBase').useBlockBase
   const useBlockGrid: typeof import('./src/composables/useBlockGrid').useBlockGrid
   const useCssModule: typeof import('vue').useCssModule
   const useCssVars: typeof import('vue').useCssVars
@@ -141,7 +142,7 @@ declare global {
   export type { Theme } from './src/composables/useTheme'
   import('./src/composables/useTheme')
   // @ts-ignore
-  export type { EditorMode } from './src/stores/editorStore'
+  export type { EditorMode, BlockType } from './src/stores/editorStore'
   import('./src/stores/editorStore')
   // @ts-ignore
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'

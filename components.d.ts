@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppSettings: typeof import('./src/views/AppSettings.vue')['default']
+    BlockControls: typeof import('./src/components/editor/blocks/BlockControls.vue')['default']
     BlockSettings: typeof import('./src/components/editor/settings/BlockSettings.vue')['default']
     ColorPicker: typeof import('./src/components/editor/settings/fields/ColorPicker.vue')['default']
     DashBoard: typeof import('./src/views/DashBoard.vue')['default']
@@ -20,8 +21,10 @@ declare module 'vue' {
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
     FontFamilyField: typeof import('./src/components/editor/settings/fields/FontFamilyField.vue')['default']
     FontManager: typeof import('./src/components/editor/settings/FontManager.vue')['default']
+    Image: typeof import('./src/components/editor/blocks/Image.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
+    ModalNewBlock: typeof import('./src/components/editor/ModalNewBlock.vue')['default']
     NewSection: typeof import('./src/components/editor/NewSection.vue')['default']
     Nothing: typeof import('./src/components/Nothing.vue')['default']
     PageBlock: typeof import('./src/components/editor/PageBlock.vue')['default']
@@ -41,6 +44,8 @@ declare module 'vue' {
     SiteEditor: typeof import('./src/components/editor/SiteEditor.vue')['default']
     SiteManager: typeof import('./src/components/manager/SiteManager.vue')['default']
     SiteSettings: typeof import('./src/components/editor/settings/SiteSettings.vue')['default']
+    Space: typeof import('./src/components/editor/blocks/Space.vue')['default']
     TableModel: typeof import('./src/components/TableModel.vue')['default']
+    Text: typeof import('./src/components/editor/blocks/Text.vue')['default']
   }
 }

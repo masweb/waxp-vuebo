@@ -54,7 +54,6 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
   const onEnd = async (event: InteractEvent) => {
     if (cancelled || !startCoords || !sectionEl.value || !sectionRect) return
 
-    hs.snapshot()
     const config = getBpConfig()
     const endX = ~~event.clientX - ~~sectionRect.left
     const endY = ~~event.clientY - ~~sectionRect.top
@@ -66,13 +65,18 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
     throttleTimer = null
     dr.resetDrawing()
 
+    const blockType = await editor.requestBlockType()
+    if (!blockType) return
+
+    hs.snapshot()
+
     const sec = section()
     const modeKey = MODE_KEY[vp.mode]
     const resp = await useApi(`/api/sites/${st.site?.id}/blocks/next-id`, { method: 'POST' })
 
     const block: Block = {
       id: resp.id,
-      type: 'Text',
+      type: blockType,
       content: '',
       d: { x: 1, y: 1, w: 1, h: 1 },
       m: { x: 1, y: 1, w: 1, h: 1 },
