@@ -1,7 +1,6 @@
-$toolColor: #804244;
-$toolColorHover: #b94c47;
-$darkToolColor: #804244;
-$darkToolColorHover: #b94c47;
+$toolColor: var(--se-tool-color);
+$toolColorHover: var(--se-tool-color-hover);
+
 .site-editor * {
   /* all: unset; */
   display: revert;

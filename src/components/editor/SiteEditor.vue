@@ -10,6 +10,8 @@ const dynamicStyle = computed(() => {
   if (!opts) return ''
   const color = opts.darkMode ? opts.darkColor : opts.lightColor
   const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor
+  const toolColor = opts.darkMode ? '#804244' : '#abbbc5'
+  const toolColorHover = opts.darkMode ? '#b94c47' : '#93a4ae'
   const gf = opts.globalFontFamily
   let finalFontSize: string | number = opts.fontSize
   let finalLineHeight: string | number = opts.lineHeight
@@ -45,6 +47,8 @@ const dynamicStyle = computed(() => {
   --se-font-weight: ${gf.weight};
   --se-color: ${color};
   --se-bg-color: ${bgColor};
+  --se-tool-color: ${toolColor};
+  --se-tool-color-hover: ${toolColorHover};
   --se-desktop-width: ${opts.desktopWidth}px;
 }`
 })
