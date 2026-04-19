@@ -1,3 +1,5 @@
+import type { siteOptions } from './defaultOptions'
+
 export interface SiteRoute {
   path: string
   page_id: number

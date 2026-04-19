@@ -1,7 +1,7 @@
 export type ColumnAlign = 'start' | 'center' | 'end'
 
 export interface ColumnSchema {
-  key: string
+  key: ·
   label?: string
   align?: ColumnAlign
   required?: boolean

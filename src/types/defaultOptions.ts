@@ -35,6 +35,14 @@ export const siteOptions: siteOptions = {
   lightColor: '#333333',
   darkBackColor: '#111111',
   lightBackColor: '#EEEEEE',
+  fontSize: 1,
+  lineHeight: 1.4,
+  darkMode: true,
+  mobileBP: 767,
+  mobileTextZoom: 3,
+  tabletBP: 1024,
+  tabletTextZoom: 1.5,
+  desktopWidth: 1200,
   header: {
     id: 1,
     blocks: [
@@ -49,7 +57,40 @@ export const siteOptions: siteOptions = {
     ],
     mobile: { gap: 4, cols: 8, rows: 4 },
     tablet: { gap: 6, cols: 20, rows: 4 },
-    desktop: { gap: 8, cols: 24, rows: 4 }
+    desktop: { gap: 6, cols: 24, rows: 4 },
+    style: {
+      maxWidth: null,
+      hideOn: [],
+      background: {
+        mode: 'none',
+        lightColor: '',
+        darkcolorColor: '',
+        url_desk: '',
+        url_mov: '',
+        url_thumb: '',
+        fix_img_back: false,
+        pos: 'img',
+        size: '',
+        repeat: false,
+        lightGradA: '',
+        lightGradB: '',
+        darkGradA: '',
+        darkGradB: '',
+        gradDeg: ''
+      },
+      padding: {
+        t: '0',
+        r: '0',
+        b: '0',
+        l: '0'
+      },
+      margin: {
+        t: '0',
+        r: '0',
+        b: '10px',
+        l: '0'
+      }
+    }
   },
   footer: {
     id: 2,
@@ -65,7 +106,40 @@ export const siteOptions: siteOptions = {
     ],
     mobile: { gap: 4, cols: 8, rows: 4 },
     tablet: { gap: 6, cols: 20, rows: 4 },
-    desktop: { gap: 8, cols: 24, rows: 4 }
+    desktop: { gap: 6, cols: 24, rows: 4 },
+    style: {
+      maxWidth: null,
+      hideOn: [],
+      background: {
+        mode: 'none',
+        lightColor: '',
+        darkcolorColor: '',
+        url_desk: '',
+        url_mov: '',
+        url_thumb: '',
+        fix_img_back: false,
+        pos: 'img',
+        size: '',
+        repeat: false,
+        lightGradA: '',
+        lightGradB: '',
+        darkGradA: '',
+        darkGradB: '',
+        gradDeg: ''
+      },
+      padding: {
+        t: '0',
+        r: '0',
+        b: '0',
+        l: '0'
+      },
+      margin: {
+        t: '0',
+        r: '0',
+        b: '10px',
+        l: '0'
+      }
+    }
   },
   fonts: [
     {
@@ -78,13 +152,5 @@ export const siteOptions: siteOptions = {
     family: 'Montserrat',
     weight: 400,
     italic: false
-  },
-  fontSize: 1,
-  lineHeight: 1.4,
-  darkMode: true,
-  mobileBP: 767,
-  mobileTextZoom: 3,
-  tabletBP: 1024,
-  tabletTextZoom: 1.5,
-  desktopWidth: 1200
+  }
 }

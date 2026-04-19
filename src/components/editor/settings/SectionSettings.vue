@@ -47,6 +47,7 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody v-if="activeSection">
+    <MediaManager />
     {{ activeSection }}
     <div v-for="m in modes" :key="m.key" class="mb-4">
       <div class="d-flex align-items-center gap-1 mb-2">

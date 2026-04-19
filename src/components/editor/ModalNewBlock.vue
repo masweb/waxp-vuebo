@@ -8,16 +8,16 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
 </script>
 <template>
   <CModal :visible="showModalNewBlock" @close="showModalNewBlock = false" alignment="top">
-    <CModalBody class="d-flex justify-content-center gap-1 py-4">
-      <button class="btn btn-secondary d-flex flex-column align-items-center gap-1 px-4 py-3" @click="pick('Text')">
+    <CModalBody class="d-flex justify-content-center py-4 toolsblock">
+      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('Text')">
         <IconTextPlus size="40" stroke-width="1" />
         <small>Texto</small>
       </button>
-      <button class="btn btn-secondary d-flex flex-column align-items-center gap-1 px-4 py-3" @click="pick('Image')">
+      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('Image')">
         <IconPhoto size="40" stroke-width="1" />
         <small>Imagen</small>
       </button>
-      <button class="btn btn-secondary d-flex flex-column align-items-center gap-1 px-4 py-3" @click="pick('Space')">
+      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('Space')">
         <IconSpacingVertical size="40" stroke-width="1" />
         <small>Espacio</small>
       </button>

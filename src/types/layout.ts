@@ -26,6 +26,68 @@ export interface Section {
   mobile: BreakpointSize
   tablet: BreakpointSize
   desktop: BreakpointSize
+  style: SectionStyle
+}
+
+export interface SectionStyle {
+  maxWidth: null | number
+  hideOn: ('mobile' | 'tablet' | 'desktop')[]
+  background: Background
+  // border: Border
+  padding: Sides
+  margin: Sides
+}
+
+export interface Background {
+  mode: 'none' | 'image' | 'color' | 'gradient'
+  lightColor: string
+  darkcolorColor: string
+  url_desk: string
+  url_mov: string
+  url_thumb: string
+  fix_img_back: boolean
+  pos: 'img' | 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'
+  size: string
+  repeat: boolean
+  lightGradA: string
+  lightGradB: string
+  darkGradA: string
+  darkGradB: string
+  gradDeg: string
+}
+
+export interface Border {
+  radius: Corners
+  allBorders: SideBorder
+  sidesBorders?: SidesBorders
+}
+
+export interface SidesBorders {
+  l: SideBorder
+  t: SideBorder
+  r: SideBorder
+  b: SideBorder
+}
+
+export interface SideBorder {
+  active: boolean
+  color: string
+  thick: string
+  mode: 'solid' | 'dashed' | 'dotted' | 'double' | 'groove' | 'ridge' | 'inset' | 'outset' | 'none'
+}
+
+export interface Sides {
+  t: string
+  r: string
+  b: string
+  l: string
+}
+
+export interface Corners {
+  tl: string
+  tr: string
+  br: string
+  bl: string
 }
 
 export type ViewportMode = 'mobile' | 'tablet' | 'desktop'

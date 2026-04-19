@@ -132,5 +132,13 @@
     "desktop": "Desktop",
     "mobile": "Mobile",
     "tablet": "Tablet"
+  },
+  "media": {
+    "title": "Gallery",
+    "upload": "Upload photos",
+    "dropzone": "Drop images here or click to select",
+    "uploading": "Uploading...",
+    "loadMore": "Load more",
+    "items": "items"
   }
 }

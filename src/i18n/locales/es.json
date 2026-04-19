@@ -132,5 +132,13 @@
     "desktop": "Escritorio",
     "mobile": "Móvil",
     "tablet": "Tablet"
+  },
+  "media": {
+    "title": "Galería",
+    "upload": "Subir fotos",
+    "dropzone": "Arrastra imágenes aquí o haz clic para seleccionar",
+    "uploading": "Subiendo...",
+    "loadMore": "Cargar más",
+    "items": "elementos"
   }
 }
