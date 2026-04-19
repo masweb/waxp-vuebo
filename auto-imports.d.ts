@@ -94,6 +94,7 @@ declare global {
   const useFieldArray: typeof import('vee-validate').useFieldArray
   const useFieldError: typeof import('vee-validate').useFieldError
   const useFieldValue: typeof import('vee-validate').useFieldValue
+  const useFontSize: typeof import('./src/composables/useFontSize').useFontSize
   const useForm: typeof import('vee-validate').useForm
   const useFormErrors: typeof import('vee-validate').useFormErrors
   const useFormValues: typeof import('vee-validate').useFormValues

@@ -6,12 +6,21 @@ const props = defineProps<{
   fixed?: boolean
 }>()
 const stt = settingsStore()
+const st = siteStore()
+const vp = viewportStore()
+
 const pg = pageStore()
 const hs = historyStore()
 const { deactivate } = useTipTap()
 const { sectionRef, canvasRef, gridStyle, hovered, shouldShow, shouldShowBlocks } = useSectionGrid(() => props.section)
 
 useNewBlock(sectionRef, () => props.section)
+
+const sectionTargetWidth = computed(() =>
+  props.section.style.maxWidth ?? st.site?.options.desktopWidth
+)
+
+const { computedStyles: sectionFontStyles } = useFontSize(() => sectionTargetWidth.value)
 
 const sectionSettings = () => {
   pg.setActiveSection(props.section.id)
@@ -49,6 +58,17 @@ const deleteSection = () => {
   pg.setActiveBlock(null)
   if (pg.activeSection?.id === props.section.id) pg.activeSection = null
 }
+
+const sectionWidth = computed(() => {
+  if (props.section.style.maxWidth) return 'max-width: ' + props.section.style.maxWidth + 'px;'
+  else return 'max-width: ' + st.site?.options.desktopWidth + 'px;'
+})
+
+const sectionFontVars = computed(() => {
+  const fs = sectionFontStyles.value
+  if (!fs) return ''
+  return `font-size: ${fs.fontSize}; line-height: ${fs.lineHeight};`
+})
 </script>
 
 <template>
@@ -56,7 +76,7 @@ const deleteSection = () => {
     ref="sectionRef"
     class="section"
     :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow, 'section--show-blocks': shouldShowBlocks }"
-    :style="gridStyle"
+    :style="[gridStyle, sectionWidth, sectionFontVars]"
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
   >
