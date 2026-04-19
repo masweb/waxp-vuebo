@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppSettings: typeof import('./src/views/AppSettings.vue')['default']
+    Background: typeof import('./src/components/editor/settings/fields/Background.vue')['default']
     BlockControls: typeof import('./src/components/editor/blocks/BlockControls.vue')['default']
     BlockSettings: typeof import('./src/components/editor/settings/BlockSettings.vue')['default']
     ColorPicker: typeof import('./src/components/editor/settings/fields/ColorPicker.vue')['default']
@@ -48,5 +49,6 @@ declare module 'vue' {
     Space: typeof import('./src/components/editor/blocks/Space.vue')['default']
     TableModel: typeof import('./src/components/TableModel.vue')['default']
     Text: typeof import('./src/components/editor/blocks/Text.vue')['default']
+    TextField: typeof import('./src/components/editor/settings/fields/TextField.vue')['default']
   }
 }

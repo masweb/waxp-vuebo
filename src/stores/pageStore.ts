@@ -2,13 +2,47 @@ export const pageStore = defineStore('page', () => {
   const page: Ref<Page | null> = ref(null)
   const activeSection: Ref<Section | null> = ref(null)
   const activeBlock: Ref<Block | null> = ref(null)
+
+  const _savedSectionId = localStorage.getItem('pageActiveSectionId')
+  const _savedBlockId = localStorage.getItem('pageActiveBlockId')
+
   const st = siteStore()
+
+  const restoreRefs = () => {
+    if (_savedSectionId) {
+      const id = Number(_savedSectionId)
+      if (st.site?.options) {
+        if (st.site.options.header?.id === id) {
+          activeSection.value = st.site.options.header
+        } else if (st.site.options.footer?.id === id) {
+          activeSection.value = st.site.options.footer
+        } else {
+          activeSection.value = page.value?.layout.find(s => s.id === id) ?? null
+        }
+      } else {
+        activeSection.value = page.value?.layout.find(s => s.id === id) ?? null
+      }
+    }
+    if (_savedBlockId) {
+      const bid = Number(_savedBlockId)
+      const block = activeSection.value?.blocks?.find((b: Block) => b.id === bid) ?? null
+      activeBlock.value = block
+    }
+  }
+
+  watch(activeSection, (val) => {
+    localStorage.setItem('pageActiveSectionId', val?.id?.toString() ?? '')
+  })
+  watch(activeBlock, (val) => {
+    localStorage.setItem('pageActiveBlockId', val?.id?.toString() ?? '')
+  })
 
   const getPage = async (pageId: number) => {
     const resp: Page = await useApi(`/api/sites/${st?.site?.id}/pages/${pageId}`).catch(error => error.data as ApiError)
     if (resp.id) {
       page.value = resp
       historyStore().clear(resp.id)
+      restoreRefs()
     }
   }
 

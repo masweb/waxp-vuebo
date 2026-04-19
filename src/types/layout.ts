@@ -18,6 +18,7 @@ export interface Block {
   d: BlockCoords
   m: BlockCoords
   t: BlockCoords
+  style: BlockStyle
 }
 
 export interface Section {
@@ -36,6 +37,12 @@ export interface SectionStyle {
   // border: Border
   padding: Sides
   margin: Sides
+}
+export interface BlockStyle {
+  hideOn: ('mobile' | 'tablet' | 'desktop')[]
+  background: Background
+  border: Border
+  padding: Sides
 }
 
 export interface Background {

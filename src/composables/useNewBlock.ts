@@ -77,10 +77,76 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
     const block: Block = {
       id: resp.id,
       type: blockType,
-      content: '',
+      content: 'Escribe aquí ...',
       d: { x: 1, y: 1, w: 1, h: 1 },
       m: { x: 1, y: 1, w: 1, h: 1 },
-      t: { x: 1, y: 1, w: 1, h: 1 }
+      t: { x: 1, y: 1, w: 1, h: 1 },
+      style: {
+        hideOn: [],
+        background: {
+          mode: 'none',
+          lightColor: '',
+          darkcolorColor: '',
+          url_desk: '',
+          url_mov: '',
+          url_thumb: '',
+          fix_img_back: false,
+          pos: 'img',
+          size: '',
+          repeat: false,
+          lightGradA: '',
+          lightGradB: '',
+          darkGradA: '',
+          darkGradB: '',
+          gradDeg: ''
+        },
+        border: {
+          radius: {
+            tl: '0',
+            tr: '0',
+            br: '0',
+            bl: '0'
+          },
+          allBorders: {
+            active: false,
+            thick: '0',
+            color: 'transparent',
+            mode: 'none'
+          },
+          sidesBorders: {
+            l: {
+              active: false,
+              thick: '0',
+              color: 'transparent',
+              mode: 'none'
+            },
+            t: {
+              active: false,
+              thick: '0',
+              color: 'transparent',
+              mode: 'none'
+            },
+            r: {
+              active: false,
+              thick: '0',
+              color: 'transparent',
+              mode: 'none'
+            },
+            b: {
+              active: false,
+              thick: '0',
+              color: 'transparent',
+              mode: 'none'
+            }
+          }
+        },
+        padding: {
+          t: '0',
+          r: '0',
+          b: '0',
+          l: '0'
+        }
+      }
     }
 
     block[modeKey] = drawnCoords
