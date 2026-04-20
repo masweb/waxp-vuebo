@@ -81,6 +81,7 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
       d: { x: 1, y: 1, w: 1, h: 1 },
       m: { x: 1, y: 1, w: 1, h: 1 },
       t: { x: 1, y: 1, w: 1, h: 1 },
+      ...(blockType === 'Text' ? { color: null, darkColor: null, fontSize: null, lineHeight: null } : {}),
       style: {
         hideOn: [],
         background: {
@@ -91,6 +92,7 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
           url_mov: '',
           url_thumb: '',
           fix_img_back: false,
+          opacity: '',
           pos: 'img',
           size: '',
           repeat: false,

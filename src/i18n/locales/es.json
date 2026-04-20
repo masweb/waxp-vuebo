@@ -117,7 +117,12 @@
   },
   "block": {
     "options": "Opciones de bloque",
-    "type": "Tipo"
+    "type": "Tipo",
+    "colorLight": "Color modo claro",
+    "colorDark": "Color modo oscuro",
+    "fontSize": "Tamaño de fuente",
+    "lineHeight": "Altura de línea",
+    "inherited": "Heredado"
   },
   "grid": {
     "cols": "Columnas",

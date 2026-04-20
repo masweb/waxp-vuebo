@@ -7,7 +7,7 @@ export const useBlockBase = (
   const stt = settingsStore()
 
   const blockRef = ref<HTMLElement>()
-  const { blockStyle, backgroundStyle } = useBlockGrid(block)
+  const { blockStyle, backgroundStyle, textStyle } = useBlockGrid(block, section)
 
   useMoveBlock(blockRef, block, section)
   useResizeBlock(blockRef, block, section)
@@ -29,5 +29,5 @@ export const useBlockBase = (
     stt.setSetting('BlockSettings')
   }
 
-  return { blockRef, blockStyle, backgroundStyle, deleteBlock, blockSettings }
+  return { blockRef, blockStyle, backgroundStyle, textStyle, deleteBlock, blockSettings }
 }

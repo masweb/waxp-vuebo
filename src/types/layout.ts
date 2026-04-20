@@ -19,6 +19,10 @@ export interface Block {
   m: BlockCoords
   t: BlockCoords
   style: BlockStyle
+  color?: null | string
+  darkColor?: null | string
+  fontSize?: null | number
+  lineHeight?: null | number
 }
 
 export interface Section {

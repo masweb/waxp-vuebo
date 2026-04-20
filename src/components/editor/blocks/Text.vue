@@ -11,6 +11,7 @@ const { editor, activate, deactivate, isActive } = useTipTap()
   blockRef,
   blockStyle,
   backgroundStyle,
+  textStyle,
   deleteBlock: baseDelete,
   blockSettings: baseSettings
 } = useBlockBase(
@@ -45,8 +46,10 @@ const blockSettings = () => {
     @click="onBlockClick"
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
-    <EditorContent v-if="isBlockActive" :editor="editor" />
-    <div v-else class="tiptap tiptap-readonly" v-html="block.content" />
+    <div class="block-text-color" :style="textStyle">
+      <EditorContent v-if="isBlockActive" :editor="editor" />
+      <div v-else class="tiptap tiptap-readonly" v-html="block.content" />
+    </div>
 
     <BlockControls :on-delete="deleteBlock" :on-settings="blockSettings" />
   </div>
