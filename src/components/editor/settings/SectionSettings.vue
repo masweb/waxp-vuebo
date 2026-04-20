@@ -71,6 +71,12 @@ const onBackgroundUpdate = (bg: Background) => {
   activeSection.value.style.background = bg
 }
 
+const onSectionBackgroundUpdate = (bg: Background) => {
+  if (!activeSection.value) return
+  hs.snapshot()
+  activeSection.value.style.section_background = bg
+}
+
 const fieldMap = reactive(new Map<string, any>())
 
 const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
@@ -143,6 +149,13 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
           <span class="small">{{ m.label }}</span>
         </button>
       </div>
+    </div>
+    <div v-if="!isFullWidth" class="mb-3">
+      <label class="small fw-semibold d-block mb-2">{{ t('section.rowBackground') }}</label>
+      <BackgroundSettings
+        :background="activeSection.style.section_background ?? { mode: 'none' }"
+        @update="onSectionBackgroundUpdate"
+      />
     </div>
     <BackgroundSettings :background="activeSection.style.background" @update="onBackgroundUpdate" />
     <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">

@@ -19,6 +19,7 @@
     "App settings": "Opciones de la aplicación",
     "Dashboard": "Panel de control",
     "options": "Opciones de sección",
+    "rowBackground": "Fondo de franja (ancho completo)",
     "hideOn": "Ocultar sección en",
     "hidden": "Oculto en {mode}",
     "visible": "Visible en {mode}"

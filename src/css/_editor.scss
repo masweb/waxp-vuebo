@@ -61,9 +61,26 @@ $toolColorHover: var(--se-tool-color-hover);
       border-bottom: 1px dashed;
       border-bottom-color: color-mix(in srgb, var(--se-color) 30%, transparent);
     }
+    .section-row-wrapper {
+      width: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+
+      > .section-bg-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      > .section {
+        position: relative;
+        z-index: 1;
+      }
+    }
     .section {
       border-top: 0;
-
       display: grid;
       width: 100%;
       position: relative;

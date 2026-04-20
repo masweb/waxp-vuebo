@@ -19,6 +19,7 @@
     "App settings": "App settings",
     "Dashboard": "Dashboard",
     "options": "Section options",
+    "rowBackground": "Row background (full width)",
     "hideOn": "Hide section on",
     "hidden": "Hidden on {mode}",
     "visible": "Visible on {mode}"

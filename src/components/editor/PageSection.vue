@@ -33,6 +33,12 @@ const backgroundStyle = useBackgroundStyles(
   () => mode.value
 )
 
+const rowBackgroundStyle = useBackgroundStyles(
+  () => props.section.style.section_background ?? undefined,
+  () => (st.site?.options.darkMode ? 'dark' : 'light'),
+  () => mode.value
+)
+
 const sectionSettings = () => {
   pg.setActiveSection(props.section.id)
   stt.setSetting('SectionSettings')
@@ -84,30 +90,33 @@ const sectionFontVars = computed(() => {
 </script>
 
 <template>
-  <div
-    ref="sectionRef"
-    class="section"
-    :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow, 'section--show-blocks': shouldShowBlocks }"
-    :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style]"
-    @mouseenter="hovered = true"
-    @mouseleave="hovered = false"
-  >
-    <canvas ref="canvasRef" class="section-canvas" />
-    <div v-if="backgroundStyle.overlay" class="section-bg-overlay" :style="backgroundStyle.overlay" />
-    <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
-    <DrawingOverlay :section="section" :grid-style="gridStyle" />
-    <button v-if="!fixed" class="btn btn-sm sectionui moveup" :disabled="isFirst" @click="moveUp">
-      <IconArrowBigUpFilled size="22" />
-    </button>
-    <button v-if="!fixed" class="btn btn-sm sectionui movedown" :disabled="isLast" @click="moveDown">
-      <IconArrowBigDownFilled size="22" />
-    </button>
-    <button @click="sectionSettings()" class="btn btn-sm sectionui config">
-      <IconSettingsFilled size="22" />
-    </button>
-    <button v-if="!fixed" class="btn btn-sm sectionui delete" @click="deleteSection">
-      <IconTrashFilled size="22" />
-    </button>
+  <div class="section-row-wrapper" :style="rowBackgroundStyle.style">
+    <div v-if="rowBackgroundStyle.overlay" class="section-bg-overlay" :style="rowBackgroundStyle.overlay" />
+    <div
+      ref="sectionRef"
+      class="section"
+      :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow, 'section--show-blocks': shouldShowBlocks }"
+      :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style]"
+      @mouseenter="hovered = true"
+      @mouseleave="hovered = false"
+    >
+      <canvas ref="canvasRef" class="section-canvas" />
+      <div v-if="backgroundStyle.overlay" class="section-bg-overlay" :style="backgroundStyle.overlay" />
+      <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
+      <DrawingOverlay :section="section" :grid-style="gridStyle" />
+      <button v-if="!fixed" class="btn btn-sm sectionui moveup" :disabled="isFirst" @click="moveUp">
+        <IconArrowBigUpFilled size="22" />
+      </button>
+      <button v-if="!fixed" class="btn btn-sm sectionui movedown" :disabled="isLast" @click="moveDown">
+        <IconArrowBigDownFilled size="22" />
+      </button>
+      <button @click="sectionSettings()" class="btn btn-sm sectionui config">
+        <IconSettingsFilled size="22" />
+      </button>
+      <button v-if="!fixed" class="btn btn-sm sectionui delete" @click="deleteSection">
+        <IconTrashFilled size="22" />
+      </button>
+    </div>
   </div>
 
   <NewSection v-if="!fixed" />
