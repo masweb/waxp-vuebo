@@ -87,16 +87,28 @@ const sectionFontVars = computed(() => {
   if (!fs) return ''
   return `font-size: ${fs.fontSize}; line-height: ${fs.lineHeight};`
 })
+
+const sectionPadding = computed(() => {
+  const p = props.section.style.padding
+  if (!p) return ''
+  return `padding: ${p.t} ${p.r} ${p.b} ${p.l};`
+})
+
+const sectionMargin = computed(() => {
+  const m = props.section.style.margin
+  if (!m) return ''
+  return `margin: ${m.t} ${m.r} ${m.b} ${m.l};`
+})
 </script>
 
 <template>
-  <div class="section-row-wrapper" :style="rowBackgroundStyle.style">
+  <div class="section-row-wrapper" :style="[rowBackgroundStyle.style, sectionMargin]">
     <div v-if="rowBackgroundStyle.overlay" class="section-bg-overlay" :style="rowBackgroundStyle.overlay" />
     <div
       ref="sectionRef"
       class="section"
       :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow, 'section--show-blocks': shouldShowBlocks }"
-      :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style]"
+      :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style, sectionPadding]"
       @mouseenter="hovered = true"
       @mouseleave="hovered = false"
     >

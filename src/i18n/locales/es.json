@@ -20,6 +20,8 @@
     "Dashboard": "Panel de control",
     "options": "Opciones de sección",
     "rowBackground": "Fondo de franja (ancho completo)",
+    "padding": "Padding",
+    "margin": "Margen",
     "hideOn": "Ocultar sección en",
     "hidden": "Oculto en {mode}",
     "visible": "Visible en {mode}"

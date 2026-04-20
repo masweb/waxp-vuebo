@@ -20,6 +20,8 @@
     "Dashboard": "Dashboard",
     "options": "Section options",
     "rowBackground": "Row background (full width)",
+    "padding": "Padding",
+    "margin": "Margin",
     "hideOn": "Hide section on",
     "hidden": "Hidden on {mode}",
     "visible": "Visible on {mode}"

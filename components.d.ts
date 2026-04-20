@@ -46,6 +46,7 @@ declare module 'vue' {
     SectionSettings: typeof import('./src/components/editor/settings/SectionSettings.vue')['default']
     SettingsPane: typeof import('./src/components/editor/SettingsPane.vue')['default']
     SettingsPanel: typeof import('./src/components/editor/SettingsPanel.vue')['default']
+    SidesField: typeof import('./src/components/editor/settings/fields/SidesField.vue')['default']
     SiteEditor: typeof import('./src/components/editor/SiteEditor.vue')['default']
     SiteManager: typeof import('./src/components/manager/SiteManager.vue')['default']
     SiteSettings: typeof import('./src/components/editor/settings/SiteSettings.vue')['default']

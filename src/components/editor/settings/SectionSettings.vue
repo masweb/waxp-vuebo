@@ -7,7 +7,8 @@ import {
   IconEyeOff,
   IconLayoutColumns,
   IconLayoutRows,
-  IconBoxMargin
+  IconBoxMargin,
+  IconBoxPadding
 } from '@tabler/icons-vue'
 
 const stt = settingsStore()
@@ -75,6 +76,18 @@ const onSectionBackgroundUpdate = (bg: Background) => {
   if (!activeSection.value) return
   hs.snapshot()
   activeSection.value.style.section_background = bg
+}
+
+const onPaddingUpdate = (sides: Sides) => {
+  if (!activeSection.value) return
+  hs.snapshot()
+  activeSection.value.style.padding = sides
+}
+
+const onMarginUpdate = (sides: Sides) => {
+  if (!activeSection.value) return
+  hs.snapshot()
+  activeSection.value.style.margin = sides
 }
 
 const fieldMap = reactive(new Map<string, any>())
@@ -158,6 +171,16 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
       />
     </div>
     <BackgroundSettings :background="activeSection.style.background" @update="onBackgroundUpdate" />
+    <SidesField
+      :modelValue="activeSection.style.padding"
+      :label="t('section.padding')"
+      @update:modelValue="onPaddingUpdate"
+    />
+    <SidesField
+      :modelValue="activeSection.style.margin"
+      :label="t('section.margin')"
+      @update:modelValue="onMarginUpdate"
+    />
     <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">
       <thead>
         <tr>
