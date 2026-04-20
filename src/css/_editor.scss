@@ -286,6 +286,10 @@ $toolColorHover: var(--se-tool-color-hover);
   transition: 0.3s ease-in-out;
 }
 
+.editor-dropdown {
+  z-index: 9999;
+}
+
 .toolsblock {
   button.btn {
     border-radius: 3px;

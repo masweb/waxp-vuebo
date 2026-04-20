@@ -30,7 +30,6 @@ import {
   IconList,
   IconListNumbers,
   IconMinus,
-  IconPalette,
   IconStrikethrough,
   IconUnderline,
   IconAlignCenter,
@@ -140,49 +139,10 @@ const toggleListsDropdown = () => {
   listsOpen.value = !listsOpen.value
 }
 
-const colorOpen = ref(false)
-const colorBtn = ref<HTMLElement | null>(null)
-const colorMenuStyle = ref<Record<string, string>>({})
+const currentColor = computed(() => editor.getAttributes('textStyle').color || '')
 
-const COLORS = [
-  '#000000',
-  '#374151',
-  '#6b7280',
-  '#9ca3af',
-  '#ffffff',
-  '#ef4444',
-  '#f97316',
-  '#eab308',
-  '#22c55e',
-  '#3b82f6',
-  '#8b5cf6',
-  '#ec4899',
-  '#06b6d4',
-  '#14b8a6',
-  '#84cc16',
-  '#dc2626',
-  '#ea580c',
-  '#ca8a04',
-  '#16a34a',
-  '#2563eb'
-]
-
-const toggleColorPicker = () => {
-  if (!colorOpen.value && colorBtn.value) {
-    const r = colorBtn.value.getBoundingClientRect()
-    colorMenuStyle.value = { position: 'fixed', top: `${r.bottom + 4}px`, left: `${r.left}px`, zIndex: '9999' }
-  }
-  colorOpen.value = !colorOpen.value
-}
-
-const pickColor = (color: string) => {
+const onPickerColor = (color: string) => {
   editor.chain().focus().setColor(color).run()
-  colorOpen.value = false
-}
-
-const clearColor = () => {
-  editor.chain().focus().unsetColor().run()
-  colorOpen.value = false
 }
 
 const linkOpen = ref(false)
@@ -431,9 +391,7 @@ onUnmounted(() => {
           <IconLinkOff :size="20" stroke-width="1.2" />
         </button>
       </div>
-      <button ref="colorBtn" type="button" class="btn btn-sm btn-link" @click.stop="toggleColorPicker">
-        <IconPalette :size="20" stroke-width="1.2" :style="{ color: editor.getAttributes('textStyle').color }" />
-      </button>
+      <ColorPicker :color="currentColor" @update:color="onPickerColor" />
       <button type="button" class="btn btn-sm btn-link" @click="closeEditor">
         <IconX :size="18" stroke-width="1.5" />
       </button>
@@ -534,29 +492,6 @@ onUnmounted(() => {
           />
           <button type="submit" class="btn btn-sm btn-primary">OK</button>
         </form>
-      </div>
-    </Teleport>
-    <Teleport to="body">
-      <div v-if="colorOpen" :style="colorMenuStyle" class="editor-dropdown border rounded shadow-sm bg-body p-2">
-        <div class="d-flex flex-wrap gap-1" style="width: 134px">
-          <button
-            v-for="c in COLORS"
-            :key="c"
-            type="button"
-            class="color-swatch"
-            :style="{
-              background: c,
-              outline:
-                editor.getAttributes('textStyle').color === c
-                  ? '2px solid var(--bs-primary)'
-                  : '1px solid var(--bs-border-color)'
-            }"
-            @click="pickColor(c)"
-          />
-        </div>
-        <button type="button" class="btn btn-sm btn-link px-0 mt-1 text-secondary small" @click="clearColor">
-          {{ t('editor.color.none') }}
-        </button>
       </div>
     </Teleport>
 

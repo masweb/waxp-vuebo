@@ -173,7 +173,7 @@ export const siteOptions: siteOptions = {
       margin: {
         t: '0',
         r: '0',
-        b: '10px',
+        b: '6px',
         l: '0'
       }
     }
@@ -308,7 +308,7 @@ export const siteOptions: siteOptions = {
       margin: {
         t: '0',
         r: '0',
-        b: '10px',
+        b: '6px',
         l: '0'
       }
     }
