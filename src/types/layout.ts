@@ -57,7 +57,7 @@ export interface Background {
   darkcolorColor: string
   url_desk: string
   url_mov: string
-  url_thumb: string
+  url_tab: string
   opacity: string
   fix_img_back: boolean
   pos: 'img' | 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'

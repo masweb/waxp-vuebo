@@ -2,6 +2,7 @@ export const pageStore = defineStore('page', () => {
   const page: Ref<Page | null> = ref(null)
   const activeSection: Ref<Section | null> = ref(null)
   const activeBlock: Ref<Block | null> = ref(null)
+  const openNewSectionId: Ref<number | null> = ref(null)
 
   const _savedSectionId = localStorage.getItem('pageActiveSectionId')
   const _savedBlockId = localStorage.getItem('pageActiveBlockId')
@@ -79,6 +80,7 @@ export const pageStore = defineStore('page', () => {
     page,
     activeSection,
     activeBlock,
+    openNewSectionId,
     getPage,
     updatePage,
     setActiveSection,

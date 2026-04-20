@@ -81,9 +81,10 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
         <IconX :size="14" />
       </button>
     </div>
-    <button v-else class="btn btn-sm btn-outline-secondary" @click="toggle">
-      <IconPhoto :size="14" class="me-1" />
-      {{ t('background.selectImage') }}
+    <button v-else class="btn btn-sm btn-outline-secondary d-flex align-items-center" @click="toggle">
+      <slot name="icon">
+        <IconPhoto :size="14" />
+      </slot>
     </button>
     <div v-if="open" class="media-picker-dropdown">
       <div v-if="loading" class="text-center py-3">

@@ -152,6 +152,10 @@
     "loadMore": "Load more",
     "items": "items"
   },
+  "newSection": {
+    "add": "New section",
+    "paste": "Paste section"
+  },
   "background": {
     "mode": "Background mode",
     "color": "Color",
@@ -165,8 +169,8 @@
     "gradDarkB": "Dark gradient end",
     "degrees": "Angle",
     "desktopImage": "Desktop image",
+    "tabletImage": "Tablet image",
     "mobileImage": "Mobile image",
-    "thumbnail": "Thumbnail",
     "fixed": "Fixed background",
     "position": "Position",
     "repeat": "Repeat",

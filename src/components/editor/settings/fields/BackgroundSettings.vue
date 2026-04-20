@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { IconPhoto, IconColorSwatch, IconBleachNoChlorine } from '@tabler/icons-vue'
+import {
+  IconPhoto,
+  IconColorSwatch,
+  IconBleachNoChlorine,
+  IconDeviceDesktop,
+  IconDeviceTablet,
+  IconDeviceMobile
+} from '@tabler/icons-vue'
 
 const props = defineProps<{
   background: Background
@@ -39,7 +46,7 @@ const currentMode = computed(() => props.background.mode)
   <div>
     <div class="mb-3">
       <label class="d-block mb-2">{{ t('background.mode') }}</label>
-      <div class="d-flex gap-2">
+      <div class="d-flex">
         <button
           v-for="opt in modeOptions"
           :key="opt.key"
@@ -47,7 +54,7 @@ const currentMode = computed(() => props.background.mode)
           :class="currentMode === opt.key ? 'btn-primary' : 'btn-outline-secondary'"
           @click="patch({ mode: opt.key })"
         >
-          <component :is="opt.icon" v-if="opt.icon" :size="22" class="me-1" />
+          <component :is="opt.icon" v-if="opt.icon" :size="22" class="me-0" />
           {{ opt.label }}
         </button>
       </div>
@@ -103,18 +110,30 @@ const currentMode = computed(() => props.background.mode)
     </div>
 
     <div v-if="currentMode === 'image'" class="mb-3">
-      <label class="d-block mb-1">{{ t('background.desktopImage') }}</label>
-      <MediaPicker :url="background.url_desk" @select="patch({ url_desk: $event })" @clear="patch({ url_desk: '' })" />
-
-      <label class="d-block mb-1 mt-2">{{ t('background.mobileImage') }}</label>
-      <MediaPicker :url="background.url_mov" @select="patch({ url_mov: $event })" @clear="patch({ url_mov: '' })" />
-
-      <label class="d-block mb-1 mt-2">{{ t('background.thumbnail') }}</label>
-      <MediaPicker
-        :url="background.url_thumb"
-        @select="patch({ url_thumb: $event })"
-        @clear="patch({ url_thumb: '' })"
-      />
+      <div class="d-flex gap-2">
+        <div class="text-center d-flex flex-column align-items-center">
+          <MediaPicker
+            :url="background.url_desk"
+            @select="patch({ url_desk: $event })"
+            @clear="patch({ url_desk: '' })"
+          >
+            <template #icon><IconDeviceDesktop :size="20" /></template>
+          </MediaPicker>
+          <div class="small text-muted mt-1">{{ t('background.desktopImage') }}</div>
+        </div>
+        <div class="text-center d-flex flex-column align-items-center">
+          <MediaPicker :url="background.url_tab" @select="patch({ url_tab: $event })" @clear="patch({ url_tab: '' })">
+            <template #icon><IconDeviceTablet :size="20" /></template>
+          </MediaPicker>
+          <div class="small text-muted mt-1">{{ t('background.tabletImage') }}</div>
+        </div>
+        <div class="text-center d-flex flex-column align-items-center">
+          <MediaPicker :url="background.url_mov" @select="patch({ url_mov: $event })" @clear="patch({ url_mov: '' })">
+            <template #icon><IconDeviceMobile :size="20" /></template>
+          </MediaPicker>
+          <div class="small text-muted mt-1">{{ t('background.mobileImage') }}</div>
+        </div>
+      </div>
 
       <div class="mt-2">
         <div class="d-flex align-items-center justify-content-between mb-2">

@@ -152,6 +152,10 @@
     "loadMore": "Cargar más",
     "items": "elementos"
   },
+  "newSection": {
+    "add": "Nueva sección",
+    "paste": "Pegar sección"
+  },
   "background": {
     "mode": "Modo de fondo",
     "color": "Color",
@@ -165,8 +169,8 @@
     "gradDarkB": "Fin degradado oscuro",
     "degrees": "Ángulo",
     "desktopImage": "Imagen escritorio",
+    "tabletImage": "Imagen tablet",
     "mobileImage": "Imagen móvil",
-    "thumbnail": "Miniatura",
     "fixed": "Fondo fijo",
     "position": "Posición",
     "repeat": "Repetir",

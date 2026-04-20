@@ -20,7 +20,7 @@ onMounted(loadPage)
 watch(() => props.pageId, loadPage)
 </script>
 <template>
-  <div class="page-content">
+  <div class="page-content" :class="{ 'hide-helpers': !vp.showBlocks }">
     <PageSection v-if="st.site?.options?.header" :section="st.site.options.header" fixed />
     <NewSection />
     <PageSection v-for="section in visibleSections" :key="section.id" :section="section" />
