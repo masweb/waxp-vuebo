@@ -18,7 +18,10 @@
   "section": {
     "App settings": "App settings",
     "Dashboard": "Dashboard",
-    "options": "Section options"
+    "options": "Section options",
+    "hideOn": "Hide section on",
+    "hidden": "Hidden on {mode}",
+    "visible": "Visible on {mode}"
   },
   "common": {
     "add": "Add",

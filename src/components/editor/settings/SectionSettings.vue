@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconDeviceMobile, IconDeviceTablet, IconDeviceDesktop } from '@tabler/icons-vue'
+import { IconDeviceMobile, IconDeviceTablet, IconDeviceDesktop, IconEye, IconEyeOff } from '@tabler/icons-vue'
 
 const stt = settingsStore()
 const pg = pageStore()
@@ -40,6 +40,21 @@ const keys: { key: keyof BreakpointSize; label: string; min: number; max: number
   { key: 'rows', label: t('grid.rows'), min: 0, max: 100 },
   { key: 'gap', label: t('grid.gap'), min: 0, max: 40 }
 ]
+
+const isHidden = (mode: ViewportMode) => activeSection.value?.style.hideOn?.includes(mode) ?? false
+
+const toggleHideOn = (mode: ViewportMode) => {
+  if (!activeSection.value) return
+  hs.snapshot()
+  const arr = activeSection.value.style.hideOn ?? []
+  const idx = arr.indexOf(mode)
+  if (idx === -1 && arr.length < 2) {
+    arr.push(mode)
+  } else if (idx !== -1) {
+    arr.splice(idx, 1)
+  }
+  activeSection.value.style.hideOn = arr
+}
 
 const fieldMap = reactive(new Map<string, any>())
 
@@ -97,6 +112,22 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
           }
         "
       />
+    </div>
+    <div class="mb-3">
+      <label class="small fw-semibold d-block mb-2">{{ t('section.hideOn') }}</label>
+      <div class="d-flex gap-2">
+        <button
+          v-for="m in modes"
+          :key="m.key"
+          class="btn btn-sm"
+          :class="isHidden(m.key) ? 'btn-outline-warning' : 'btn-outline-secondary'"
+          @click="toggleHideOn(m.key)"
+          :title="isHidden(m.key) ? t('section.hidden', { mode: m.label }) : t('section.visible', { mode: m.label })"
+        >
+          <component :is="isHidden(m.key) ? IconEyeOff : IconEye" :size="16" class="me-1" />
+          <span class="small">{{ m.label }}</span>
+        </button>
+      </div>
     </div>
     <div v-for="m in modes" :key="m.key" class="mb-4">
       <div class="d-flex align-items-center gap-1 mb-2">
