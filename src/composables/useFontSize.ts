@@ -1,4 +1,4 @@
-export const useFontSize = (targetWidth: () => number | undefined) => {
+export const useFontSize = (targetWidth: () => number | undefined, fullWidth?: () => boolean) => {
   const st = siteStore()
   const vp = viewportStore()
 
@@ -12,10 +12,15 @@ export const useFontSize = (targetWidth: () => number | undefined) => {
     const tw = targetWidth()
     if (tw == null) return null
 
+    const fw = fullWidth?.() ?? false
     let finalFontSize: string | number = opts.fontSize
     let finalLineHeight: string | number = opts.lineHeight
 
-    if (vp.mode === 'desktop' && (vp.forcedMode === 'desktop' || (!vp.forcedMode && tw >= vp.width))) {
+    if (fw && vp.mode === 'desktop') {
+      const factor = 1.491 - 0.000965 * tw
+      finalFontSize = toPx(opts.fontSize, factor, vp.width)
+      finalLineHeight = toPx(opts.lineHeight, factor, vp.width)
+    } else if (vp.mode === 'desktop' && (vp.forcedMode === 'desktop' || (!vp.forcedMode && tw >= vp.width))) {
       const factor = 1.491 - 0.000965 * tw
       const effectiveWidth = vp.forcedMode ? tw : vp.width
       finalFontSize = toPx(opts.fontSize, factor, effectiveWidth)

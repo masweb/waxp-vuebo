@@ -10,8 +10,18 @@ const { site } = storeToRefs(st)
 const hs = historyStore()
 const { t } = useI18n()
 
+const isFullWidth = computed({
+  get: () => activeSection.value?.style.fullWidth ?? false,
+  set: (v: boolean) => {
+    if (!activeSection.value) return
+    hs.snapshot()
+    activeSection.value.style.fullWidth = v
+    if (v) activeSection.value.style.maxWidth = null
+  }
+})
+
 const hasMaxWidth = computed({
-  get: () => activeSection.value?.style.maxWidth !== null,
+  get: () => !isFullWidth.value && activeSection.value?.style.maxWidth !== null,
   set: (v: boolean) => {
     if (!activeSection.value) return
     hs.snapshot()
@@ -63,6 +73,12 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
     <!-- {{ activeSection }} -->
 
     <div class="mb-3">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <label class="small fw-semibold mb-0">Full width</label>
+        <CFormSwitch :checked="isFullWidth" @change="isFullWidth = !isFullWidth" />
+      </div>
+    </div>
+    <div v-if="!isFullWidth" class="mb-3">
       <div class="d-flex align-items-center justify-content-between mb-2">
         <label class="small fw-semibold mb-0">Section max width</label>
         <CFormSwitch :checked="hasMaxWidth" @change="hasMaxWidth = !hasMaxWidth" />

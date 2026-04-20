@@ -32,6 +32,7 @@ export interface Section {
 
 export interface SectionStyle {
   maxWidth: null | number
+  fullWidth: boolean
   hideOn: ('mobile' | 'tablet' | 'desktop')[]
   background: Background
   // border: Border

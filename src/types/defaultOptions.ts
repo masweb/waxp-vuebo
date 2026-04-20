@@ -126,6 +126,7 @@ export const siteOptions: siteOptions = {
     desktop: { gap: 6, cols: 24, rows: 4 },
     style: {
       maxWidth: null,
+      fullWidth: false,
       hideOn: [],
       background: {
         mode: 'none',
@@ -241,6 +242,7 @@ export const siteOptions: siteOptions = {
     desktop: { gap: 6, cols: 24, rows: 4 },
     style: {
       maxWidth: null,
+      fullWidth: false,
       hideOn: [],
       background: {
         mode: 'none',

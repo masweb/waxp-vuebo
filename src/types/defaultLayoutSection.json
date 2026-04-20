@@ -5,6 +5,7 @@
   "desktop": { "cols": 24, "rows": 12, "gap": 6 },
   "style": {
     "maxWidth": null,
+    "fullWidth": false,
     "hideOn": [],
     "background": {
       "mode": "none",

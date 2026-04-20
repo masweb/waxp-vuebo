@@ -20,7 +20,10 @@ const sectionTargetWidth = computed(() =>
   props.section.style.maxWidth ?? st.site?.options.desktopWidth
 )
 
-const { computedStyles: sectionFontStyles } = useFontSize(() => sectionTargetWidth.value)
+const { computedStyles: sectionFontStyles } = useFontSize(
+  () => sectionTargetWidth.value,
+  () => props.section.style.fullWidth
+)
 
 const sectionSettings = () => {
   pg.setActiveSection(props.section.id)
@@ -60,8 +63,9 @@ const deleteSection = () => {
 }
 
 const sectionWidth = computed(() => {
+  if (props.section.style.fullWidth) return ''
   if (props.section.style.maxWidth) return 'max-width: ' + props.section.style.maxWidth + 'px;'
-  else return 'max-width: ' + st.site?.options.desktopWidth + 'px;'
+  return 'max-width: ' + st.site?.options.desktopWidth + 'px;'
 })
 
 const sectionFontVars = computed(() => {
