@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconDeviceMobile, IconDeviceTablet, IconDeviceDesktop } from '@tabler/icons-vue'
+import { IconDeviceMobile, IconDeviceTablet, IconDeviceDesktop, IconArrowsHorizontal, IconArrowsVertical, IconLayoutColumns, IconLayoutRows } from '@tabler/icons-vue'
 
 const stt = settingsStore()
 const pg = pageStore()
@@ -8,17 +8,23 @@ const { showsettings } = storeToRefs(stt)
 const hs = historyStore()
 const { t } = useI18n()
 
+const onBackgroundUpdate = (bg: Background) => {
+  if (!activeBlock.value) return
+  hs.snapshot()
+  activeBlock.value.style.background = bg
+}
+
 const modes: { key: ViewportMode; label: string; icon: any }[] = [
   { key: 'desktop', label: t('viewport.desktop'), icon: IconDeviceDesktop },
   { key: 'tablet', label: t('viewport.tablet'), icon: IconDeviceTablet },
   { key: 'mobile', label: t('viewport.mobile'), icon: IconDeviceMobile }
 ]
 
-const coordsKeys: { key: keyof BlockCoords; label: string; min: number }[] = [
-  { key: 'x', label: 'X', min: 1 },
-  { key: 'y', label: 'Y', min: 1 },
-  { key: 'w', label: 'W', min: 1 },
-  { key: 'h', label: 'H', min: 1 }
+const coordsKeys: { key: keyof BlockCoords; icon: any; min: number }[] = [
+  { key: 'x', icon: IconArrowsHorizontal, min: 1 },
+  { key: 'y', icon: IconArrowsVertical, min: 1 },
+  { key: 'w', icon: IconLayoutColumns, min: 1 },
+  { key: 'h', icon: IconLayoutRows, min: 1 }
 ]
 
 const fieldMap = reactive(new Map<string, any>())
@@ -52,27 +58,37 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody v-if="activeBlock">
-    {{ activeBlock }}
+    <!-- {{ activeBlock }} -->
     <div class="mb-3">
       <label class="small text-secondary">{{ t('block.type') }}</label>
       <div class="fw-semibold">{{ activeBlock.type }}</div>
     </div>
-    <div v-for="m in modes" :key="m.key" class="mb-4">
-      <div class="d-flex align-items-center gap-1 mb-2">
-        <component :is="m.icon" :size="16" />
-        <span class="fw-semibold small">{{ m.label }}</span>
-      </div>
-      <div v-for="k in coordsKeys" :key="k.key" class="d-flex align-items-center gap-2 mb-1">
-        <label class="small text-secondary mb-0" style="min-width: 2.5rem">{{ k.label }}</label>
-        <input
-          type="number"
-          class="form-control form-control-sm"
-          style="width: 4.5rem"
-          :value="getField(m.key, k.key).value"
-          :min="k.min"
-          @input="getField(m.key, k.key).value = Number(($event.target as HTMLInputElement).value)"
-        />
-      </div>
-    </div>
+    <BackgroundSettings :background="activeBlock.style.background" @update="onBackgroundUpdate" />
+    <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th style="width: 2rem"></th>
+          <th v-for="m in modes" :key="m.key" class="text-center px-1">
+            <component :is="m.icon" :size="16" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="k in coordsKeys" :key="k.key">
+          <td class="text-center">
+            <component :is="k.icon" :size="16" />
+          </td>
+          <td v-for="m in modes" :key="m.key" class="px-1">
+            <input
+              type="number"
+              class="form-control form-control-sm text-center"
+              :value="getField(m.key, k.key).value"
+              :min="k.min"
+              @input="getField(m.key, k.key).value = Number(($event.target as HTMLInputElement).value)"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </COffcanvasBody>
 </template>

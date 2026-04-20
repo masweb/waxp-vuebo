@@ -86,6 +86,7 @@ declare global {
   const useApi: typeof import('./src/composables/useApi').useApi
   const useAttrs: typeof import('vue').useAttrs
   const useAuthStore: typeof import('./src/stores/authStore').useAuthStore
+  const useBackgroundStyles: typeof import('./src/composables/useBackgroundStyles').useBackgroundStyles
   const useBlockBase: typeof import('./src/composables/useBlockBase').useBlockBase
   const useBlockGrid: typeof import('./src/composables/useBlockGrid').useBlockGrid
   const useCssModule: typeof import('vue').useCssModule

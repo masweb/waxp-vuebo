@@ -4,7 +4,7 @@ const props = defineProps<{
   section: Section
 }>()
 
-const { blockRef, blockStyle, deleteBlock, blockSettings } = useBlockBase(
+const { blockRef, blockStyle, backgroundStyle, deleteBlock, blockSettings } = useBlockBase(
   () => props.block,
   () => props.section
 )
@@ -12,6 +12,7 @@ const { blockRef, blockStyle, deleteBlock, blockSettings } = useBlockBase(
 
 <template>
   <div ref="blockRef" class="block" :style="blockStyle">
+    <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     Spacer
     <BlockControls :on-delete="deleteBlock" :on-settings="blockSettings" />
   </div>

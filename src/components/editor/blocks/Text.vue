@@ -7,9 +7,10 @@ const props = defineProps<{
 }>()
 
 const { editor, activate, deactivate, isActive } = useTipTap()
-const {
+  const {
   blockRef,
   blockStyle,
+  backgroundStyle,
   deleteBlock: baseDelete,
   blockSettings: baseSettings
 } = useBlockBase(
@@ -43,6 +44,7 @@ const blockSettings = () => {
     :style="blockStyle"
     @click="onBlockClick"
   >
+    <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <EditorContent v-if="isBlockActive" :editor="editor" />
     <div v-else class="tiptap tiptap-readonly" v-html="block.content" />
 

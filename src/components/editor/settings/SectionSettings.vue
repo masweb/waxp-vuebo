@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { IconDeviceMobile, IconDeviceTablet, IconDeviceDesktop, IconEye, IconEyeOff } from '@tabler/icons-vue'
+import {
+  IconDeviceMobile,
+  IconDeviceTablet,
+  IconDeviceDesktop,
+  IconEye,
+  IconEyeOff,
+  IconLayoutColumns,
+  IconLayoutRows,
+  IconBoxMargin
+} from '@tabler/icons-vue'
 
 const stt = settingsStore()
 const pg = pageStore()
@@ -35,10 +44,10 @@ const modes: { key: ViewportMode; label: string; icon: any }[] = [
   { key: 'mobile', label: t('viewport.mobile'), icon: IconDeviceMobile }
 ]
 
-const keys: { key: keyof BreakpointSize; label: string; min: number; max: number }[] = [
-  { key: 'cols', label: t('grid.cols'), min: 1, max: 48 },
-  { key: 'rows', label: t('grid.rows'), min: 0, max: 100 },
-  { key: 'gap', label: t('grid.gap'), min: 0, max: 40 }
+const keys: { key: keyof BreakpointSize; icon: any; min: number; max: number }[] = [
+  { key: 'cols', icon: IconLayoutColumns, min: 1, max: 48 },
+  { key: 'rows', icon: IconLayoutRows, min: 0, max: 100 },
+  { key: 'gap', icon: IconBoxMargin, min: 0, max: 40 }
 ]
 
 const isHidden = (mode: ViewportMode) => activeSection.value?.style.hideOn?.includes(mode) ?? false
@@ -54,6 +63,12 @@ const toggleHideOn = (mode: ViewportMode) => {
     arr.splice(idx, 1)
   }
   activeSection.value.style.hideOn = arr
+}
+
+const onBackgroundUpdate = (bg: Background) => {
+  if (!activeSection.value) return
+  hs.snapshot()
+  activeSection.value.style.background = bg
 }
 
 const fieldMap = reactive(new Map<string, any>())
@@ -98,7 +113,7 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
         <label class="small fw-semibold mb-0">Section max width</label>
         <CFormSwitch :checked="hasMaxWidth" @change="hasMaxWidth = !hasMaxWidth" />
       </div>
-      <SectionRange
+      <NumberRange
         v-if="hasMaxWidth"
         :modelValue="activeSection?.style.maxWidth ?? site?.options.desktopWidth ?? 1200"
         :min="site?.options.tabletBP ?? 767"
@@ -129,23 +144,33 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
         </button>
       </div>
     </div>
-    <div v-for="m in modes" :key="m.key" class="mb-4">
-      <div class="d-flex align-items-center gap-1 mb-2">
-        <component :is="m.icon" :size="16" />
-        <span class="fw-semibold small">{{ m.label }}</span>
-      </div>
-      <div v-for="k in keys" :key="k.key" class="d-flex align-items-center gap-2 mb-1">
-        <label class="small text-secondary mb-0" style="min-width: 2.5rem">{{ k.label }}</label>
-        <input
-          type="number"
-          class="form-control form-control-sm"
-          style="width: 4.5rem"
-          :value="getField(m.key, k.key).value"
-          :min="k.min"
-          :max="k.max"
-          @input="getField(m.key, k.key).value = Number(($event.target as HTMLInputElement).value)"
-        />
-      </div>
-    </div>
+    <BackgroundSettings :background="activeSection.style.background" @update="onBackgroundUpdate" />
+    <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th style="width: 2rem"></th>
+          <th v-for="m in modes" :key="m.key" class="text-center px-1">
+            <component :is="m.icon" :size="16" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="k in keys" :key="k.key">
+          <td class="text-center">
+            <component :is="k.icon" :size="16" />
+          </td>
+          <td v-for="m in modes" :key="m.key" class="px-1">
+            <input
+              type="number"
+              class="form-control form-control-sm text-center"
+              :value="getField(m.key, k.key).value"
+              :min="k.min"
+              :max="k.max"
+              @input="getField(m.key, k.key).value = Number(($event.target as HTMLInputElement).value)"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </COffcanvasBody>
 </template>

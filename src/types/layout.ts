@@ -53,6 +53,7 @@ export interface Background {
   url_desk: string
   url_mov: string
   url_thumb: string
+  opacity: string
   fix_img_back: boolean
   pos: 'img' | 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'
   size: string

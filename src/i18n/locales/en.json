@@ -143,5 +143,26 @@
     "uploading": "Uploading...",
     "loadMore": "Load more",
     "items": "items"
+  },
+  "background": {
+    "mode": "Background mode",
+    "color": "Color",
+    "gradient": "Gradient",
+    "image": "Image",
+    "lightColor": "Light color",
+    "darkColor": "Dark color",
+    "gradLightA": "Light gradient start",
+    "gradLightB": "Light gradient end",
+    "gradDarkA": "Dark gradient start",
+    "gradDarkB": "Dark gradient end",
+    "degrees": "Angle",
+    "desktopImage": "Desktop image",
+    "mobileImage": "Mobile image",
+    "thumbnail": "Thumbnail",
+    "fixed": "Fixed background",
+    "position": "Position",
+    "repeat": "Repeat",
+    "opacity": "Opacity",
+    "selectImage": "Select image"
   }
 }

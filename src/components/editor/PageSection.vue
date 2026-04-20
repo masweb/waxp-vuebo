@@ -25,6 +25,14 @@ const { computedStyles: sectionFontStyles } = useFontSize(
   () => props.section.style.fullWidth
 )
 
+const { mode } = storeToRefs(vp)
+
+const backgroundStyle = useBackgroundStyles(
+  () => props.section.style.background,
+  () => (st.site?.options.darkMode ? 'dark' : 'light'),
+  () => mode.value
+)
+
 const sectionSettings = () => {
   pg.setActiveSection(props.section.id)
   stt.setSetting('SectionSettings')
@@ -80,11 +88,12 @@ const sectionFontVars = computed(() => {
     ref="sectionRef"
     class="section"
     :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow, 'section--show-blocks': shouldShowBlocks }"
-    :style="[gridStyle, sectionWidth, sectionFontVars]"
+    :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style]"
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
   >
     <canvas ref="canvasRef" class="section-canvas" />
+    <div v-if="backgroundStyle.overlay" class="section-bg-overlay" :style="backgroundStyle.overlay" />
     <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
     <DrawingOverlay :section="section" :grid-style="gridStyle" />
     <button v-if="!fixed" class="btn btn-sm sectionui moveup" :disabled="isFirst" @click="moveUp">

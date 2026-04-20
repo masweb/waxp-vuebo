@@ -135,6 +135,7 @@ export const siteOptions: siteOptions = {
         url_desk: '',
         url_mov: '',
         url_thumb: '',
+        opacity: '1',
         fix_img_back: false,
         pos: 'img',
         size: '',

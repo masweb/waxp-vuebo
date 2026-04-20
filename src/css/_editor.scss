@@ -88,6 +88,13 @@ $toolColorHover: var(--se-tool-color-hover);
         transition: opacity 0.15s ease;
       }
 
+      .section-bg-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+
       &--hovered .section-canvas,
       &--show-grid .section-canvas {
         opacity: 1;
@@ -100,6 +107,14 @@ $toolColorHover: var(--se-tool-color-hover);
         contain: size;
         border: 1px dashed transparent;
         position: relative;
+
+        .block-bg-overlay {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          border-radius: inherit;
+        }
 
         &--active {
           border-color: var(--cui-primary);

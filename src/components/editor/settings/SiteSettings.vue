@@ -35,7 +35,11 @@ const updateOption = (key: string, value: number) => {
       :color="site?.options.lightBackColor"
       @update:color="updateColor('lightBackColor', $event)"
     />
-    <ColorPicker :label="t('siteSettings.colorDark')" :color="site?.options.darkColor" @update:color="updateColor('darkColor', $event)" />
+    <ColorPicker
+      :label="t('siteSettings.colorDark')"
+      :color="site?.options.darkColor"
+      @update:color="updateColor('darkColor', $event)"
+    />
     <ColorPicker
       :label="t('siteSettings.backgroundDark')"
       :color="site?.options.darkBackColor"
@@ -44,21 +48,21 @@ const updateOption = (key: string, value: number) => {
 
     <FontManager />
 
-    <SectionRange
+    <NumberRange
       :modelValue="site?.options.desktopWidth ?? 1200"
       :label="t('siteSettings.desktopWidth')"
       :min="site?.options.tabletBP ?? 767"
       :max="2000"
       @update:modelValue="updateOption('desktopWidth', $event)"
     />
-    <SectionRange
+    <NumberRange
       :modelValue="site?.options.tabletBP ?? 1024"
       :label="t('siteSettings.tabletBreakpoint')"
       :min="site?.options.mobileBP ?? 767"
       :max="site?.options.desktopWidth ?? 1200"
       @update:modelValue="updateOption('tabletBP', $event)"
     />
-    <SectionRange
+    <NumberRange
       :modelValue="site?.options.mobileBP ?? 767"
       :label="t('siteSettings.mobileBreakpoint')"
       :min="320"

@@ -143,5 +143,26 @@
     "uploading": "Subiendo...",
     "loadMore": "Cargar más",
     "items": "elementos"
+  },
+  "background": {
+    "mode": "Modo de fondo",
+    "color": "Color",
+    "gradient": "Degradado",
+    "image": "Imagen",
+    "lightColor": "Color claro",
+    "darkColor": "Color oscuro",
+    "gradLightA": "Inicio degradado claro",
+    "gradLightB": "Fin degradado claro",
+    "gradDarkA": "Inicio degradado oscuro",
+    "gradDarkB": "Fin degradado oscuro",
+    "degrees": "Ángulo",
+    "desktopImage": "Imagen escritorio",
+    "mobileImage": "Imagen móvil",
+    "thumbnail": "Miniatura",
+    "fixed": "Fondo fijo",
+    "position": "Posición",
+    "repeat": "Repetir",
+    "opacity": "Opacidad",
+    "selectImage": "Seleccionar imagen"
   }
 }
