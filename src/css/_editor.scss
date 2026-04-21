@@ -283,3 +283,7 @@ $toolColorHover: var(--se-tool-color-hover);
     margin-right: 1px;
   }
 }
+.mx-context-menu-item.disabled {
+  padding-top: 0;
+  padding-bottom: 4px;
+}

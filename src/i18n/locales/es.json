@@ -152,6 +152,10 @@
     "loadMore": "Cargar más",
     "items": "elementos"
   },
+  "contextMenu": {
+    "block": "Bloque",
+    "section": "Sección"
+  },
   "newSection": {
     "add": "Nueva sección",
     "copy": "Copiar sección",

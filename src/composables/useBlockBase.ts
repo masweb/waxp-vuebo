@@ -7,7 +7,8 @@ export const useBlockBase = (block: () => Block, section: () => Section) => {
   const ps = pageStore()
   const hs = historyStore()
   const stt = settingsStore()
-  const { isDark, effectiveTheme } = useTheme()
+  const { effectiveTheme } = useTheme()
+  const { t } = useI18n()
 
   const blockRef = ref<HTMLElement>()
   const { blockStyle, backgroundStyle, textStyle } = useBlockGrid(block, section)
@@ -42,8 +43,16 @@ export const useBlockBase = (block: () => Block, section: () => Section) => {
       theme,
       items: [
         {
+          label: t('contextMenu.block'),
+          disabled: true,
+          clickClose: false,
+          preserveIconWidth: false,
+          attrs: { style: 'padding-top: 0; padding-bottom: 0; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6;' }
+        },
+        {
           label: 'Configurar',
           icon: h(IconSettingsFilled, { size: 20 }),
+          divided: 'up',
           onClick: () => blockSettings()
         },
         {

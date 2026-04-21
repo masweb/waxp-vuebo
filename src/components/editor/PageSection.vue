@@ -1,13 +1,30 @@
 <script lang="ts" setup>
+import { h } from 'vue'
 import { IconSettingsFilled } from '@tabler/icons-vue'
+import {
+  IconSettings,
+  IconCopy,
+  IconClipboard,
+  IconArrowBigUp,
+  IconArrowBigDown,
+  IconTrash,
+  IconPlus
+} from '@tabler/icons-vue'
+import ContextMenu from '@imengyu/vue3-context-menu'
+import { useTheme } from '@/composables/useTheme'
+
 const props = defineProps<{
   section: Section
   fixed?: boolean
 }>()
 const st = siteStore()
 const vp = viewportStore()
+const hs = historyStore()
 
 const pg = pageStore()
+const { effectiveTheme } = useTheme()
+const { t } = useI18n()
+
 const { sectionRef, canvasRef, gridStyle, hovered, shouldShow, shouldShowBlocks } = useSectionGrid(() => props.section)
 
 useNewBlock(sectionRef, () => props.section)
@@ -38,6 +55,141 @@ const sectionSettings = () => {
   settingsStore().setSetting('SectionSettings')
 }
 
+const sectionIndex = computed(() => {
+  if (!pg.page) return -1
+  return pg.page.layout.findIndex(s => s.id === props.section.id)
+})
+
+const isFirst = computed(() => sectionIndex.value === 0)
+const isLast = computed(() => (pg.page ? sectionIndex.value === pg.page.layout.length - 1 : false))
+
+const copySection = () => {
+  pg.clipboardSection = JSON.parse(JSON.stringify(props.section))
+}
+
+const moveUp = () => {
+  if (isFirst.value || !pg.page) return
+  hs.snapshot()
+  const idx = sectionIndex.value
+  const layout = pg.page.layout
+  const [section] = layout.splice(idx, 1)
+  layout.splice(idx - 1, 0, section)
+}
+
+const moveDown = () => {
+  if (isLast.value || !pg.page) return
+  hs.snapshot()
+  const idx = sectionIndex.value
+  const layout = pg.page.layout
+  const [section] = layout.splice(idx, 1)
+  layout.splice(idx + 1, 0, section)
+}
+
+const deleteSection = () => {
+  if (!pg.page) return
+  const hasActiveBlock = pg.activeBlock && props.section.blocks.some(b => b.id === pg.activeBlock!.id)
+  if (hasActiveBlock) {
+    const { deactivate } = useTipTap()
+    deactivate()
+  }
+  hs.snapshot()
+  const idx = pg.page.layout.findIndex(s => s.id === props.section.id)
+  if (idx !== -1) pg.page.layout.splice(idx, 1)
+  pg.setActiveBlock(null)
+  if (pg.activeSection?.id === props.section.id) pg.activeSection = null
+}
+
+const addSection = async () => {
+  if (!pg.page) return
+  hs.snapshot()
+  const resp = await useApi(`/api/sites/${st.site?.id}/sections/next-id`, { method: 'POST' })
+  const newSection = createSection(resp.id)
+  const insertAt = pg.page.layout.findIndex(s => s.id === props.section.id) + 1
+  pg.page.layout.splice(insertAt, 0, newSection)
+}
+
+const pasteSection = async () => {
+  if (!pg.page || !pg.clipboardSection) return
+  hs.snapshot()
+  const resp = await useApi(`/api/sites/${st.site?.id}/sections/next-id`, { method: 'POST' })
+  const pasted: Section = JSON.parse(JSON.stringify(pg.clipboardSection))
+  pasted.id = resp.id
+  for (const block of pasted.blocks) {
+    const bResp = await useApi(`/api/sites/${st.site?.id}/blocks/next-id`, { method: 'POST' })
+    block.id = bResp.id
+  }
+  const insertAt = pg.page.layout.findIndex(s => s.id === props.section.id) + 1
+  pg.page.layout.splice(insertAt, 0, pasted)
+}
+
+const onContextMenu = (e: MouseEvent) => {
+  if ((e.target as HTMLElement).closest('.block')) return
+  e.preventDefault()
+  const theme = effectiveTheme.value === 'dark' ? 'dark' : 'default'
+  const items: any[] = []
+
+  items.push({
+    label: t('contextMenu.section'),
+    disabled: true,
+    clickClose: false,
+    preserveIconWidth: false,
+    attrs: { style: 'padding-top: 0; padding-bottom: 0; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6;' }
+  })
+
+  items.push(
+    {
+      label: t('newSection.settings'),
+      icon: h(IconSettings, { size: 16 }),
+      divided: 'up',
+      onClick: () => sectionSettings()
+    },
+    {
+      label: t('newSection.copy'),
+      icon: h(IconCopy, { size: 16 }),
+      onClick: () => copySection()
+    }
+  )
+
+  if (pg.clipboardSection) {
+    items.push({
+      label: t('newSection.paste'),
+      icon: h(IconClipboard, { size: 16 }),
+      onClick: () => pasteSection()
+    })
+  }
+
+  if (!isFirst.value) {
+    items.push({
+      label: t('newSection.moveUp'),
+      icon: h(IconArrowBigUp, { size: 16 }),
+      onClick: () => moveUp()
+    })
+  }
+
+  if (!isLast.value) {
+    items.push({
+      label: t('newSection.moveDown'),
+      icon: h(IconArrowBigDown, { size: 16 }),
+      onClick: () => moveDown()
+    })
+  }
+
+  items.push(
+    {
+      label: t('newSection.delete'),
+      icon: h(IconTrash, { size: 16 }),
+      onClick: () => deleteSection()
+    },
+    {
+      label: t('newSection.add'),
+      icon: h(IconPlus, { size: 16 }),
+      onClick: () => addSection()
+    }
+  )
+
+  ContextMenu.showContextMenu({ x: e.x, y: e.y, theme, items })
+}
+
 const sectionWidth = computed(() => {
   if (props.section.style.fullWidth) return ''
   if (props.section.style.maxWidth) return 'max-width: ' + props.section.style.maxWidth + 'px;'
@@ -64,7 +216,7 @@ const sectionMargin = computed(() => {
 </script>
 
 <template>
-  <div class="section-row-wrapper" :style="[rowBackgroundStyle.style, sectionMargin]">
+  <div class="section-row-wrapper" :style="[rowBackgroundStyle.style, sectionMargin]" @contextmenu="onContextMenu">
     <div v-if="rowBackgroundStyle.overlay" class="section-bg-overlay" :style="rowBackgroundStyle.overlay" />
     <div
       ref="sectionRef"
