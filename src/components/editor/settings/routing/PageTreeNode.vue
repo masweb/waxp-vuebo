@@ -7,6 +7,7 @@ const props = defineProps<{
   page: Page
   depth?: number
   parentPath?: string
+  activeLocale?: string
 }>()
 
 const emit = defineEmits<{
@@ -17,21 +18,22 @@ const emit = defineEmits<{
 
 const expanded = ref(false)
 const router = useRouter()
-const { locale } = useI18n()
+const { locale: i18nLocale } = useI18n()
+const currentLocale = computed(() => props.activeLocale || i18nLocale.value)
 
 const isRoot = computed(() => props.page.parent_id === null && props.page.slugs.some(s => s.slug === ''))
 
 const displayName = computed(() => {
   if (isRoot.value) {
-    const seo = props.page.seo.find(s => s.locale_code === locale.value)
+    const seo = props.page.seo.find(s => s.locale_code === currentLocale.value)
     return seo?.title || '/'
   }
-  const seo = props.page.seo.find(s => s.locale_code === locale.value)
+  const seo = props.page.seo.find(s => s.locale_code === currentLocale.value)
   if (seo?.title) return seo.title
   return slug.value || `#${props.page.id}`
 })
 
-const slug = computed(() => props.page.slugs.find(s => s.locale_code === locale.value)?.slug ?? '')
+const slug = computed(() => props.page.slugs.find(s => s.locale_code === currentLocale.value)?.slug ?? '')
 
 const displaySlug = computed(() => (isRoot.value ? '' : slug.value || '—'))
 
@@ -49,13 +51,13 @@ const toggle = () => {
 }
 
 const navigateToPage = async () => {
-  const routeName = `${locale.value}-${props.page.id}`
+  const routeName = `${currentLocale.value}-${props.page.id}`
   if (!router.hasRoute(routeName)) {
     router.addRoute({
       path: fullPath.value,
       name: routeName,
       component: RouterContent,
-      props: { pageId: props.page.id, pagePath: fullPath.value, locale: locale.value }
+      props: { pageId: props.page.id, pagePath: fullPath.value, locale: currentLocale.value }
     })
   }
   await router.push({ name: routeName })
@@ -114,6 +116,7 @@ const navigateToPage = async () => {
         :page="child"
         :depth="(depth || 0) + 1"
         :parent-path="fullPath"
+        :active-locale="activeLocale"
         @edit="emit('edit', $event)"
         @add-child="emit('addChild', $event)"
         @delete="emit('delete', $event)"

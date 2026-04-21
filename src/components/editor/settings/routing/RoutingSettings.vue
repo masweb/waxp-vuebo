@@ -12,18 +12,35 @@ const pages = ref<Page[]>([])
 const loading = ref(false)
 const formState = ref<{ mode: 'edit' | 'create'; page?: Page; parentId?: number | null } | null>(null)
 const confirmDelete = ref<Page | null>(null)
+const activeLocale = ref('')
 
 const localeCodes = computed(() => {
   const locs: any[] = st.site?.locales || []
   return locs.map(l => (typeof l === 'string' ? l : l.code))
 })
 
-const buildTree = (flatPages: Page[]): Page[] => {
+const defaultLocale = computed(() => {
+  const locs: any[] = st.site?.locales || []
+  const def = locs.find(l => typeof l !== 'string' && l.is_default)
+  return def ? (def as any).code : locs[0] || ''
+})
+
+watch(defaultLocale, (val) => {
+  if (val && !activeLocale.value) activeLocale.value = val
+}, { immediate: true })
+
+const routesByLocale = computed(() => st.site?.routes || {} as Record<string, { path: string; page_id: number }[]>)
+
+const buildTree = (flatPages: Page[], locale: string): Page[] => {
+  const routes = routesByLocale.value[locale] || []
+  const allowedIds = new Set(routes.map(r => r.page_id))
   const map = new Map<number, Page>()
   const roots: Page[] = []
 
   for (const p of flatPages) {
-    map.set(p.id, { ...p, children: [] })
+    if (allowedIds.has(p.id)) {
+      map.set(p.id, { ...p, children: [] })
+    }
   }
 
   for (const p of map.values()) {
@@ -37,7 +54,9 @@ const buildTree = (flatPages: Page[]): Page[] => {
   return roots
 }
 
-const tree = computed(() => buildTree(pages.value))
+const tree = computed(() => buildTree(pages.value, activeLocale.value))
+
+const routeCountForLocale = (loc: string) => (routesByLocale.value[loc] || []).length
 
 const loadPages = async () => {
   loading.value = true
@@ -137,8 +156,21 @@ onMounted(loadPages)
         </div>
       </div>
 
+      <ul v-if="localeCodes.length > 1" class="nav nav-tabs mb-2" style="font-size: 0.75rem">
+        <li v-for="loc in localeCodes" :key="loc" class="nav-item">
+          <button
+            class="nav-link py-1 px-2"
+            :class="{ active: activeLocale === loc }"
+            @click="activeLocale = loc"
+          >
+            {{ loc.toUpperCase() }}
+            <span class="text-secondary ms-1" style="font-size: 0.65rem">({{ routeCountForLocale(loc) }})</span>
+          </button>
+        </li>
+      </ul>
+
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <small class="text-secondary fw-semibold">{{ pages.length }} {{ t('pages.routes').toLowerCase() }}</small>
+        <small class="text-secondary fw-semibold">{{ routeCountForLocale(activeLocale) }} {{ t('pages.routes').toLowerCase() }}</small>
         <button class="btn btn-sm btn-outline-primary" @click="handleAddRoot">
           <IconPlus :size="14" class="me-1" />
           {{ t('pages.addRoot') }}
@@ -150,6 +182,7 @@ onMounted(loadPages)
           v-for="page in tree"
           :key="page.id"
           :page="page"
+          :active-locale="activeLocale"
           @edit="handleEdit"
           @add-child="handleAddChild"
           @delete="handleDelete"

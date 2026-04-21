@@ -43,8 +43,8 @@ const iconColor = computed(() => {
   <div ref="blockRef" class="block darkmode-block" :style="blockStyle" @contextmenu="onContextMenu">
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <button class="darkmode-toggle" :style="{ color: iconColor }" @click.stop="toggleDarkMode">
-      <IconSunFilled v-if="!isDark" :size="iconSize" />
-      <IconMoonFilled v-else :size="iconSize" />
+      <IconMoonFilled v-if="!isDark" :size="iconSize" />
+      <IconSunFilled v-else :size="iconSize" />
     </button>
     <div class="blockui resize"></div>
   </div>
