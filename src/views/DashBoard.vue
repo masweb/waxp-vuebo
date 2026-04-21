@@ -10,5 +10,10 @@ if (!auth.isAuthenticated) nav.main = 'login'
   <div class="container mt-4">
     <h4>{{ t('section.Dashboard') }}</h4>
     <SiteManager class="mt-3" />
+    <div class="row">
+      <div class="col-8">
+        <MediaManager class="mt-3" />
+      </div>
+    </div>
   </div>
 </template>

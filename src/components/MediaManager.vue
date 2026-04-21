@@ -11,7 +11,7 @@ import {
 
 const { t } = useI18n()
 const apiBase = import.meta.env.VITE_END_POINT
-const PAGE_SIZE = 9
+const PAGE_SIZE = 12
 
 interface MediaItem {
   id: number
@@ -19,6 +19,7 @@ interface MediaItem {
   mime_type: string
   size: number
   url: string
+  thumbnail_url: string | null
   created_at: string
 }
 
@@ -153,7 +154,7 @@ onMounted(() => fetchMedia())
           <div v-for="item in pageItems" :key="item.id" class="gallery-item">
             <div class="gallery-thumb">
               <img
-                :src="imgUrl(item.url)"
+                :src="imgUrl(item.thumbnail_url || item.url)"
                 :alt="item.filename"
                 :title="`${item.filename} · ${formatSize(item.size)}`"
                 loading="lazy"
