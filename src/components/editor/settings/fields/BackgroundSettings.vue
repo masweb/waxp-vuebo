@@ -8,9 +8,13 @@ import {
   IconDeviceMobile
 } from '@tabler/icons-vue'
 
-const props = defineProps<{
-  background: Background
-}>()
+const props = withDefaults(
+  defineProps<{
+    background: Background
+    allowedModes?: Background['mode'][]
+  }>(),
+  { allowedModes: () => ['none', 'color', 'gradient', 'image'] as Background['mode'][] }
+)
 
 const emit = defineEmits<{
   (e: 'update', bg: Background): void
@@ -18,12 +22,16 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-const modeOptions: { key: Background['mode']; label: string; icon: any }[] = [
+const allModeOptions: { key: Background['mode']; label: string; icon: any }[] = [
   { key: 'none', label: t('editor.color.none'), icon: null },
   { key: 'color', label: t('background.color'), icon: IconColorSwatch },
   { key: 'gradient', label: t('background.gradient'), icon: IconBleachNoChlorine },
   { key: 'image', label: t('background.image'), icon: IconPhoto }
 ]
+
+const modeOptions = computed(() =>
+  allModeOptions.filter(opt => props.allowedModes.includes(opt.key))
+)
 
 const posOptions: { key: Background['pos']; label: string }[] = [
   { key: 'img', label: 'Original' },
@@ -40,11 +48,21 @@ const patch = (partial: Partial<Background>) => {
 }
 
 const currentMode = computed(() => props.background.mode)
+
+watch(
+  () => props.allowedModes,
+  (modes) => {
+    if (modes.length === 1 && props.background.mode !== modes[0]) {
+      patch({ mode: modes[0] })
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
   <div>
-    <div class="mb-3">
+    <div v-if="modeOptions.length > 1" class="mb-3">
       <label class="d-block mb-2">{{ t('background.mode') }}</label>
       <div class="d-flex btn-group">
         <button

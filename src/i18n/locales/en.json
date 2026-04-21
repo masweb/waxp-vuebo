@@ -122,7 +122,11 @@
     "colorDark": "Color dark",
     "fontSize": "Font size",
     "lineHeight": "Line height",
-    "inherited": "Inherited"
+    "inherited": "Inherited",
+    "divider": "Divider line",
+    "dividerColor": "Line color",
+    "dividerThick": "Line thickness",
+    "dividerStyle": "Line style"
   },
   "grid": {
     "cols": "Columns",

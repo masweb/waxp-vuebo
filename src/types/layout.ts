@@ -23,6 +23,7 @@ export interface Block {
   darkColor?: null | string
   fontSize?: null | number
   lineHeight?: null | number
+  divider?: SideBorder
 }
 
 export interface Section {

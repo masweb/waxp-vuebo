@@ -51,8 +51,10 @@ declare module 'vue' {
     SiteManager: typeof import('./src/components/manager/SiteManager.vue')['default']
     SiteSettings: typeof import('./src/components/editor/settings/SiteSettings.vue')['default']
     Space: typeof import('./src/components/editor/blocks/Space.vue')['default']
+    SpaceSettings: typeof import('./src/components/editor/settings/blocks/SpaceSettings.vue')['default']
     TableModel: typeof import('./src/components/TableModel.vue')['default']
     Text: typeof import('./src/components/editor/blocks/Text.vue')['default']
     TextField: typeof import('./src/components/editor/settings/fields/TextField.vue')['default']
+    TextSettings: typeof import('./src/components/editor/settings/blocks/TextSettings.vue')['default']
   }
 }

@@ -82,6 +82,7 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
       m: { x: 1, y: 1, w: 1, h: 1 },
       t: { x: 1, y: 1, w: 1, h: 1 },
       ...(blockType === 'Text' ? { color: null, darkColor: null, fontSize: null, lineHeight: null } : {}),
+      ...(blockType === 'Space' ? { divider: { active: false, color: '#cccccc', thick: '1', mode: 'solid' as const } } : {}),
       style: {
         hideOn: [],
         background: {

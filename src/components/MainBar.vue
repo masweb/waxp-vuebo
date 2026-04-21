@@ -9,7 +9,6 @@ import {
   IconSunHighFilled,
   IconMoonFilled,
   IconLayoutGridFilled,
-  IconDeviceDesktopFilled,
   IconDeviceMobileFilled,
   IconDeviceTabletFilled,
   IconDeviceFloppyFilled,
@@ -58,8 +57,7 @@ const toggleBlockVisibility = () => (vp.showBlocks = !vp.showBlocks)
 
 const viewportModes: { mode: ViewportMode; icon: any }[] = [
   { mode: 'mobile', icon: IconDeviceMobileFilled },
-  { mode: 'tablet', icon: IconDeviceTabletFilled },
-  { mode: 'desktop', icon: IconDeviceDesktopFilled }
+  { mode: 'tablet', icon: IconDeviceTabletFilled }
 ]
 
 const toggleViewportMode = (mode: ViewportMode) => {
