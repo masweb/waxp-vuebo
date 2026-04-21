@@ -90,7 +90,7 @@ const updateAll = () => {
 
 // ── TipTap toolbar ────────────────────────────────────────────────────────────
 
-const { editor } = useTipTap()
+const { editor, editing: ttEditing } = useTipTap()
 const { t } = useI18n()
 
 const headingOpen = ref(false)
@@ -197,8 +197,8 @@ const onDocClick = (e: MouseEvent) => {
 }
 
 const closeEditor = () => {
-  const { deactivate } = useTipTap()
-  deactivate()
+  const { stopEditing } = useTipTap()
+  stopEditing()
 }
 
 onMounted(() => {
@@ -253,7 +253,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Center: toolbar or errors -->
-    <div v-if="pg.activeBlock" class="d-flex align-items-center">
+    <div v-if="pg.activeBlock && ttEditing" class="d-flex align-items-center">
       <div class="d-flex">
         <button
           type="button"

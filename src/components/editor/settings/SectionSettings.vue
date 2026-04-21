@@ -3,12 +3,11 @@ import {
   IconDeviceMobile,
   IconDeviceTablet,
   IconDeviceDesktop,
-  IconEye,
+  IconEyeFilled,
   IconEyeOff,
   IconLayoutColumns,
   IconLayoutRows,
-  IconBoxMargin,
-  IconBoxPadding
+  IconBoxMargin
 } from '@tabler/icons-vue'
 
 const stt = settingsStore()
@@ -117,16 +116,7 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody v-if="activeSection">
-    <!-- <MediaManager /> -->
     <div class="mt-4"></div>
-    <!-- {{ activeSection }} -->
-
-    <div class="mb-3">
-      <div class="d-flex align-items-center justify-content-between mb-2">
-        <label class="small mb-0">Full width</label>
-        <CFormSwitch :checked="isFullWidth" @change="isFullWidth = !isFullWidth" />
-      </div>
-    </div>
     <div v-if="!isFullWidth" class="mb-3">
       <div class="d-flex align-items-center justify-content-between mb-2">
         <label class="small mb-0">Section max width</label>
@@ -148,29 +138,12 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
       />
     </div>
     <div class="mb-3">
-      <label class="small d-block mb-2">{{ t('section.hideOn') }}</label>
-      <div class="d-flex btn-group">
-        <button
-          v-for="m in modes"
-          :key="m.key"
-          class="btn btn-sm"
-          :class="isHidden(m.key) ? 'btn-primary' : 'btn-outline-secondary'"
-          @click="toggleHideOn(m.key)"
-          :title="isHidden(m.key) ? t('section.hidden', { mode: m.label }) : t('section.visible', { mode: m.label })"
-        >
-          <component :is="isHidden(m.key) ? IconEyeOff : IconEye" :size="18" stroke-width="1" class="me-1" />
-          <span class="small">{{ m.label }}</span>
-        </button>
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <label class="small mb-0">Full width</label>
+        <CFormSwitch :checked="isFullWidth" @change="isFullWidth = !isFullWidth" />
       </div>
     </div>
-    <div v-if="!isFullWidth" class="mb-3">
-      <label class="small d-block mb-2">{{ t('section.rowBackground') }}</label>
-      <BackgroundSettings
-        :background="activeSection.style.section_background ?? { mode: 'none' }"
-        @update="onSectionBackgroundUpdate"
-      />
-    </div>
-    <BackgroundSettings :background="activeSection.style.background" @update="onBackgroundUpdate" />
+
     <SidesField
       :modelValue="activeSection.style.padding"
       :label="t('section.padding')"
@@ -181,6 +154,31 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
       :label="t('section.margin')"
       @update:modelValue="onMarginUpdate"
     />
+    <BackgroundSettings :background="activeSection.style.background" @update="onBackgroundUpdate" />
+
+    <div v-if="!isFullWidth" class="mb-3">
+      <label class="small d-block mb-2">{{ t('section.rowBackground') }}</label>
+      <BackgroundSettings
+        :background="activeSection.style.section_background ?? { mode: 'none' }"
+        @update="onSectionBackgroundUpdate"
+      />
+    </div>
+    <div class="mb-3">
+      <label class="small d-block mb-2">{{ t('section.hideOn') }}</label>
+      <div class="d-flex btn-group">
+        <button
+          v-for="m in modes"
+          :key="m.key"
+          class="btn btn-sm"
+          :class="isHidden(m.key) ? 'btn-primary' : 'btn-outline-secondary'"
+          @click="toggleHideOn(m.key)"
+          :title="isHidden(m.key) ? t('section.hidden', { mode: m.label }) : t('section.visible', { mode: m.label })"
+        >
+          <component :is="isHidden(m.key) ? IconEyeOff : IconEyeFilled" :size="18" stroke-width="1" class="me-1" />
+          <span class="small">{{ m.label }}</span>
+        </button>
+      </div>
+    </div>
     <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">
       <thead>
         <tr>

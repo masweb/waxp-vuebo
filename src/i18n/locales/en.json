@@ -154,7 +154,12 @@
   },
   "newSection": {
     "add": "New section",
-    "paste": "Paste section"
+    "copy": "Copy section",
+    "paste": "Paste section",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "settings": "Settings",
+    "delete": "Delete"
   },
   "background": {
     "mode": "Background mode",

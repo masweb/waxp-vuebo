@@ -1,24 +1,18 @@
 <script lang="ts" setup>
-import { IconSettingsFilled, IconTrashFilled, IconArrowBigUpFilled, IconArrowBigDownFilled } from '@tabler/icons-vue'
-
+import { IconSettingsFilled } from '@tabler/icons-vue'
 const props = defineProps<{
   section: Section
   fixed?: boolean
 }>()
-const stt = settingsStore()
 const st = siteStore()
 const vp = viewportStore()
 
 const pg = pageStore()
-const hs = historyStore()
-const { deactivate } = useTipTap()
 const { sectionRef, canvasRef, gridStyle, hovered, shouldShow, shouldShowBlocks } = useSectionGrid(() => props.section)
 
 useNewBlock(sectionRef, () => props.section)
 
-const sectionTargetWidth = computed(() =>
-  props.section.style.maxWidth ?? st.site?.options.desktopWidth
-)
+const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
 
 const { computedStyles: sectionFontStyles } = useFontSize(
   () => sectionTargetWidth.value,
@@ -41,39 +35,7 @@ const rowBackgroundStyle = useBackgroundStyles(
 
 const sectionSettings = () => {
   pg.setActiveSection(props.section.id)
-  stt.setSetting('SectionSettings')
-}
-
-const sectionIndex = computed(() => pg.page?.layout.findIndex(s => s.id === props.section.id) ?? -1)
-const isFirst = computed(() => sectionIndex.value === 0)
-const isLast = computed(() => (pg.page ? sectionIndex.value === pg.page.layout.length - 1 : false))
-
-const moveUp = () => {
-  if (isFirst.value) return
-  hs.snapshot()
-  const idx = sectionIndex.value
-  const layout = pg.page!.layout
-  const [section] = layout.splice(idx, 1)
-  layout.splice(idx - 1, 0, section)
-}
-
-const moveDown = () => {
-  if (isLast.value) return
-  hs.snapshot()
-  const idx = sectionIndex.value
-  const layout = pg.page!.layout
-  const [section] = layout.splice(idx, 1)
-  layout.splice(idx + 1, 0, section)
-}
-
-const deleteSection = () => {
-  const hasActiveBlock = pg.activeBlock && props.section.blocks.some(b => b.id === pg.activeBlock!.id)
-  if (hasActiveBlock) deactivate()
-  hs.snapshot()
-  const idx = pg.page!.layout.findIndex(s => s.id === props.section.id)
-  if (idx !== -1) pg.page!.layout.splice(idx, 1)
-  pg.setActiveBlock(null)
-  if (pg.activeSection?.id === props.section.id) pg.activeSection = null
+  settingsStore().setSetting('SectionSettings')
 }
 
 const sectionWidth = computed(() => {
@@ -107,7 +69,11 @@ const sectionMargin = computed(() => {
     <div
       ref="sectionRef"
       class="section"
-      :class="{ 'section--hovered': hovered, 'section--show-grid': shouldShow, 'section--show-blocks': shouldShowBlocks }"
+      :class="{
+        'section--hovered': hovered,
+        'section--show-grid': shouldShow,
+        'section--show-blocks': shouldShowBlocks
+      }"
       :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style, sectionPadding]"
       @mouseenter="hovered = true"
       @mouseleave="hovered = false"
@@ -116,18 +82,6 @@ const sectionMargin = computed(() => {
       <div v-if="backgroundStyle.overlay" class="section-bg-overlay" :style="backgroundStyle.overlay" />
       <PageBlock v-for="block in section.blocks" :key="block.id" :block="block" :section="section" />
       <DrawingOverlay :section="section" :grid-style="gridStyle" />
-      <button v-if="!fixed" class="btn btn-sm sectionui moveup" :disabled="isFirst" @click="moveUp">
-        <IconArrowBigUpFilled size="22" />
-      </button>
-      <button v-if="!fixed" class="btn btn-sm sectionui movedown" :disabled="isLast" @click="moveDown">
-        <IconArrowBigDownFilled size="22" />
-      </button>
-      <button @click="sectionSettings()" class="btn btn-sm sectionui config">
-        <IconSettingsFilled size="22" />
-      </button>
-      <button v-if="!fixed" class="btn btn-sm sectionui delete" @click="deleteSection">
-        <IconTrashFilled size="22" />
-      </button>
     </div>
   </div>
 

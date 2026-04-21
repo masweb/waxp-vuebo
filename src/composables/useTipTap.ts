@@ -23,6 +23,7 @@ import Underline from '@tiptap/extension-underline'
 import { Editor } from '@tiptap/vue-3'
 
 const syncing = ref(false)
+const editing = ref(false)
 
 const editor = new Editor({
   content: '',
@@ -55,6 +56,17 @@ const editor = new Editor({
     flush()
   }
 })
+
+const startEditing = (block: Block) => {
+  activate(block)
+  editing.value = true
+}
+
+const stopEditing = () => {
+  if (!editing.value) return
+  editing.value = false
+  deactivate()
+}
 
 const activate = (block: Block) => {
   const pg = pageStore()
@@ -95,7 +107,8 @@ const onBodyClick = (e: MouseEvent) => {
   if (t.closest('.main-bar')) return
   if (t.closest('.editor-dropdown')) return
   if (t.closest('.setting-pane')) return
-  deactivate()
+  if (editing.value) stopEditing()
+  else deactivate()
 }
 
 if (typeof document !== 'undefined') {
@@ -106,6 +119,9 @@ export const useTipTap = () => ({
   editor,
   activate,
   deactivate,
+  startEditing,
+  stopEditing,
+  editing,
   flush,
   isActive
 })

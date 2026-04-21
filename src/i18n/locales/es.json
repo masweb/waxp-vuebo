@@ -154,7 +154,12 @@
   },
   "newSection": {
     "add": "Nueva sección",
-    "paste": "Pegar sección"
+    "copy": "Copiar sección",
+    "paste": "Pegar sección",
+    "moveUp": "Subir",
+    "moveDown": "Bajar",
+    "settings": "Ajustes",
+    "delete": "Eliminar"
   },
   "background": {
     "mode": "Modo de fondo",

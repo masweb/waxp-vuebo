@@ -300,28 +300,6 @@ $toolColorHover: var(--se-tool-color-hover);
         border: 2px solid color-mix(in srgb, var(--se-color) 30%, transparent);
         border-radius: 4px;
       }
-      .sectionui {
-        color: $toolColor;
-        opacity: 0;
-        transition: opacity 0.15s ease;
-        &:hover {
-          color: $toolColorHover;
-        }
-        position: absolute;
-        right: -36px;
-        &.delete {
-          top: 90px;
-        }
-        &.moveup {
-          top: 30px;
-        }
-        &.movedown {
-          top: 60px;
-        }
-      }
-      &:hover .sectionui {
-        opacity: 1;
-      }
     }
   }
 }

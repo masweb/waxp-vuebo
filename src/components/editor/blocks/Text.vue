@@ -6,8 +6,8 @@ const props = defineProps<{
   section: Section
 }>()
 
-const { editor, activate, deactivate, isActive } = useTipTap()
-  const {
+const { editor, activate, startEditing, stopEditing, editing, isActive } = useTipTap()
+const {
   blockRef,
   blockStyle,
   backgroundStyle,
@@ -21,18 +21,18 @@ const { editor, activate, deactivate, isActive } = useTipTap()
 
 const isBlockActive = computed(() => isActive(props.block.id))
 
-const onBlockClick = (e: MouseEvent) => {
+const onBlockDblClick = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.blockui')) return
-  if (!isBlockActive.value) activate(props.block)
+  if (!editing.value) startEditing(props.block)
 }
 
 const deleteBlock = () => {
-  if (isBlockActive.value) deactivate()
+  stopEditing()
   baseDelete()
 }
 
 const blockSettings = () => {
-  if (!isBlockActive.value) activate(props.block)
+  if (!editing.value) activate(props.block)
   baseSettings()
 }
 </script>
@@ -41,13 +41,13 @@ const blockSettings = () => {
   <div
     ref="blockRef"
     class="block"
-    :class="{ 'block--active': isBlockActive }"
+    :class="{ 'block--active': editing && isBlockActive }"
     :style="blockStyle"
-    @click="onBlockClick"
+    @dblclick="onBlockDblClick"
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <div class="block-text-color" :style="textStyle">
-      <EditorContent v-if="isBlockActive" :editor="editor" />
+      <EditorContent v-if="editing && isBlockActive" :editor="editor" />
       <div v-else class="tiptap tiptap-readonly" v-html="block.content" />
     </div>
 

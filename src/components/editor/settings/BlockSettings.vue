@@ -122,7 +122,7 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
       <label class="small text-secondary">{{ t('block.type') }}</label>
       <div class="fw-semibold">{{ activeBlock.type }}</div>
     </div>
-    <BackgroundSettings :background="activeBlock.style.background" @update="onBackgroundUpdate" />
+
     <template v-if="isTextBlock">
       <hr class="my-3" />
       <div class="mb-3">
@@ -139,7 +139,7 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
           @update:color="onColorDarkUpdate"
         />
       </div>
-      <div class="mb-2">
+      <div class="mb-3">
         <div class="d-flex align-items-center justify-content-between mb-1">
           <label class="form-label mb-0">{{ t('block.fontSize') }}</label>
           <span v-if="!hasFontSize" class="badge text-bg-secondary">{{ t('block.inherited') }}</span>
@@ -149,7 +149,7 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
         </div>
         <NumberRange v-model="fontSize" :min="0.1" :max="5" :step="0.1" />
       </div>
-      <div class="mb-2">
+      <div class="mb-3">
         <div class="d-flex align-items-center justify-content-between mb-1">
           <label class="form-label mb-0">{{ t('block.lineHeight') }}</label>
           <span v-if="!hasLineHeight" class="badge text-bg-secondary">{{ t('block.inherited') }}</span>
@@ -160,6 +160,8 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
         <NumberRange v-model="lineHeight" :min="0.1" :max="5" :step="0.1" />
       </div>
     </template>
+    <BackgroundSettings :background="activeBlock.style.background" @update="onBackgroundUpdate" />
+
     <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">
       <thead>
         <tr>
