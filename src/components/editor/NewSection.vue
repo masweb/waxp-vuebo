@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import { IconCirclePlusFilled, IconPlus, IconClipboard } from '@tabler/icons-vue'
 
+const props = defineProps<{
+  section?: Section
+}>()
+
 const pg = pageStore()
+const st = siteStore()
+const hs = historyStore()
 const id = getCurrentInstance()!.uid
 const { t } = useI18n()
 
@@ -19,6 +25,18 @@ const closeOnOutsideClick = (e: MouseEvent) => {
   }
 }
 
+const addSection = async () => {
+  if (!pg.page) return
+  hs.snapshot()
+  const resp = await useApi(`/api/sites/${st.site?.id}/sections/next-id`, { method: 'POST' })
+  const newSection = createSection(resp.id)
+  const insertAt = props.section
+    ? pg.page.layout.findIndex(s => s.id === props.section!.id) + 1
+    : 0
+  pg.page.layout.splice(insertAt, 0, newSection)
+  pg.openNewSectionId = null
+}
+
 onMounted(() => document.addEventListener('click', closeOnOutsideClick))
 onUnmounted(() => {
   document.removeEventListener('click', closeOnOutsideClick)
@@ -32,12 +50,12 @@ onUnmounted(() => {
       <IconCirclePlusFilled />
     </button>
     <Transition name="collapse">
-      <div v-if="isOpen" class="newsection-collapse">
-        <button class="btn btn-sm btn-link">
+      <div v-if="isOpen" class="newsection-collapse mb-2 mt-1">
+        <button class="btn btn-sm btn-outline-primary" @click="addSection">
           <IconPlus :size="18" />
           {{ t('newSection.add') }}
         </button>
-        <button class="btn btn-sm btn-link">
+        <button class="btn btn-sm btn-outline-primary">
           <IconClipboard :size="18" />
           {{ t('newSection.paste') }}
         </button>

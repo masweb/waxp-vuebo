@@ -131,5 +131,5 @@ const sectionMargin = computed(() => {
     </div>
   </div>
 
-  <NewSection v-if="!fixed" />
+  <NewSection v-if="!fixed" :section="section" />
 </template>

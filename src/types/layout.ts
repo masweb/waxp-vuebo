@@ -56,8 +56,8 @@ export interface Background {
   lightColor: string
   darkcolorColor: string
   url_desk: string
-  url_mov: string
   url_tab: string
+  url_mob: string
   opacity: string
   fix_img_back: boolean
   pos: 'img' | 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'
@@ -111,3 +111,39 @@ export const MODE_KEY: Record<ViewportMode, 'd' | 'm' | 't'> = {
   tablet: 't',
   desktop: 'd'
 }
+
+const defaultBackground = (): Background => ({
+  mode: 'none',
+  lightColor: '',
+  darkcolorColor: '',
+  url_desk: '',
+  url_tab: '',
+  url_mob: '',
+  opacity: '1',
+  fix_img_back: false,
+  pos: 'img',
+  size: '',
+  repeat: false,
+  lightGradA: '',
+  lightGradB: '',
+  darkGradA: '',
+  darkGradB: '',
+  gradDeg: ''
+})
+
+export const createSection = (id: number): Section => ({
+  id,
+  blocks: [],
+  mobile: { cols: 8, rows: 12, gap: 4 },
+  tablet: { cols: 20, rows: 12, gap: 4 },
+  desktop: { cols: 24, rows: 12, gap: 6 },
+  style: {
+    maxWidth: null,
+    fullWidth: false,
+    hideOn: [],
+    section_background: defaultBackground(),
+    background: defaultBackground(),
+    padding: { t: '0', r: '0', b: '0', l: '0' },
+    margin: { t: '0', r: '0', b: '6px', l: '0' }
+  }
+})

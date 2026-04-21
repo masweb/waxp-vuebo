@@ -139,6 +139,8 @@ const toggleListsDropdown = () => {
   listsOpen.value = !listsOpen.value
 }
 
+const colorOpen = ref(false)
+const colorBtn = ref<HTMLElement | null>(null)
 const currentColor = computed(() => editor.getAttributes('textStyle').color || '')
 
 const onPickerColor = (color: string) => {

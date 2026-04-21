@@ -17,6 +17,7 @@ declare global {
   const configure: typeof import('vee-validate').configure
   const createApp: typeof import('vue').createApp
   const createPinia: typeof import('pinia').createPinia
+  const createSection: typeof import('./src/types/layout').createSection
   const customRef: typeof import('vue').customRef
   const db: typeof import('./src/db/fonts').db
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
