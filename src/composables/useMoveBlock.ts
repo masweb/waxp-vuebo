@@ -124,7 +124,7 @@ export const useMoveBlock = (blockEl: Ref<HTMLElement | undefined>, block: () =>
     interactable = interact(blockEl.value)
     interactable
       .draggable({
-        allowFrom: '.blockui.move',
+        ignoreFrom: '.blockui.config, .blockui.delete, .blockui.resize',
         listeners: {
           start: onStart,
           move: onMove,

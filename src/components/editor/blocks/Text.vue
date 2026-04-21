@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
+import { IconRadiusBottomRight } from '@tabler/icons-vue'
 
 const props = defineProps<{
   block: Block
@@ -7,14 +8,7 @@ const props = defineProps<{
 }>()
 
 const { editor, activate, startEditing, stopEditing, editing, isActive } = useTipTap()
-const {
-  blockRef,
-  blockStyle,
-  backgroundStyle,
-  textStyle,
-  deleteBlock: baseDelete,
-  blockSettings: baseSettings
-} = useBlockBase(
+const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useBlockBase(
   () => props.block,
   () => props.section
 )
@@ -25,16 +19,6 @@ const onBlockDblClick = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.blockui')) return
   if (!editing.value) startEditing(props.block)
 }
-
-const deleteBlock = () => {
-  stopEditing()
-  baseDelete()
-}
-
-const blockSettings = () => {
-  if (!editing.value) activate(props.block)
-  baseSettings()
-}
 </script>
 
 <template>
@@ -44,6 +28,7 @@ const blockSettings = () => {
     :class="{ 'block--active': editing && isBlockActive }"
     :style="blockStyle"
     @dblclick="onBlockDblClick"
+    @contextmenu="onContextMenu"
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <div class="block-text-color" :style="textStyle">
@@ -51,6 +36,8 @@ const blockSettings = () => {
       <div v-else class="tiptap tiptap-readonly" v-html="block.content" />
     </div>
 
-    <BlockControls :on-delete="deleteBlock" :on-settings="blockSettings" />
+    <div class="blockui resize">
+      <IconRadiusBottomRight size="18" />
+    </div>
   </div>
 </template>

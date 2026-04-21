@@ -1,10 +1,13 @@
-export const useBlockBase = (
-  block: () => Block,
-  section: () => Section
-) => {
+import { h } from 'vue'
+import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-vue'
+import ContextMenu from '@imengyu/vue3-context-menu'
+import { useTheme } from './useTheme'
+
+export const useBlockBase = (block: () => Block, section: () => Section) => {
   const ps = pageStore()
   const hs = historyStore()
   const stt = settingsStore()
+  const { isDark, effectiveTheme } = useTheme()
 
   const blockRef = ref<HTMLElement>()
   const { blockStyle, backgroundStyle, textStyle } = useBlockGrid(block, section)
@@ -29,5 +32,28 @@ export const useBlockBase = (
     stt.setSetting('BlockSettings')
   }
 
-  return { blockRef, blockStyle, backgroundStyle, textStyle, deleteBlock, blockSettings }
+  const onContextMenu = (e: MouseEvent) => {
+    if ((e.target as HTMLElement).closest('.blockui')) return
+    e.preventDefault()
+    const theme = effectiveTheme.value === 'dark' ? 'dark' : 'default'
+    ContextMenu.showContextMenu({
+      x: e.x,
+      y: e.y,
+      theme,
+      items: [
+        {
+          label: 'Configurar',
+          icon: h(IconSettingsFilled, { size: 20 }),
+          onClick: () => blockSettings()
+        },
+        {
+          label: 'Eliminar',
+          icon: h(IconTrashFilled, { size: 20 }),
+          onClick: () => deleteBlock()
+        }
+      ]
+    })
+  }
+
+  return { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu }
 }
