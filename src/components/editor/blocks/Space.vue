@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { IconRadiusBottomRight } from '@tabler/icons-vue'
-
 const props = defineProps<{
   block: Block
   section: Section
@@ -16,8 +14,6 @@ const { blockRef, blockStyle, backgroundStyle, onContextMenu } = useBlockBase(
   <div ref="blockRef" class="block" :style="blockStyle" @contextmenu="onContextMenu">
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     Spacer
-    <div class="blockui resize">
-      <IconRadiusBottomRight size="18" />
-    </div>
+    <div class="blockui resize"></div>
   </div>
 </template>

@@ -5,7 +5,7 @@
   justify-content: center;
   text-align: center;
   padding: 6px 2rem;
-  border: 2px dashed var(--cui-border-color);
+  border: 1px dashed var(--cui-border-color);
   border-radius: var(--cui-border-radius);
   cursor: pointer;
   transition:
@@ -15,7 +15,7 @@
   &:hover,
   &-active {
     border-color: var(--cui-primary);
-    background-color: rgba(73, 110, 166, 0.05);
+    background-color: rgba(100, 100, 100, 0.03);
   }
 
   &-uploading {

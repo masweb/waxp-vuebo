@@ -210,25 +210,7 @@ $toolColorHover: var(--se-tool-color-hover);
           p {
             margin: 0;
           }
-          h1,
-          h2,
-          h3,
-          h4,
-          h5,
-          h6 {
-            margin: 0;
-          }
-          ul,
-          ol {
-            padding-left: 1.5em;
-            margin: 0;
-          }
-          hr {
-            border: none;
-            border-top: 2px solid var(--se-color);
-            opacity: 0.3;
-            margin: 0.5em 0;
-          }
+
           mark {
             background-color: #fef08a;
             padding: 0 2px;
@@ -245,37 +227,14 @@ $toolColorHover: var(--se-tool-color-hover);
           &:hover {
             color: $toolColorHover;
           }
-          &.delete {
-            width: 20px;
-            height: 20px;
-            right: 6px;
-            top: -6px;
-          }
-
-          &.move {
-            width: 20px;
-            height: 20px;
-            left: 3px;
-            top: 1px;
-
-            transform: rotate(45deg);
-            cursor: move;
-          }
-
-          &.config {
-            width: 20px;
-            height: 20px;
-            left: -8px;
-            bottom: 6px;
-          }
 
           &.resize {
             width: 20px;
             height: 20px;
 
             cursor: nw-resize;
-            right: -1px;
-            bottom: 1px;
+            right: -6px;
+            bottom: -3px;
           }
         }
       }
@@ -283,6 +242,7 @@ $toolColorHover: var(--se-tool-color-hover);
       &--hovered .block,
       &--show-blocks .block {
         border-color: $toolColor;
+        border-bottom-right-radius: 8px;
       }
 
       &--hovered .block .blockui,

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
-import { IconRadiusBottomRight } from '@tabler/icons-vue'
 
 const props = defineProps<{
   block: Block
@@ -36,8 +35,6 @@ const onBlockDblClick = (e: MouseEvent) => {
       <div v-else class="tiptap tiptap-readonly" v-html="block.content" />
     </div>
 
-    <div class="blockui resize">
-      <IconRadiusBottomRight size="18" />
-    </div>
+    <div class="blockui resize"></div>
   </div>
 </template>
