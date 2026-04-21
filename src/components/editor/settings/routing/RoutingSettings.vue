@@ -71,12 +71,14 @@ const loadPages = async () => {
 
 const handleSave = async (data: CreatePageRequest | UpdatePageRequest, pageId?: number) => {
   try {
+    const locale = defaultLocale.value || 'es'
     if (pageId) {
-      await updatePage(pageId, data as UpdatePageRequest)
+      await updatePage(pageId, data as UpdatePageRequest, locale)
     } else {
-      await createPage(data as CreatePageRequest)
+      await createPage(data as CreatePageRequest, locale)
     }
     formState.value = null
+    await st.reloadRoutes()
     await loadPages()
   } catch (e: any) {
     err.addError(e?.data || { error: 'Error saving page', code: 500 })
@@ -106,6 +108,7 @@ const confirmDeletePage = async () => {
   try {
     await deletePage(confirmDelete.value.id)
     confirmDelete.value = null
+    await st.reloadRoutes()
     await loadPages()
   } catch (e: any) {
     err.addError(e?.data || { error: 'Error deleting page', code: 500 })

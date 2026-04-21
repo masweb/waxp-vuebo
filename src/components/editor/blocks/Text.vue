@@ -14,6 +14,8 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
 
 const isBlockActive = computed(() => isActive(props.block.id))
 
+const localizedContent = computed(() => props.block.locales?.text || '')
+
 const onBlockDblClick = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.blockui')) return
   if (!editing.value) startEditing(props.block)
@@ -32,7 +34,7 @@ const onBlockDblClick = (e: MouseEvent) => {
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <div class="block-text-color" :style="textStyle">
       <EditorContent v-if="editing && isBlockActive" :editor="editor" />
-      <div v-else class="tiptap tiptap-readonly" v-html="block.content" />
+      <div v-else class="tiptap tiptap-readonly" v-html="localizedContent" />
     </div>
 
     <div class="blockui resize"></div>

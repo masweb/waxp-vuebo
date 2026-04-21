@@ -77,7 +77,7 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
     const block: Block = {
       id: resp.id,
       type: blockType,
-      content: 'Escribe aquí ...',
+      ...(blockType === 'Text' ? { locales: { text: '' } } : {}),
       d: { x: 1, y: 1, w: 1, h: 1 },
       m: { x: 1, y: 1, w: 1, h: 1 },
       t: { x: 1, y: 1, w: 1, h: 1 },

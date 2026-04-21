@@ -74,7 +74,7 @@ const activate = (block: Block) => {
   historyStore().snapshot()
   pg.setActiveBlock(block)
   syncing.value = true
-  editor.commands.setContent(block.content || '')
+  editor.commands.setContent(block.locales?.text || '')
   syncing.value = false
   nextTick(() => editor.commands.focus())
 }
@@ -92,8 +92,9 @@ const flush = () => {
   const pg = pageStore()
   if (!pg.activeBlock) return
   const html = editor.getHTML()
-  if (pg.activeBlock.content !== html) {
-    pg.activeBlock.content = html
+  if (!pg.activeBlock.locales) pg.activeBlock.locales = {}
+  if (pg.activeBlock.locales.text !== html) {
+    pg.activeBlock.locales.text = html
   }
 }
 

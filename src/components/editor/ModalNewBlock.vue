@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { IconTextPlus, IconPhoto, IconSpacingVertical, IconContrastFilled } from '@tabler/icons-vue'
+import { IconTextPlus, IconPhoto, IconSpacingVertical, IconContrastFilled, IconLanguage } from '@tabler/icons-vue'
 import type { BlockType } from '@/stores/editorStore'
 const ed = editorStore()
 const { showModalNewBlock } = storeToRefs(ed)
@@ -26,6 +26,10 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
       <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('DarkMode')">
         <IconContrastFilled size="40" stroke-width="1" />
         <small>{{ t('block.darkModeBlock') }}</small>
+      </button>
+      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')">
+        <IconLanguage size="40" stroke-width="1" />
+        <small>{{ t('block.languageSwitcher') }}</small>
       </button>
     </CModalBody>
   </CModal>

@@ -50,7 +50,10 @@
     "published": "Published",
     "routes": "Route options",
     "seo": "SEO",
-    "status": "Status"
+    "status": "Status",
+    "unsavedChanges": "Unsaved changes",
+    "unsavedChangesDesc": "You have unsaved changes. What would you like to do before switching language?",
+    "discardChanges": "Don't save"
   },
   "sites": {
     "sites": "Sites",
@@ -118,6 +121,7 @@
   "block": {
     "darkModeBlock": "Mode",
     "image": "Image",
+    "languageSwitcher": "Language",
     "newBlock": "New block",
     "options": "Block options",
     "space": "Space",

@@ -48,6 +48,8 @@ const stt = settingsStore()
 const pg = pageStore()
 const hs = historyStore()
 
+const currentLocale = computed(() => pg.currentLocale)
+
 const { site } = storeToRefs(st)
 const { canUndo, canRedo } = storeToRefs(hs)
 
@@ -82,8 +84,8 @@ const onKeydown = (e: KeyboardEvent) => {
 }
 
 const updateAll = () => {
-  pg.updatePage()
-  st.updateSite()
+  pg.updatePage(currentLocale.value)
+  st.updateSite(currentLocale.value)
 }
 
 // ── TipTap toolbar ────────────────────────────────────────────────────────────

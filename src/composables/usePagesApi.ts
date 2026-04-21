@@ -9,17 +9,17 @@ export const usePagesApi = () => {
     return resp.data
   }
 
-  const createPage = async (data: CreatePageRequest): Promise<Page> => {
+  const createPage = async (data: CreatePageRequest, locale: string): Promise<Page> => {
     if (!st.site) throw new Error('No site selected')
-    return await useApi(`/api/sites/${st.site.id}/pages`, {
+    return await useApi(`/api/sites/${st.site.id}/pages?locale=${locale}`, {
       method: 'POST',
       body: data
     })
   }
 
-  const updatePage = async (pageId: number, data: UpdatePageRequest): Promise<Page> => {
+  const updatePage = async (pageId: number, data: UpdatePageRequest, locale: string): Promise<Page> => {
     if (!st.site) throw new Error('No site selected')
-    return await useApi(`/api/sites/${st.site.id}/pages/${pageId}`, {
+    return await useApi(`/api/sites/${st.site.id}/pages/${pageId}?locale=${locale}`, {
       method: 'PUT',
       body: data
     })

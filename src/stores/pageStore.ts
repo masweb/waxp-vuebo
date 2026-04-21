@@ -4,6 +4,7 @@ export const pageStore = defineStore('page', () => {
   const activeBlock: Ref<Block | null> = ref(null)
   const openNewSectionId: Ref<number | null> = ref(null)
   const clipboardSection: Ref<Section | null> = ref(null)
+  const currentLocale = ref('es')
 
   const _savedSectionId = localStorage.getItem('pageActiveSectionId')
   const _savedBlockId = localStorage.getItem('pageActiveBlockId')
@@ -39,8 +40,9 @@ export const pageStore = defineStore('page', () => {
     localStorage.setItem('pageActiveBlockId', val?.id?.toString() ?? '')
   })
 
-  const getPage = async (pageId: number) => {
-    const resp: Page = await useApi(`/api/sites/${st?.site?.id}/pages/${pageId}`).catch(error => error.data as ApiError)
+  const getPage = async (pageId: number, locale: string) => {
+    currentLocale.value = locale
+    const resp: Page = await useApi(`/api/sites/${st?.site?.id}/pages/${pageId}?locale=${locale}`).catch(error => error.data as ApiError)
     if (resp.id) {
       page.value = resp
       historyStore().clear(resp.id)
@@ -48,8 +50,8 @@ export const pageStore = defineStore('page', () => {
     }
   }
 
-  const updatePage = async () => {
-    const resp = await useApi(`/api/sites/${st?.site?.id}/pages/${page?.value?.id}`, {
+  const updatePage = async (locale: string) => {
+    const resp = await useApi(`/api/sites/${st?.site?.id}/pages/${page?.value?.id}?locale=${locale}`, {
       method: 'PUT',
       body: page.value
     }).catch(error => error.data as ApiError)
@@ -83,6 +85,7 @@ export const pageStore = defineStore('page', () => {
     activeBlock,
     openNewSectionId,
     clipboardSection,
+    currentLocale,
     getPage,
     updatePage,
     setActiveSection,

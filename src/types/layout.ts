@@ -14,7 +14,7 @@ export interface BlockCoords {
 export interface Block {
   id: number
   type: string
-  content: string
+  locales?: Record<string, string>
   d: BlockCoords
   m: BlockCoords
   t: BlockCoords

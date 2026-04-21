@@ -52,7 +52,9 @@ export const siteOptions: siteOptions = {
         t: { h: 3, w: 20, x: 1, y: 1 },
         id: 1,
         type: 'Text',
-        content: '<h3>Header</h3>',
+        locales: {
+          text: '<h3>Header</h3>'
+        },
         style: {
           hideOn: [],
           background: {
@@ -187,7 +189,9 @@ export const siteOptions: siteOptions = {
         t: { h: 3, w: 20, x: 1, y: 1 },
         id: 2,
         type: 'Text',
-        content: '<h3>Footer</h3>',
+        locales: {
+          text: '<h3>Footer</h3>'
+        },
         style: {
           hideOn: [],
           background: {
@@ -195,8 +199,10 @@ export const siteOptions: siteOptions = {
             lightColor: '',
             darkcolorColor: '',
             url_desk: '',
-            url_mov: '',
-            url_thumb: '',
+            url_tab: '',
+            url_mob: '',
+            opacity: '1',
+
             fix_img_back: false,
             pos: 'img',
             size: '',

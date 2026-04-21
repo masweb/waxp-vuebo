@@ -63,6 +63,7 @@ declare global {
   const onUnmounted: typeof import('vue').onUnmounted
   const onUpdated: typeof import('vue').onUpdated
   const onWatcherCleanup: typeof import('vue').onWatcherCleanup
+  const pageLocaleKey: typeof import('./src/composables/usePageLocale').pageLocaleKey
   const pageStore: typeof import('./src/stores/pageStore').pageStore
   const provide: typeof import('vue').provide
   const reactive: typeof import('vue').reactive
@@ -115,6 +116,7 @@ declare global {
   const useModel: typeof import('vue').useModel
   const useMoveBlock: typeof import('./src/composables/useMoveBlock').useMoveBlock
   const useNewBlock: typeof import('./src/composables/useNewBlock').useNewBlock
+  const usePageLocale: typeof import('./src/composables/usePageLocale').usePageLocale
   const usePagesApi: typeof import('./src/composables/usePagesApi').usePagesApi
   const useReferenceData: typeof import('./src/composables/useReferenceData').useReferenceData
   const useResetForm: typeof import('vee-validate').useResetForm

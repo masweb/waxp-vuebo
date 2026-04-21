@@ -26,6 +26,7 @@ declare module 'vue' {
     FontFamilyField: typeof import('./src/components/editor/settings/fields/FontFamilyField.vue')['default']
     FontManager: typeof import('./src/components/editor/settings/FontManager.vue')['default']
     Image: typeof import('./src/components/editor/blocks/Image.vue')['default']
+    LanguageSwitcher: typeof import('./src/components/editor/blocks/LanguageSwitcher.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
     MediaManager: typeof import('./src/components/MediaManager.vue')['default']

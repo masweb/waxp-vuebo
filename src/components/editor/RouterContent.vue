@@ -14,10 +14,17 @@ const visibleSections = computed(
   () => page.value?.layout.filter(s => !s.style.hideOn?.includes(mode.value)) ?? []
 )
 
-const loadPage = () => pg.getPage(props.pageId)
+const loadPage = () => pg.getPage(props.pageId, props.locale)
 
-onMounted(loadPage)
+onMounted(async () => {
+  await st.loadSiteForLocale(props.locale)
+  loadPage()
+})
 watch(() => props.pageId, loadPage)
+watch(() => props.locale, async (loc) => {
+  await st.loadSiteForLocale(loc)
+  loadPage()
+})
 </script>
 <template>
   <div class="page-content" :class="{ 'hide-helpers': !vp.showBlocks }">

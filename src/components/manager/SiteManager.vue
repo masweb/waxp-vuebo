@@ -67,6 +67,11 @@ const updateLocaleCode = (
 }
 
 const sortLanguages = computed(() => [...languages.value].sort((a, b) => a.name.es.localeCompare(b.name.es)))
+
+const buildSiteQuery = (values: Record<string, any>) => {
+  const defaultLoc = (values.locales || []).find((l: LocaleEntry) => l.is_default)
+  return defaultLoc ? `?locale=${defaultLoc.code}` : ''
+}
 </script>
 
 <template>
@@ -78,6 +83,7 @@ const sortLanguages = computed(() => [...languages.value].sort((a, b) => a.name.
     :limit="10"
     :title="t('sites.sites')"
     :create-initial-values="{ options: { ...siteOptions } }"
+    :submit-query="buildSiteQuery"
   >
     <template #item-name="{ row, value }">
       <div @click="st.openSite(row.id)" class="btn btn-link p-0 text-decoration-none">{{ value }}</div>

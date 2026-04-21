@@ -51,6 +51,6 @@ watch(
   <SettingsPane />
   <div class="site-editor" :class="vp.forcedMode ? `sim-${vp.forcedMode}` : ''">
     <component :is="'style'" v-html="dynamicStyle" />
-    <RouterView />
+    <RouterView :key="$route.fullPath" />
   </div>
 </template>

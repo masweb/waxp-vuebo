@@ -10,8 +10,9 @@ const props = withDefaults(
     filters?: FilterSchemas
     limit?: number
     createInitialValues?: Record<string, any>
+    submitQuery?: (values: Record<string, any>, isEdit: boolean) => string
   }>(),
-  { limit: 25, createEditSchema: undefined, filters: undefined, createInitialValues: undefined }
+  { limit: 25, createEditSchema: undefined, filters: undefined, createInitialValues: undefined, submitQuery: undefined }
 )
 
 const { t } = useI18n()
@@ -103,9 +104,10 @@ const closeModal = () => {
 const submitForm = async () => {
   if (!validateForm()) return
   formLoading.value = true
+  const query = props.submitQuery?.(values, !!editTarget.value) ?? ''
   try {
-    if (editTarget.value) await useApi(`${props.url}/${editTarget.value.id}`, { method: 'PUT', body: { ...values } })
-    else await useApi(props.url, { method: 'POST', body: { ...values } })
+    if (editTarget.value) await useApi(`${props.url}/${editTarget.value.id}${query}`, { method: 'PUT', body: { ...values } })
+    else await useApi(`${props.url}${query}`, { method: 'POST', body: { ...values } })
     closeModal()
     await fetchData()
   } catch (error: any) {

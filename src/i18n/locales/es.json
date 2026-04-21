@@ -50,7 +50,10 @@
     "published": "Publicado",
     "routes": "Opciones de rutas",
     "seo": "SEO",
-    "status": "Estado"
+    "status": "Estado",
+    "unsavedChanges": "Cambios sin guardar",
+    "unsavedChangesDesc": "Tienes cambios sin guardar. ¿Qué deseas hacer antes de cambiar de idioma?",
+    "discardChanges": "No guardar"
   },
   "sites": {
     "sites": "Sitios web",
@@ -118,6 +121,7 @@
   "block": {
     "darkModeBlock": "Modo",
     "image": "Imagen",
+    "languageSwitcher": "Idioma",
     "newBlock": "Nuevo bloque",
     "options": "Opciones de bloque",
     "space": "Espacio",

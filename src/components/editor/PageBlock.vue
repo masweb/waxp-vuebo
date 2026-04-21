@@ -8,7 +8,8 @@ const blockComponents: Record<string, Component> = {
   Text: defineAsyncComponent(() => import('./blocks/Text.vue')),
   Image: defineAsyncComponent(() => import('./blocks/Image.vue')),
   Space: defineAsyncComponent(() => import('./blocks/Space.vue')),
-  DarkMode: defineAsyncComponent(() => import('./blocks/DarkMode.vue'))
+  DarkMode: defineAsyncComponent(() => import('./blocks/DarkMode.vue')),
+  LanguageSwitcher: defineAsyncComponent(() => import('./blocks/LanguageSwitcher.vue'))
 }
 
 const blockComponent = computed(() => blockComponents[props.block.type])
