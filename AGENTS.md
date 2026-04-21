@@ -50,6 +50,10 @@ Usa **Context7 MCP** para documentación de librerías/APIs, generación de cód
 **Sistema de dibujado de bloques con drag & drop**
 [docs/block-drawing.md](docs/block-drawing.md)
 
+### Block creation
+**Tipos de bloque, creación, renderizado, tamaño responsive y panel de opciones**
+[docs/block-creation.md](docs/block-creation.md)
+
 ### Block move
 **Mover bloques con drag & drop**
 [docs/block-move.md](docs/block-move.md)
