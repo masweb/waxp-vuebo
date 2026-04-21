@@ -7,7 +7,8 @@ const props = defineProps<{
 const blockComponents: Record<string, Component> = {
   Text: defineAsyncComponent(() => import('./blocks/Text.vue')),
   Image: defineAsyncComponent(() => import('./blocks/Image.vue')),
-  Space: defineAsyncComponent(() => import('./blocks/Space.vue'))
+  Space: defineAsyncComponent(() => import('./blocks/Space.vue')),
+  DarkMode: defineAsyncComponent(() => import('./blocks/DarkMode.vue'))
 }
 
 const blockComponent = computed(() => blockComponents[props.block.type])

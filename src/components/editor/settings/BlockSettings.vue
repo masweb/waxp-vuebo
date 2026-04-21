@@ -18,10 +18,16 @@ const { t } = useI18n()
 
 const settingsComponents: Record<string, Component> = {
   Text: defineAsyncComponent(() => import('./blocks/TextSettings.vue')),
-  Space: defineAsyncComponent(() => import('./blocks/SpaceSettings.vue'))
+  Space: defineAsyncComponent(() => import('./blocks/SpaceSettings.vue')),
+  DarkMode: defineAsyncComponent(() => import('./blocks/DarkModeSettings.vue'))
 }
 
 const settingsComponent = computed(() => settingsComponents[activeBlock.value?.type ?? ''])
+
+const bgAllowedModes = computed<Background['mode'][]>(() => {
+  if (activeBlock.value?.type === 'Image') return ['image']
+  return ['none', 'color', 'gradient', 'image']
+})
 
 const onBackgroundUpdate = (bg: Background) => {
   if (!activeBlock.value) return
@@ -80,7 +86,11 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
 
     <component :is="settingsComponent" />
 
-    <BackgroundSettings :background="activeBlock.style.background" @update="onBackgroundUpdate" />
+    <BackgroundSettings
+      :background="activeBlock.style.background"
+      :allowedModes="bgAllowedModes"
+      @update="onBackgroundUpdate"
+    />
 
     <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">
       <thead>

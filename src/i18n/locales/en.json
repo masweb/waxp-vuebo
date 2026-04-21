@@ -116,7 +116,12 @@
     "weights": "Weights"
   },
   "block": {
+    "darkModeBlock": "Mode",
+    "image": "Image",
+    "newBlock": "New block",
     "options": "Block options",
+    "space": "Space",
+    "text": "Text",
     "type": "Type",
     "colorLight": "Color light",
     "colorDark": "Color dark",
@@ -126,7 +131,8 @@
     "divider": "Divider line",
     "dividerColor": "Line color",
     "dividerThick": "Line thickness",
-    "dividerStyle": "Line style"
+    "dividerStyle": "Line style",
+    "darkMode": "Dark mode"
   },
   "grid": {
     "cols": "Columns",

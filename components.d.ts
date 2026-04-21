@@ -17,6 +17,8 @@ declare module 'vue' {
     BlockControls: typeof import('./src/components/editor/blocks/BlockControls.vue')['default']
     BlockSettings: typeof import('./src/components/editor/settings/BlockSettings.vue')['default']
     ColorPicker: typeof import('./src/components/editor/settings/fields/ColorPicker.vue')['default']
+    DarkMode: typeof import('./src/components/editor/blocks/DarkMode.vue')['default']
+    DarkModeSettings: typeof import('./src/components/editor/settings/blocks/DarkModeSettings.vue')['default']
     DashBoard: typeof import('./src/views/DashBoard.vue')['default']
     DrawingOverlay: typeof import('./src/components/editor/DrawingOverlay.vue')['default']
     EditorToolbar: typeof import('./src/components/editor/EditorToolbar.vue')['default']
