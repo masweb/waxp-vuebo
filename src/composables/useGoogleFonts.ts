@@ -15,20 +15,25 @@ const variantId = (family: string, variant: string): string => `${family}::${var
 const normalizeVariant = (variant: string): { weight: string; style: string } => {
   const isItalic = variant.endsWith('italic')
   const raw = isItalic ? variant.slice(0, -6) : variant
-  const weight = raw === 'regular' ? '400' : raw === 'bold' ? '700' : raw
+  const weight = raw === '' || raw === 'regular' ? '400' : raw === 'bold' ? '700' : raw
   return { weight, style: isItalic ? 'italic' : 'normal' }
 }
 
 const injectFontLink = (family: string, variants: string[]): void => {
   if (!family || typeof document === 'undefined') return
 
-  const encoded = variants.map(v => {
-    const { weight, style } = normalizeVariant(v)
-    return style === 'italic' ? `${weight}i` : weight
-  })
+  const parsed = variants.map(v => normalizeVariant(v))
+  const hasItalic = parsed.some(p => p.style === 'italic')
 
   const familyEncoded = family.replace(/\s+/g, '+')
-  const params = `family=${familyEncoded}:wght@${encoded.join(';')}`
+  let params: string
+
+  if (hasItalic) {
+    const axes = parsed.map(({ weight, style }) => `${style === 'italic' ? 1 : 0},${weight}`)
+    params = `family=${familyEncoded}:ital,wght@${axes.join(';')}`
+  } else {
+    params = `family=${familyEncoded}:wght@${parsed.map(p => p.weight).join(';')}`
+  }
 
   const existing = document.querySelector(`link[data-font-family="${CSS.escape(family)}"]`)
   if (existing) existing.remove()
