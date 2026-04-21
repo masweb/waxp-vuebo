@@ -123,13 +123,13 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
 
     <div class="mb-3">
       <div class="d-flex align-items-center justify-content-between mb-2">
-        <label class="small fw-semibold mb-0">Full width</label>
+        <label class="small mb-0">Full width</label>
         <CFormSwitch :checked="isFullWidth" @change="isFullWidth = !isFullWidth" />
       </div>
     </div>
     <div v-if="!isFullWidth" class="mb-3">
       <div class="d-flex align-items-center justify-content-between mb-2">
-        <label class="small fw-semibold mb-0">Section max width</label>
+        <label class="small mb-0">Section max width</label>
         <CFormSwitch :checked="hasMaxWidth" @change="hasMaxWidth = !hasMaxWidth" />
       </div>
       <NumberRange
@@ -148,23 +148,23 @@ const getField = (mode: ViewportMode, key: keyof BreakpointSize) => {
       />
     </div>
     <div class="mb-3">
-      <label class="small fw-semibold d-block mb-2">{{ t('section.hideOn') }}</label>
-      <div class="d-flex gap-2">
+      <label class="small d-block mb-2">{{ t('section.hideOn') }}</label>
+      <div class="d-flex btn-group">
         <button
           v-for="m in modes"
           :key="m.key"
           class="btn btn-sm"
-          :class="isHidden(m.key) ? 'btn-outline-warning' : 'btn-outline-secondary'"
+          :class="isHidden(m.key) ? 'btn-primary' : 'btn-outline-secondary'"
           @click="toggleHideOn(m.key)"
           :title="isHidden(m.key) ? t('section.hidden', { mode: m.label }) : t('section.visible', { mode: m.label })"
         >
-          <component :is="isHidden(m.key) ? IconEyeOff : IconEye" :size="16" class="me-1" />
+          <component :is="isHidden(m.key) ? IconEyeOff : IconEye" :size="18" stroke-width="1" class="me-1" />
           <span class="small">{{ m.label }}</span>
         </button>
       </div>
     </div>
     <div v-if="!isFullWidth" class="mb-3">
-      <label class="small fw-semibold d-block mb-2">{{ t('section.rowBackground') }}</label>
+      <label class="small d-block mb-2">{{ t('section.rowBackground') }}</label>
       <BackgroundSettings
         :background="activeSection.style.section_background ?? { mode: 'none' }"
         @update="onSectionBackgroundUpdate"

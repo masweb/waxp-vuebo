@@ -46,7 +46,7 @@ const currentMode = computed(() => props.background.mode)
   <div>
     <div class="mb-3">
       <label class="d-block mb-2">{{ t('background.mode') }}</label>
-      <div class="d-flex">
+      <div class="d-flex btn-group">
         <button
           v-for="opt in modeOptions"
           :key="opt.key"
@@ -54,8 +54,8 @@ const currentMode = computed(() => props.background.mode)
           :class="currentMode === opt.key ? 'btn-primary' : 'btn-outline-secondary'"
           @click="patch({ mode: opt.key })"
         >
-          <component :is="opt.icon" v-if="opt.icon" :size="22" class="me-0" />
-          {{ opt.label }}
+          <component :is="opt.icon" v-if="opt.icon" :size="18" stroke-width="1" class="me-1" />
+          <span class="small">{{ opt.label }}</span>
         </button>
       </div>
     </div>
