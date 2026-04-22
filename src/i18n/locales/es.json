@@ -144,7 +144,15 @@
     "dividerColor": "Color de línea",
     "dividerThick": "Grosor de línea",
     "dividerStyle": "Estilo de línea",
-    "darkMode": "Modo oscuro"
+    "darkMode": "Modo oscuro",
+    "imageUrls": "URLs de imagen",
+    "imageFit": "Ajuste de imagen",
+    "fitWidth": "Ajustar al ancho",
+    "fitHeight": "Ajustar al alto",
+    "fitCover": "Cubrir (cover)",
+    "imageFitHint": "Ancho: la imagen ocupa el 100% del bloque. Alto: la imagen ocupa toda la altura. Cover: la imagen cubre todo el bloque recortando si es necesario.",
+    "imageAlt": "Texto alternativo (ALT)",
+    "imageAltHint": "Descripción de la imagen para SEO y accesibilidad"
   },
   "grid": {
     "cols": "Columnas",

@@ -18,6 +18,7 @@ const { t } = useI18n()
 
 const settingsComponents: Record<string, Component> = {
   Text: defineAsyncComponent(() => import('./blocks/TextSettings.vue')),
+  Image: defineAsyncComponent(() => import('./blocks/ImageSettings.vue')),
   Space: defineAsyncComponent(() => import('./blocks/SpaceSettings.vue')),
   DarkMode: defineAsyncComponent(() => import('./blocks/DarkModeSettings.vue'))
 }
@@ -87,6 +88,7 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
     <component :is="settingsComponent" />
 
     <BackgroundSettings
+      v-if="activeBlock.type !== 'Image'"
       :background="activeBlock.style.background"
       :allowedModes="bgAllowedModes"
       @update="onBackgroundUpdate"

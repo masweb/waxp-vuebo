@@ -156,12 +156,11 @@ export const createSection = (id: number): Section => ({
   }
 })
 
-export type BlockImageFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+export type BlockImageFit = 'width' | 'height' | 'cover'
 
 export interface BlockImage {
   url_desk: string
   url_tab: string
   url_mob: string
-  fit_horizontal: 'left' | 'center' | 'right'
-  fit_vertical: 'top' | 'center' | 'bottom'
+  fit: BlockImageFit
 }

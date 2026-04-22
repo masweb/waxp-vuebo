@@ -86,6 +86,12 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
         ? { divider: { active: false, color: '#cccccc', thick: '1', mode: 'solid' as const } }
         : {}),
       ...(blockType === 'DarkMode' ? { color: null, darkColor: null, fontSize: null } : {}),
+      ...(blockType === 'Image'
+        ? {
+            locales: { alt: '' },
+            image: { url_desk: '', url_tab: '', url_mob: '', fit: 'cover' as const }
+          }
+        : {}),
       style: {
         hideOn: [],
         background: {

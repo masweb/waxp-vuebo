@@ -144,7 +144,15 @@
     "dividerColor": "Line color",
     "dividerThick": "Line thickness",
     "dividerStyle": "Line style",
-    "darkMode": "Dark mode"
+    "darkMode": "Dark mode",
+    "imageUrls": "Image URLs",
+    "imageFit": "Image fit",
+    "fitWidth": "Fit to width",
+    "fitHeight": "Fit to height",
+    "fitCover": "Cover",
+    "imageFitHint": "Width: image fills 100% of the block. Height: image fills the full height. Cover: image covers the entire block, cropping as needed.",
+    "imageAlt": "Alternative text (ALT)",
+    "imageAltHint": "Image description for SEO and accessibility"
   },
   "grid": {
     "cols": "Columns",
