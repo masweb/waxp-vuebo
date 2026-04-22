@@ -24,14 +24,18 @@ const locales = computed(() => {
   return locs.map(l => typeof l === 'string' ? l : l.code)
 })
 
-const rootRouteForLocale = (loc: string) => {
+const sisterRouteForLocale = (loc: string) => {
   const routes = st.site?.routes?.[loc] || []
-  const root = routes.find(r => r.path === '/' || r.path === `/${loc}`)
-  return root || null
+  const currentPageId = pg.page?.id
+  if (currentPageId) {
+    const sister = routes.find(r => r.page_id === currentPageId)
+    if (sister) return sister
+  }
+  return routes.find(r => r.path === '/' || r.path === `/${loc}`) || null
 }
 
 const navigateToLocale = async (loc: string) => {
-  const route = rootRouteForLocale(loc)
+  const route = sisterRouteForLocale(loc)
   if (!route) return
   const routeName = `${loc}-${route.page_id}`
   if (!router.hasRoute(routeName)) return
