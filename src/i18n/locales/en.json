@@ -51,6 +51,7 @@
     "routes": "Route options",
     "seo": "SEO",
     "status": "Status",
+    "pageOptions": "Page options",
     "unsavedChanges": "Unsaved changes",
     "unsavedChangesDesc": "You have unsaved changes. What would you like to do before switching language?",
     "discardChanges": "Don't save"

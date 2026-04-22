@@ -2,6 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Nothing from '@/components/Nothing.vue'
 import RouterContent from '@/components/editor/RouterContent.vue'
 
+const ROUTE_KEY = 'lastRoute'
+
+export const saveCurrentRoute = () => {
+  const path = router.currentRoute.value.path
+  if (path && path !== '/') localStorage.setItem(ROUTE_KEY, path)
+}
+
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -11,6 +18,10 @@ export const router = createRouter({
       component: Nothing
     }
   ]
+})
+
+router.afterEach((to) => {
+  if (to.path && to.path !== '/') localStorage.setItem(ROUTE_KEY, to.path)
 })
 
 export const clearRoutes = () => {
@@ -33,9 +44,12 @@ export const loadSiteRoutes = async (routes: Record<string, { path: string; page
       })
     })
   }
-  await goToHome()
-}
 
-const goToHome = async () => {
-  await router.push({ path: '/' })
+  const saved = localStorage.getItem(ROUTE_KEY)
+  if (saved) {
+    const allPaths = router.getRoutes().map(r => r.path)
+    await router.push(allPaths.includes(saved) ? saved : '/').catch(() => router.push('/'))
+  } else {
+    await router.push('/')
+  }
 }

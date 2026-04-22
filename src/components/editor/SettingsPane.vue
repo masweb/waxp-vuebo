@@ -11,6 +11,7 @@ watch(activeBlock, (val) => {
 const components: Record<string, ReturnType<typeof defineAsyncComponent>> = {
   SiteSettings: defineAsyncComponent(() => import('@/components/editor/settings/SiteSettings.vue')),
   RoutingSettings: defineAsyncComponent(() => import('@/components/editor/settings/routing/RoutingSettings.vue')),
+  PageSettings: defineAsyncComponent(() => import('@/components/editor/settings/PageSettings.vue')),
   SectionSettings: defineAsyncComponent(() => import('@/components/editor/settings/SectionSettings.vue')),
   BlockSettings: defineAsyncComponent(() => import('@/components/editor/settings/BlockSettings.vue'))
 }

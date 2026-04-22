@@ -51,6 +51,7 @@
     "routes": "Opciones de rutas",
     "seo": "SEO",
     "status": "Estado",
+    "pageOptions": "Opciones de página",
     "unsavedChanges": "Cambios sin guardar",
     "unsavedChangesDesc": "Tienes cambios sin guardar. ¿Qué deseas hacer antes de cambiar de idioma?",
     "discardChanges": "No guardar"
