@@ -11,6 +11,13 @@ export interface BlockCoords {
   h: number
 }
 
+export type BlockLinkType = 'internal' | 'external' | 'anchor'
+
+export interface BlockLink {
+  type: BlockLinkType
+  url: string
+}
+
 export interface Block {
   id: number
   type: string
@@ -25,6 +32,7 @@ export interface Block {
   lineHeight?: null | number
   divider?: SideBorder
   image?: BlockImage
+  link?: BlockLink
 }
 
 export interface Section {

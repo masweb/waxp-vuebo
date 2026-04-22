@@ -171,6 +171,10 @@ $toolColorHover: var(--se-tool-color-hover);
         border: 1px dashed transparent;
         position: relative;
 
+        &.block-link {
+          cursor: pointer;
+        }
+
         .block-bg-overlay {
           position: absolute;
           inset: 0;

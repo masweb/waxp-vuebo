@@ -87,6 +87,8 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
 
     <component :is="settingsComponent" />
 
+    <LinkSettings v-if="activeBlock.link !== undefined || activeBlock.type === 'Image'" />
+
     <BackgroundSettings
       v-if="activeBlock.type !== 'Image'"
       :background="activeBlock.style.background"

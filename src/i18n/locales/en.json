@@ -152,7 +152,15 @@
     "fitCover": "Cover",
     "imageFitHint": "Width: image fills 100% of the block. Height: image fills the full height. Cover: image covers the entire block, cropping as needed.",
     "imageAlt": "Alternative text (ALT)",
-    "imageAltHint": "Image description for SEO and accessibility"
+    "imageAltHint": "Image description for SEO and accessibility",
+    "link": "Link",
+    "linkType": "Link type",
+    "linkInternal": "Internal",
+    "linkExternal": "External",
+    "linkAnchor": "Anchor",
+    "linkRoute": "Internal route",
+    "linkSelectRoute": "Select route...",
+    "linkUrl": "URL"
   },
   "grid": {
     "cols": "Columns",

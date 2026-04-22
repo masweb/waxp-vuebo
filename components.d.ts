@@ -29,6 +29,7 @@ declare module 'vue' {
     Image: typeof import('./src/components/editor/blocks/Image.vue')['default']
     ImageSettings: typeof import('./src/components/editor/settings/blocks/ImageSettings.vue')['default']
     LanguageSwitcher: typeof import('./src/components/editor/blocks/LanguageSwitcher.vue')['default']
+    LinkSettings: typeof import('./src/components/editor/settings/blocks/LinkSettings.vue')['default']
     LoginView: typeof import('./src/views/auth/LoginView.vue')['default']
     MainBar: typeof import('./src/components/MainBar.vue')['default']
     MediaManager: typeof import('./src/components/MediaManager.vue')['default']

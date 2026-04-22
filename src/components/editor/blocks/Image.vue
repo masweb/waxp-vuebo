@@ -9,6 +9,8 @@ const { blockRef, blockStyle, backgroundStyle, onContextMenu } = useBlockBase(
   () => props.section
 )
 
+const { hasLink, onBlockClick } = useBlockLink(() => props.block)
+
 const vp = viewportStore()
 const pg = pageStore()
 const apiBase = import.meta.env.VITE_END_POINT
@@ -17,11 +19,12 @@ const currentUrl = computed(() => {
   const img = props.block.image
   if (!img) return ''
   const mode = vp.mode
-  const url = mode === 'mobile'
-    ? (img.url_mob || img.url_tab || img.url_desk)
-    : mode === 'tablet'
-      ? (img.url_tab || img.url_desk)
-      : img.url_desk
+  const url =
+    mode === 'mobile'
+      ? img.url_mob || img.url_tab || img.url_desk
+      : mode === 'tablet'
+        ? img.url_tab || img.url_desk
+        : img.url_desk
   return url ? `${apiBase}${url}` : ''
 })
 
@@ -33,23 +36,26 @@ const imgStyle = computed(() => {
   const img = props.block.image
   if (!img) return {}
   if (img.fit === 'cover') return { width: '100%', height: '100%', objectFit: 'cover' }
-  return img.fit === 'height'
-    ? { height: '100%', width: 'auto', maxWidth: 'none' }
-    : { width: '100%', height: 'auto' }
+  return img.fit === 'height' ? { height: '100%', width: 'auto', maxWidth: 'none' } : { width: '100%', height: 'auto' }
 })
+
+const onClick = (e: MouseEvent) => {
+  if ((e.target as HTMLElement).closest('.blockui')) return
+  onBlockClick()
+}
 </script>
 
 <template>
-  <div ref="blockRef" class="block image-block" :style="blockStyle" @contextmenu="onContextMenu">
+  <div
+    ref="blockRef"
+    class="block image-block"
+    :class="{ 'block-link': hasLink }"
+    :style="blockStyle"
+    @contextmenu="onContextMenu"
+    @click="onClick"
+  >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
-    <img
-      v-if="currentUrl"
-      :src="currentUrl"
-      :alt="altText"
-      :style="imgStyle"
-      class="image-block__img"
-      loading="lazy"
-    />
+    <img v-if="currentUrl" :src="currentUrl" :alt="altText" :style="imgStyle" class="image-block__img" loading="lazy" />
     <div class="blockui resize"></div>
   </div>
 </template>
