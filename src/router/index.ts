@@ -6,7 +6,7 @@ const ROUTE_KEY = 'lastRoute'
 
 export const saveCurrentRoute = () => {
   const path = router.currentRoute.value.path
-  if (path && path !== '/') localStorage.setItem(ROUTE_KEY, path)
+  if (path) localStorage.setItem(ROUTE_KEY, path)
 }
 
 export const router = createRouter({
@@ -21,7 +21,7 @@ export const router = createRouter({
 })
 
 router.afterEach((to) => {
-  if (to.path && to.path !== '/') localStorage.setItem(ROUTE_KEY, to.path)
+  if (to.name && to.path) localStorage.setItem(ROUTE_KEY, to.path)
 })
 
 export const clearRoutes = () => {
@@ -45,11 +45,7 @@ export const loadSiteRoutes = async (routes: Record<string, { path: string; page
     })
   }
 
-  const saved = localStorage.getItem(ROUTE_KEY)
-  if (saved) {
-    const allPaths = router.getRoutes().map(r => r.path)
-    await router.push(allPaths.includes(saved) ? saved : '/').catch(() => router.push('/'))
-  } else {
-    await router.push('/')
-  }
+  const target = window.location.pathname
+  const allPaths = router.getRoutes().map(r => r.path)
+  await router.push(allPaths.includes(target) ? target : '/').catch(() => router.push('/'))
 }
