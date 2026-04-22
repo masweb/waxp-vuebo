@@ -1,6 +1,12 @@
 <script setup lang="ts">
 const stt = settingsStore()
 const { showsettings, setting } = storeToRefs(stt)
+const pg = pageStore()
+const { activeBlock } = storeToRefs(pg)
+
+watch(activeBlock, (val) => {
+  if (!val && setting.value === 'BlockSettings') showsettings.value = false
+})
 
 const components: Record<string, ReturnType<typeof defineAsyncComponent>> = {
   SiteSettings: defineAsyncComponent(() => import('@/components/editor/settings/SiteSettings.vue')),

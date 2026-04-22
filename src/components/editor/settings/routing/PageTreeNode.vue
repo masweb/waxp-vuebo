@@ -8,6 +8,7 @@ const props = defineProps<{
   depth?: number
   parentPath?: string
   activeLocale?: string
+  defaultLocale?: string
 }>()
 
 const emit = defineEmits<{
@@ -40,8 +41,13 @@ const displaySlug = computed(() => (isRoot.value ? '' : slug.value || '—'))
 const fullPath = computed(() => {
   const s = slug.value
   const pp = props.parentPath || ''
-  if (!pp) return s ? `/${s}` : '/'
-  return s ? `${pp}/${s}` : pp
+  let path: string
+  if (!pp) path = s ? `/${s}` : '/'
+  else path = s ? `${pp}/${s}` : pp
+  if (currentLocale.value && currentLocale.value !== props.defaultLocale && !path.startsWith(`/${currentLocale.value}`)) {
+    path = `/${currentLocale.value}${path === '/' ? '' : path}`
+  }
+  return path
 })
 
 const hasChildren = computed(() => props.page.children && props.page.children.length > 0)
@@ -117,6 +123,7 @@ const navigateToPage = async () => {
         :depth="(depth || 0) + 1"
         :parent-path="fullPath"
         :active-locale="activeLocale"
+        :default-locale="defaultLocale"
         @edit="emit('edit', $event)"
         @add-child="emit('addChild', $event)"
         @delete="emit('delete', $event)"

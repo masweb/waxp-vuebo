@@ -66,6 +66,7 @@
   "validation": {
     "required": "Este campo es obligatorio",
     "email": "Debe ser un email válido",
+    "slugDuplicate": "Ya existe una página con este slug en el mismo nivel",
     "password": {
       "min": "La contraseña debe tener al menos 6 caracteres",
       "uppercase": "La contraseña debe contener al menos una letra mayúscula",

@@ -227,6 +227,9 @@ onUnmounted(() => {
         <button @click="stt.setSetting('RoutingSettings')" class="btn btn-sm btn-link">
           <IconSitemapFilled :size="24" />
         </button>
+        <button class="btn btn-sm btn-link">
+          <IconFileFilled :size="24" />
+        </button>
         <button @click="toggleSiteDarkMode" class="btn btn-sm btn-link">
           <IconSunHighFilled v-if="site.options.darkMode" :size="24" />
           <IconMoonFilled v-else :size="24" />

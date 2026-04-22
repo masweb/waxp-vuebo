@@ -31,16 +31,12 @@ watch(defaultLocale, (val) => {
 
 const routesByLocale = computed(() => st.site?.routes || {} as Record<string, { path: string; page_id: number }[]>)
 
-const buildTree = (flatPages: Page[], locale: string): Page[] => {
-  const routes = routesByLocale.value[locale] || []
-  const allowedIds = new Set(routes.map(r => r.page_id))
+const buildTree = (flatPages: Page[]): Page[] => {
   const map = new Map<number, Page>()
   const roots: Page[] = []
 
   for (const p of flatPages) {
-    if (allowedIds.has(p.id)) {
-      map.set(p.id, { ...p, children: [] })
-    }
+    map.set(p.id, { ...p, children: [] })
   }
 
   for (const p of map.values()) {
@@ -54,7 +50,7 @@ const buildTree = (flatPages: Page[], locale: string): Page[] => {
   return roots
 }
 
-const tree = computed(() => buildTree(pages.value, activeLocale.value))
+const tree = computed(() => buildTree(pages.value))
 
 const routeCountForLocale = (loc: string) => (routesByLocale.value[loc] || []).length
 
@@ -135,6 +131,7 @@ onMounted(loadPages)
           :parent-id="formState.parentId"
           :locales="localeCodes"
           :is-root="formState.mode === 'edit' && formState.page ? isRootPage(formState.page) : false"
+          :existing-pages="pages"
           @save="handleSave"
           @cancel="formState = null"
         />
@@ -173,7 +170,7 @@ onMounted(loadPages)
       </ul>
 
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <small class="text-secondary fw-semibold">{{ routeCountForLocale(activeLocale) }} {{ t('pages.routes').toLowerCase() }}</small>
+        <small class="text-secondary fw-semibold">{{ pages.length }} {{ t('pages.routes').toLowerCase() }}</small>
         <button class="btn btn-sm btn-outline-primary" @click="handleAddRoot">
           <IconPlus :size="14" class="me-1" />
           {{ t('pages.addRoot') }}
@@ -186,6 +183,7 @@ onMounted(loadPages)
           :key="page.id"
           :page="page"
           :active-locale="activeLocale"
+          :default-locale="defaultLocale"
           @edit="handleEdit"
           @add-child="handleAddChild"
           @delete="handleDelete"

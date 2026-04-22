@@ -6,6 +6,7 @@ const props = defineProps<{
   parentId?: number | null
   locales: string[]
   isRoot?: boolean
+  existingPages: Page[]
 }>()
 
 const emit = defineEmits<{
@@ -43,6 +44,17 @@ const required = (val: string): true | string => {
   return true
 }
 
+const slugUnique = (slug: string, loc: string): true | string => {
+  const s = slug.trim()
+  if (!s) return true
+  const siblings = props.existingPages.filter(p =>
+    p.parent_id === (props.parentId ?? null) && p.id !== props.page?.id
+  )
+  const taken = siblings.some(p => p.slugs.some(sl => sl.locale_code === loc && sl.slug === s))
+  if (taken) return t('validation.slugDuplicate')
+  return true
+}
+
 const validateAll = (): boolean => {
   fieldErrors.value = {}
   let valid = true
@@ -53,6 +65,12 @@ const validateAll = (): boolean => {
       if (slugResult !== true) {
         fieldErrors.value[`${loc}_slug`] = slugResult
         valid = false
+      } else {
+        const uniqueResult = slugUnique(values.value[`${loc}_slug`], loc)
+        if (uniqueResult !== true) {
+          fieldErrors.value[`${loc}_slug`] = uniqueResult
+          valid = false
+        }
       }
     }
     const titleResult = required(values.value[`${loc}_seoTitle`])
