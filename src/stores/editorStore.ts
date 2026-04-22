@@ -1,5 +1,5 @@
 export type EditorMode = 'draw' | 'edit'
-export type BlockType = 'Text' | 'Image' | 'Space' | 'DarkMode' | 'LanguageSwitcher'
+export type BlockType = 'Text' | 'Image' | 'Space' | 'DarkMode' | 'LanguageSwitcher' | 'Button'
 
 export const editorStore = defineStore('editor', () => {
   const mode = ref<EditorMode>('draw')

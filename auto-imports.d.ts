@@ -157,7 +157,7 @@ declare global {
   export type { Fonts, Font } from './src/types/defaultOptions'
   import('./src/types/defaultOptions')
   // @ts-ignore
-  export type { BreakpointSize, BlockCoords, BlockLinkType, BlockLink, Block, Section, SectionStyle, BlockStyle, Background, Border, SidesBorders, SideBorder, Sides, Corners, ViewportMode, BlockImageFit, BlockImage } from './src/types/layout'
+  export type { BreakpointSize, BlockCoords, BlockLinkType, BlockLink, Block, Section, SectionStyle, BlockStyle, Background, Border, SidesBorders, SideBorder, Sides, Corners, ViewportMode, BlockImageFit, BlockImage, BlockButtonColors, BlockButton } from './src/types/layout'
   import('./src/types/layout')
   // @ts-ignore
   export type { PageType, PageSeo, Slug, Page, PageRoute, CreatePageRequest, UpdatePageRequest, ListPagesParams, ListPagesResponse, RoutesResponse } from './src/types/page'

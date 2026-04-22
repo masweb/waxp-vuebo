@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { IconTextPlus, IconPhoto, IconSpacingVertical, IconContrastFilled, IconLanguage } from '@tabler/icons-vue'
+import {
+  IconTextPlus,
+  IconPhoto,
+  IconSpacingVertical,
+  IconContrastFilled,
+  IconLanguage,
+  IconXboxB
+} from '@tabler/icons-vue'
 import type { BlockType } from '@/stores/editorStore'
 const ed = editorStore()
 const { showModalNewBlock } = storeToRefs(ed)
@@ -19,6 +26,10 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
         <IconPhoto size="40" stroke-width="1" />
         <small>{{ t('block.image') }}</small>
       </button>
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Button')">
+        <IconXboxB size="40" stroke-width="1" />
+        <small>{{ t('block.button') }}</small>
+      </button>
       <button class="btn d-flex flex-column align-items-center" @click="pick('Space')">
         <IconSpacingVertical size="40" stroke-width="1" />
         <small>{{ t('block.space') }}</small>
@@ -31,9 +42,9 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
         <IconLanguage size="40" stroke-width="1" />
         <small>{{ t('block.languageSwitcher') }}</small>
       </button>
-      <button class="btn d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')"></button>
-      <button class="btn d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')"></button>
-      <button class="btn d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')"></button>
+
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Button')"></button>
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Button')"></button>
     </CModalBody>
   </CModal>
 </template>

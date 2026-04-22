@@ -33,6 +33,7 @@ export interface Block {
   divider?: SideBorder
   image?: BlockImage
   link?: BlockLink
+  button?: BlockButton
 }
 
 export interface Section {
@@ -171,4 +172,23 @@ export interface BlockImage {
   url_tab: string
   url_mob: string
   fit: BlockImageFit
+}
+
+export interface BlockButtonColors {
+  light: string
+  dark: string
+}
+
+export interface BlockButton {
+  bg: BlockButtonColors
+  hover: BlockButtonColors
+  active: BlockButtonColors
+  focus: BlockButtonColors
+  textColor: BlockButtonColors
+  hoverTextColor: BlockButtonColors
+  activeTextColor: BlockButtonColors
+  borderColor: BlockButtonColors
+  border: Border
+  width: string
+  padding: Sides
 }

@@ -9,16 +9,17 @@ Flujo completo de creación de bloques: desde el dibujado hasta la renderizació
 **`src/stores/editorStore.ts`**
 
 ```typescript
-type BlockType = 'Text' | 'Image' | 'Space' | 'DarkMode' | 'LanguageSwitcher'
+type BlockType = 'Text' | 'Image' | 'Space' | 'DarkMode' | 'LanguageSwitcher' | 'Button'
 ```
 
-| Tipo | Descripción | Propiedades propias | Usa `locales` |
-|---|---|---|---|
-| `Text` | Bloque de texto rico (Tiptap) | `color`, `darkColor`, `fontSize`, `lineHeight` | Sí (`text`) |
-| `Image` | Bloque de imagen (fondo restringido a modo imagen) | — | No |
-| `Space` | Espaciador con línea divisoria opcional | `divider` | No |
-| `DarkMode` | Toggle de modo claro/oscuro | `color`, `darkColor`, `fontSize` | No |
-| `LanguageSwitcher` | Selector de idioma (navega a la raíz del locale) | — | No |
+| Tipo | Descripción | Propiedades propias | Usa `locales` | Usa `link` |
+|---|---|---|---|---|
+| `Text` | Bloque de texto rico (Tiptap) | `color`, `darkColor`, `fontSize`, `lineHeight` | Sí (`text`) | No |
+| `Image` | Bloque de imagen (fondo restringido a modo imagen) | `image` | Sí (`alt`) | Opcional |
+| `Space` | Espaciador con línea divisoria opcional | `divider` | No | No |
+| `DarkMode` | Toggle de modo claro/oscuro | `color`, `darkColor`, `fontSize` | No | No |
+| `LanguageSwitcher` | Selector de idioma (navega a la raíz del locale) | — | No | No |
+| `Button` | Botón con estilos completos y enlace obligatorio | `button`, `link` | Sí (`label`) | Obligatorio |
 
 ---
 
@@ -36,7 +37,7 @@ interface Block {
   t: BlockCoords     // tablet
   style: BlockStyle  // fondo, borde, padding, hideOn
 
-  // Props compartidas (Text, DarkMode, futuros bloques con tamaño configurable)
+  // Props compartidas (Text, DarkMode, Button, futuros bloques con tamaño configurable)
   color?: null | string
   darkColor?: null | string
   fontSize?: null | number
@@ -44,6 +45,15 @@ interface Block {
 
   // Props de Space
   divider?: SideBorder
+
+  // Props de Image
+  image?: BlockImage
+
+  // Capa de enlace (Image: opcional, Button: obligatorio)
+  link?: BlockLink
+
+  // Props de Button
+  button?: BlockButton
 }
 ```
 
@@ -73,6 +83,51 @@ interface SideBorder {
   mode: 'solid' | 'dashed' | 'dotted' | 'double' | 'groove' | 'ridge' | 'inset' | 'outset' | 'none'
 }
 ```
+
+### BlockLink (capa de enlace)
+
+```typescript
+type BlockLinkType = 'internal' | 'external' | 'anchor'
+
+interface BlockLink {
+  type: BlockLinkType
+  url: string
+}
+```
+
+- `internal` — ruta interna del site, navega con `router.push(url)`
+- `external` — URL externa, abre con `window.open(url, '_blank')`
+- `anchor` — reservado, aún sin desarrollar
+- Solo algunos tipos de bloque soportan esta capa (Image: opcional, Button: obligatorio)
+
+### BlockButtonColors
+
+```typescript
+interface BlockButtonColors {
+  light: string
+  dark: string
+}
+```
+
+### BlockButton
+
+```typescript
+interface BlockButton {
+  bg: BlockButtonColors           // fondo normal
+  hover: BlockButtonColors        // fondo hover
+  active: BlockButtonColors       // fondo activo
+  focus: BlockButtonColors        // anillo de foco (box-shadow)
+  textColor: BlockButtonColors    // color del texto
+  hoverTextColor: BlockButtonColors  // color del texto en hover
+  activeTextColor: BlockButtonColors // color del texto en active
+  borderColor: BlockButtonColors  // color del borde
+  border: Border                  // radio, grosor, estilo, toggle
+  width: string                   // ancho en % (10-100)
+  padding: Sides                  // padding individual (t, r, b, l en px)
+}
+```
+
+Todos los colores tienen versión `light` y `dark` que se alternan según `site.options.darkMode`.
 
 ---
 
@@ -110,11 +165,11 @@ Cada tipo de bloque define qué claves tiene `locales`. Por defecto `locales` es
 | Tipo | `locales` | Ejemplo |
 |---|---|---|
 | `Text` | `{ text: string }` | `{ "text": "Bienvenidos" }` |
-| `Image` | `undefined` | — |
+| `Image` | `{ alt: string }` | `{ "alt": "Logo de la empresa" }` |
 | `Space` | `undefined` | — |
 | `DarkMode` | `undefined` | — |
 | `LanguageSwitcher` | `undefined` | — |
-| `Button` (futuro) | `{ label: string }` | `{ "label": "Comprar" }` |
+| `Button` | `{ label: string }` | `{ "label": "Comprar" }` |
 | `Card` (futuro) | `{ title: string, description: string }` | `{ "title": "Producto", "description": "Detalle" }` |
 
 Un bloque puede tener múltiples campos en `locales` (título + descripción, etc.).
@@ -213,6 +268,7 @@ const textStyle = computed(() => {
 | **Text** | Aplica directamente al wrapper del texto (`font-size`, `color`, `line-height`) | Todo el contenido TipTap hereda los estilos |
 | **DarkMode** | Extrae `font-size` → píxeles para `IconSunFilled`/`IconMoonFilled` `size`. Extrae `color` para el icono. Si no hay color en el bloque, hereda de `site.options.lightColor`/`darkColor` | No usa `line-height` |
 | **LanguageSwitcher** | Aplica al `<select>` de idioma | Hereda color y fuente del bloque |
+| **Button** | Aplica al `<button>` del bloque | Hereda color y fuente del bloque |
 
 ### Cómo consumir `textStyle` en un nuevo bloque
 
@@ -254,7 +310,7 @@ Usuario dibuja en sección (useNewBlock)
   → Suelta el mouse (onEnd)
     → editorStore.requestBlockType()
       → Abre ModalNewBlock.vue (Promise)
-    → Usuario elige tipo (Text / Image / Space / DarkMode / LanguageSwitcher)
+    → Usuario elige tipo (Text / Image / Space / DarkMode / LanguageSwitcher / Button)
       → editorStore.selectBlockType(type) (resuelve Promise)
     → POST /api/sites/{id}/blocks/next-id (obtiene ID)
     → Se construye el objeto Block con defaults
@@ -278,7 +334,7 @@ selectBlockType(type: BlockType)
 
 **`src/components/editor/ModalNewBlock.vue`**
 
-Muestra 5 botones (Texto, Imagen, Espacio, Modo oscuro, Idioma) con iconos de Tabler Icons. Al pulsar uno, llama a `selectBlockType(type)`.
+Muestra 6 botones (Texto, Imagen, Espacio, Modo oscuro, Idioma, Botón) con iconos de Tabler Icons. Al pulsar uno, llama a `selectBlockType(type)`.
 
 ### 2. Inicialización del objeto Block
 
@@ -304,13 +360,24 @@ const block: Block = {
   ...(blockType === 'DarkMode'
     ? { color: null, darkColor: null, fontSize: null }
     : {}),
+  ...(blockType === 'Image'
+    ? { locales: { alt: '' }, image: { url_desk: '', url_tab: '', url_mob: '', fit: 'cover' } }
+    : {}),
+  ...(blockType === 'Button'
+    ? {
+        locales: { label: 'Button' },
+        color: null, darkColor: null, fontSize: null, lineHeight: null,
+        link: { type: 'internal', url: '' },
+        button: { bg, hover, active, focus, textColor, hoverTextColor, activeTextColor, borderColor, border, width, padding }
+      }
+    : {}),
 
   style: { /* fondo, borde, padding con defaults */ }
 }
 ```
 
-- Los bloques traducibles (Text) inicializan `locales` con claves vacías
-- Los bloques no traducibles (Image, Space, DarkMode, LanguageSwitcher) no llevan `locales`
+- Los bloques traducibles (Text, Image, Button) inicializan `locales` con claves vacías
+- Los bloques no traducibles (Space, DarkMode, LanguageSwitcher) no llevan `locales`
 - Las propiedades propias de cada tipo se añaden mediante spread condicional
 
 ### 3. Colocación en el grid
@@ -340,7 +407,8 @@ const blockComponents: Record<string, Component> = {
   Image: defineAsyncComponent(() => import('./blocks/Image.vue')),
   Space: defineAsyncComponent(() => import('./blocks/Space.vue')),
   DarkMode: defineAsyncComponent(() => import('./blocks/DarkMode.vue')),
-  LanguageSwitcher: defineAsyncComponent(() => import('./blocks/LanguageSwitcher.vue'))
+  LanguageSwitcher: defineAsyncComponent(() => import('./blocks/LanguageSwitcher.vue')),
+  Button: defineAsyncComponent(() => import('./blocks/Button.vue'))
 }
 
 const blockComponent = computed(() => blockComponents[props.block.type])
@@ -378,10 +446,11 @@ Internamente:
 | Archivo | Tipo | Funcionalidad |
 |---|---|---|
 | `blocks/Text.vue` | Text | Editor TipTap, doble-click para editar, color/fuente responsive. Lee `block.locales.text` |
-| `blocks/Image.vue` | Image | Fondo restringido a modo imagen (`BackgroundSettings` con `allowedModes="['image']"`) |
+| `blocks/Image.vue` | Image | Imagen con ajuste cover/width/height, ALT traducible, capa enlace opcional |
 | `blocks/Space.vue` | Space | Línea divisoria opcional centrada verticalmente |
 | `blocks/DarkMode.vue` | DarkMode | Toggle `site.options.darkMode`, icono sol/luna con tamaño y color configurable |
 | `blocks/LanguageSwitcher.vue` | LanguageSwitcher | `<select>` con idiomas del site, navega a la raíz del locale seleccionado |
+| `blocks/Button.vue` | Button | Botón centrado con colores light/dark completos, borde propio, enlace obligatorio |
 
 ### Text — Contenido multilenguaje
 
@@ -467,6 +536,27 @@ Botón centrado en el bloque que alterna `siteStore().site.options.darkMode`:
 />
 ```
 
+Image soporta la capa de enlace opcional (`block.link`). Cuando está activa, el bloque muestra `cursor: pointer` y al hacer click navega según el tipo de enlace.
+
+### Button — Botón con estilos completos
+
+**`src/components/editor/blocks/Button.vue`**
+
+Botón centrado en el bloque con personalización completa de estilos:
+
+- **Colores light/dark** para: fondo, hover, activo, anillo de foco, texto, texto hover, texto activo, borde
+- **Borde propio** independiente del `style.border` del bloque, con radio (unificado o por esquina), grosor, estilo y toggle
+- **Padding** unificado o individual (arriba, derecha, abajo, izquierda)
+- **Ancho** configurable en porcentaje
+- **Texto traducible** (`block.locales.label`) con `fontSize`/`lineHeight` heredables
+- **Enlace obligatorio** (`block.link`) — al hacer click en el botón se activa la navegación
+
+El composable `useBlockLink` gestiona la navegación:
+- `internal` → `router.push(url)`
+- `external` → `window.open(url, '_blank')`
+
+Los estados hover/active/focus se implementan con CSS custom properties (`--btn-hover-bg`, `--btn-active-bg`, etc.) para mantener la reactividad.
+
 ---
 
 ## Arquitectura del panel de opciones
@@ -481,8 +571,10 @@ Carga dinámicamente el componente de ajustes según el tipo de bloque, igual qu
 <script setup lang="ts">
 const settingsComponents: Record<string, Component> = {
   Text: defineAsyncComponent(() => import('./blocks/TextSettings.vue')),
+  Image: defineAsyncComponent(() => import('./blocks/ImageSettings.vue')),
   Space: defineAsyncComponent(() => import('./blocks/SpaceSettings.vue')),
-  DarkMode: defineAsyncComponent(() => import('./blocks/DarkModeSettings.vue'))
+  DarkMode: defineAsyncComponent(() => import('./blocks/DarkModeSettings.vue')),
+  Button: defineAsyncComponent(() => import('./blocks/ButtonSettings.vue'))
 }
 
 const settingsComponent = computed(() => settingsComponents[activeBlock.value?.type ?? ''])
@@ -504,16 +596,20 @@ const settingsComponent = computed(() => settingsComponents[activeBlock.value?.t
 El panel se estructura en 3 zonas:
 
 1. **Cabecera** — Tipo de bloque (siempre visible)
-2. **Settings por tipo** — Componente dinámico (`TextSettings`, `SpaceSettings`, `DarkModeSettings`)
-3. **Settings comunes** — Fondo (`BackgroundSettings`, con modos restringidos para Image) + coordenadas por viewport
+2. **Settings por tipo** — Componente dinámico (`TextSettings`, `ImageSettings`, `SpaceSettings`, `DarkModeSettings`, `ButtonSettings`)
+3. **Capa de enlace** — `LinkSettings` (visible para Image y Button)
+4. **Settings comunes** — Fondo (`BackgroundSettings`, con modos restringidos para Image) + coordenadas por viewport
 
 ### Componentes de settings por tipo
 
 | Archivo | Tipo | Opciones |
 |---|---|---|
 | `settings/blocks/TextSettings.vue` | Text | Color claro/oscuro, tamaño de fuente, altura de línea |
+| `settings/blocks/ImageSettings.vue` | Image | URLs por dispositivo, ajuste de imagen, texto ALT |
 | `settings/blocks/SpaceSettings.vue` | Space | Toggle de línea, color, grosor, estilo de borde |
 | `settings/blocks/DarkModeSettings.vue` | DarkMode | Color claro/oscuro, tamaño de fuente |
+| `settings/blocks/ButtonSettings.vue` | Button | Texto, colores bg/hover/active/focus/texto/borde (light+dark), fontSize/lineHeight, ancho, padding, radio de borde, borde propio |
+| `settings/blocks/LinkSettings.vue` | Image, Button | Toggle de enlace, tipo (interno/externo/ancla), selector de ruta interna o campo URL |
 
 Todos acceden a `activeBlock` desde `pageStore()` directamente (no reciben props). Mutan el bloque con `historyStore().snapshot()` antes de cada cambio.
 
@@ -561,33 +657,46 @@ Reutilizar `color`, `darkColor`, `fontSize` (ya existentes en `Block`):
 3. El backend se encarga del mergeo por locale — no hay lógica de idiomas en el bloque
 4. Para múltiples campos: `{ locales: { title: '', description: '' } }`
 
-### Ejemplo: añadir tipo "Button"
+### Si el bloque soporta la capa de enlace
+
+1. **Componente** — Usar `useBlockLink(() => props.block)` para obtener `onBlockClick`, `hasLink`
+2. **Settings** — Añadir `LinkSettings` en `BlockSettings.vue` para los tipos que lo soportan
+3. **LinkSettings** — Toggle de enlace, selector de tipo (interno/externo/ancla), ruta o URL
+4. Para enlace obligatorio: inicializar con `link: { type: 'internal', url: '' }`
+5. `LinkSettings` se muestra si `activeBlock.type` está en la lista de tipos soportados
+
+### Ejemplo: añadir tipo "Card" (futuro)
 
 ```typescript
 // 1. editorStore.ts
-export type BlockType = 'Text' | 'Image' | 'Space' | 'DarkMode' | 'LanguageSwitcher' | 'Button'
+export type BlockType = 'Text' | 'Image' | 'Space' | 'DarkMode' | 'LanguageSwitcher' | 'Button' | 'Card'
 
-// 2. layout.ts — solo si necesita props propias nuevas
-btnColor?: null | string
+// 2. layout.ts — props propias nuevas
+interface BlockCard {
+  borderColor: BlockButtonColors
+  border: Border
+  padding: Sides
+}
+// Añadir a Block: card?: BlockCard
 
 // 3. useNewBlock.ts — añadir spread
-...(blockType === 'Button'
-  ? { locales: { label: '' }, color: null, darkColor: null, fontSize: null }
+...(blockType === 'Card'
+  ? { locales: { title: '', description: '' }, card: { ... } }
   : {}),
 
 // 4. ModalNewBlock.vue — añadir botón
-<button @click="pick('Button')">...</button>
+<button @click="pick('Card')">...</button>
 
-// 5. blocks/Button.vue — leer locales
-const label = computed(() => props.block.locales?.label || '')
+// 5. blocks/Card.vue — leer locales
+const title = computed(() => props.block.locales?.title || '')
 
 // 6. PageBlock.vue
-Button: defineAsyncComponent(() => import('./blocks/Button.vue'))
+Card: defineAsyncComponent(() => import('./blocks/Card.vue'))
 
-// 7. settings/blocks/ButtonSettings.vue — color + fontSize + label
+// 7. settings/blocks/CardSettings.vue — opciones de Card
 
 // 8. BlockSettings.vue
-Button: defineAsyncComponent(() => import('./blocks/ButtonSettings.vue'))
+Card: defineAsyncComponent(() => import('./blocks/CardSettings.vue'))
 ```
 
 ---
@@ -596,26 +705,31 @@ Button: defineAsyncComponent(() => import('./blocks/ButtonSettings.vue'))
 
 | Archivo | Rol |
 |---|---|
-| `src/types/layout.ts` | Tipos `Block`, `BlockCoords`, `SideBorder`, `MODE_KEY` |
+| `src/types/layout.ts` | Tipos `Block`, `BlockCoords`, `SideBorder`, `BlockLink`, `BlockButton`, `BlockButtonColors`, `MODE_KEY` |
 | `src/stores/editorStore.ts` | `BlockType`, modal de selección, modo editor |
 | `src/stores/pageStore.ts` | `currentLocale`, `getPage(id, locale)`, `updatePage(locale)` |
 | `src/stores/siteStore.ts` | `loadedLocale`, `loadSiteForLocale(locale)`, `updateSite(locale)` |
 | `src/composables/useNewBlock.ts` | Drag handler, creación del objeto Block, colocación |
 | `src/composables/useBlockBase.ts` | Lógica compartida (grid, move, resize, context menu) |
 | `src/composables/useBlockGrid.ts` | Cálculo de estilos (grid position, fondo, texto responsive) |
+| `src/composables/useBlockLink.ts` | Lógica de navegación para la capa de enlace |
 | `src/composables/useTipTap.ts` | Editor TipTap singleton, lee/escribe `block.locales.text` |
 | `src/components/editor/ModalNewBlock.vue` | Modal de selección de tipo |
 | `src/components/editor/PageBlock.vue` | Dispatcher de componentes de bloque |
 | `src/components/editor/RouterContent.vue` | Carga página + site para el locale activo |
 | `src/components/editor/blocks/Text.vue` | Bloque Text (TipTap + `locales.text`) |
-| `src/components/editor/blocks/Image.vue` | Bloque Image |
+| `src/components/editor/blocks/Image.vue` | Bloque Image (imagen + ALT + enlace opcional) |
 | `src/components/editor/blocks/Space.vue` | Bloque Space |
 | `src/components/editor/blocks/DarkMode.vue` | Bloque DarkMode |
 | `src/components/editor/blocks/LanguageSwitcher.vue` | Bloque LanguageSwitcher (select + modal confirmación) |
+| `src/components/editor/blocks/Button.vue` | Bloque Button (colores light/dark, borde propio, enlace obligatorio) |
 | `src/components/editor/settings/BlockSettings.vue` | Panel de opciones (dispatcher por tipo) |
 | `src/components/editor/settings/blocks/TextSettings.vue` | Opciones de Text |
+| `src/components/editor/settings/blocks/ImageSettings.vue` | Opciones de Image |
 | `src/components/editor/settings/blocks/SpaceSettings.vue` | Opciones de Space (divider) |
 | `src/components/editor/settings/blocks/DarkModeSettings.vue` | Opciones de DarkMode |
+| `src/components/editor/settings/blocks/ButtonSettings.vue` | Opciones de Button |
+| `src/components/editor/settings/blocks/LinkSettings.vue` | Capa de enlace (toggle, tipo, ruta/URL) |
 | `src/components/editor/settings/fields/BackgroundSettings.vue` | Fondo con modos (acepta `allowedModes`) |
 
 ---

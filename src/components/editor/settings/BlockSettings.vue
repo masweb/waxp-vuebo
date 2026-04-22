@@ -20,7 +20,8 @@ const settingsComponents: Record<string, Component> = {
   Text: defineAsyncComponent(() => import('./blocks/TextSettings.vue')),
   Image: defineAsyncComponent(() => import('./blocks/ImageSettings.vue')),
   Space: defineAsyncComponent(() => import('./blocks/SpaceSettings.vue')),
-  DarkMode: defineAsyncComponent(() => import('./blocks/DarkModeSettings.vue'))
+  DarkMode: defineAsyncComponent(() => import('./blocks/DarkModeSettings.vue')),
+  Button: defineAsyncComponent(() => import('./blocks/ButtonSettings.vue'))
 }
 
 const settingsComponent = computed(() => settingsComponents[activeBlock.value?.type ?? ''])
@@ -87,7 +88,9 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
 
     <component :is="settingsComponent" />
 
-    <LinkSettings v-if="activeBlock.link !== undefined || activeBlock.type === 'Image'" />
+    <LinkSettings
+      v-if="activeBlock.link !== undefined || activeBlock.type === 'Image' || activeBlock.type === 'Button'"
+    />
 
     <BackgroundSettings
       v-if="activeBlock.type !== 'Image'"

@@ -86,6 +86,38 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
         ? { divider: { active: false, color: '#cccccc', thick: '1', mode: 'solid' as const } }
         : {}),
       ...(blockType === 'DarkMode' ? { color: null, darkColor: null, fontSize: null } : {}),
+      ...(blockType === 'Button'
+        ? {
+            locales: { label: 'Button' },
+            color: null,
+            darkColor: null,
+            fontSize: null,
+            lineHeight: null,
+            link: { type: 'internal', url: '' },
+            button: {
+              bg: { light: '#e9ecef', dark: '#495057' },
+              hover: { light: '#dee2e6', dark: '#3d4349' },
+              active: { light: '#d3d7db', dark: '#343a40' },
+              focus: { light: '#d8d8d8', dark: '#495057' },
+              textColor: { light: '#212529', dark: '#f8f9fa' },
+              hoverTextColor: { light: '#212529', dark: '#f8f9fa' },
+              activeTextColor: { light: '#212529', dark: '#f8f9fa' },
+              borderColor: { light: '#ced4da', dark: '#6c757d' },
+              border: {
+                radius: { tl: '6', tr: '6', br: '6', bl: '6' },
+                allBorders: { active: false, thick: '1', color: '#ced4da', mode: 'solid' as const },
+                sidesBorders: {
+                  l: { active: false, thick: '1', color: '#0b5ed7', mode: 'solid' as const },
+                  t: { active: false, thick: '1', color: '#0b5ed7', mode: 'solid' as const },
+                  r: { active: false, thick: '1', color: '#0b5ed7', mode: 'solid' as const },
+                  b: { active: false, thick: '1', color: '#0b5ed7', mode: 'solid' as const }
+                }
+              },
+              width: '100',
+              padding: { t: '10', r: '20', b: '10', l: '20' }
+            }
+          }
+        : {}),
       ...(blockType === 'Image'
         ? {
             locales: { alt: '' },
