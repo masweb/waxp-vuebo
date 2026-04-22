@@ -107,7 +107,7 @@
       "ordered": "Numerada"
     },
     "color": {
-      "none": "Sin color"
+      "none": "Sin fondo"
     }
   },
   "fonts": {
@@ -120,7 +120,11 @@
     "search": "Buscar en Google Fonts...",
     "searchPlaceholder": "Buscar fuente...",
     "title": "Tipografías",
-    "weights": "Pesos"
+    "weights": "Pesos",
+    "selectAll": "Seleccionar todo",
+    "deselectAll": "Deseleccionar todo",
+    "selectNormals": "Seleccionar normales",
+    "selectItalics": "Seleccionar cursivas"
   },
   "block": {
     "darkModeBlock": "Modo",

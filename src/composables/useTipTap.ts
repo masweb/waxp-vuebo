@@ -64,6 +64,7 @@ const startEditing = (block: Block) => {
 
 const stopEditing = () => {
   if (!editing.value) return
+  flush()
   editing.value = false
   deactivate()
 }
@@ -81,7 +82,7 @@ const activate = (block: Block) => {
 
 const deactivate = () => {
   const pg = pageStore()
-  flush()
+  if (editing.value) flush()
   pg.setActiveBlock(null)
   syncing.value = true
   editor.commands.clearContent()

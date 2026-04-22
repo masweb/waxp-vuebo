@@ -120,7 +120,11 @@
     "search": "Search Google Fonts...",
     "searchPlaceholder": "Search font...",
     "title": "Fonts",
-    "weights": "Weights"
+    "weights": "Weights",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all",
+    "selectNormals": "Select normals",
+    "selectItalics": "Select italics"
   },
   "block": {
     "darkModeBlock": "Mode",

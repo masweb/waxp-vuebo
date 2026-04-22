@@ -24,6 +24,7 @@ export interface Block {
   fontSize?: null | number
   lineHeight?: null | number
   divider?: SideBorder
+  image?: BlockImage
 }
 
 export interface Section {
@@ -61,7 +62,7 @@ export interface Background {
   url_mob: string
   opacity: string
   fix_img_back: boolean
-  pos: 'img' | 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'
+  pos: 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'
   size: string
   repeat: boolean
   lightGradA: string
@@ -125,7 +126,7 @@ const defaultBackground = (): Background => ({
   url_mob: '',
   opacity: '1',
   fix_img_back: false,
-  pos: 'img',
+  pos: 'cover',
   size: '',
   repeat: false,
   lightGradA: '',
@@ -154,3 +155,13 @@ export const createSection = (id: number): Section => ({
     margin: { t: '0', r: '0', b: '6px', l: '0' }
   }
 })
+
+export type BlockImageFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+
+export interface BlockImage {
+  url_desk: string
+  url_tab: string
+  url_mob: string
+  fit_horizontal: 'left' | 'center' | 'right'
+  fit_vertical: 'top' | 'center' | 'bottom'
+}

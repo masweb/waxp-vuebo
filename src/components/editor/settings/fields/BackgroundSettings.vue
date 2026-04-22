@@ -8,13 +8,9 @@ import {
   IconDeviceMobile
 } from '@tabler/icons-vue'
 
-const props = withDefaults(
-  defineProps<{
-    background: Background
-    allowedModes?: Background['mode'][]
-  }>(),
-  { allowedModes: () => ['none', 'color', 'gradient', 'image'] as Background['mode'][] }
-)
+const props = defineProps<{
+  background: Background
+}>()
 
 const emit = defineEmits<{
   (e: 'update', bg: Background): void
@@ -31,12 +27,7 @@ const allModeOptions: { key: Background['mode']; label: string; icon: any }[] = 
   { key: 'image', label: t('background.image'), icon: IconPhoto }
 ]
 
-const modeOptions = computed(() =>
-  allModeOptions.filter(opt => props.allowedModes.includes(opt.key))
-)
-
 const posOptions: { key: Background['pos']; label: string }[] = [
-  { key: 'img', label: 'Original' },
   { key: 'cover', label: 'Cover' },
   { key: 'contain', label: 'Contain' },
   { key: 'top', label: 'Top' },
@@ -57,10 +48,20 @@ const pickerImageUrl = computed(() => {
 })
 
 watch(
-  () => props.allowedModes,
-  (modes) => {
-    if (modes.length === 1 && props.background.mode !== modes[0]) {
-      patch({ mode: modes[0] })
+  () => props.background.mode,
+  (mode) => {
+    if (!mode) {
+      patch({ mode: 'none' })
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.background.pos,
+  (pos) => {
+    if (!pos) {
+      patch({ pos: 'cover' })
     }
   },
   { immediate: true }
@@ -69,11 +70,11 @@ watch(
 
 <template>
   <div>
-    <div v-if="modeOptions.length > 1" class="mb-3">
+    <div v-if="allModeOptions.length > 1" class="mb-3">
       <label class="d-block mb-2">{{ t('background.mode') }}</label>
       <div class="d-flex btn-group">
         <button
-          v-for="opt in modeOptions"
+          v-for="opt in allModeOptions"
           :key="opt.key"
           class="btn btn-sm"
           :class="currentMode === opt.key ? 'btn-primary' : 'btn-outline-secondary'"

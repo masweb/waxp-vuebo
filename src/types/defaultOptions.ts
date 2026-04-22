@@ -62,155 +62,11 @@ export const siteOptions: siteOptions = {
             lightColor: '',
             darkcolorColor: '',
             url_desk: '',
-            url_mov: '',
-            url_thumb: '',
-            fix_img_back: false,
-            pos: 'img',
-            size: '',
-            repeat: false,
-            lightGradA: '',
-            lightGradB: '',
-            darkGradA: '',
-            darkGradB: '',
-            gradDeg: ''
-          },
-          border: {
-            radius: {
-              tl: '0',
-              tr: '0',
-              br: '0',
-              bl: '0'
-            },
-            allBorders: {
-              active: false,
-              thick: '0',
-              color: 'transparent',
-              mode: 'none'
-            },
-            sidesBorders: {
-              l: {
-                active: false,
-                thick: '0',
-                color: 'transparent',
-                mode: 'none'
-              },
-              t: {
-                active: false,
-                thick: '0',
-                color: 'transparent',
-                mode: 'none'
-              },
-              r: {
-                active: false,
-                thick: '0',
-                color: 'transparent',
-                mode: 'none'
-              },
-              b: {
-                active: false,
-                thick: '0',
-                color: 'transparent',
-                mode: 'none'
-              }
-            }
-          },
-          padding: {
-            t: '0',
-            r: '0',
-            b: '0',
-            l: '0'
-          }
-        }
-      }
-    ],
-    mobile: { gap: 4, cols: 8, rows: 4 },
-    tablet: { gap: 4, cols: 20, rows: 4 },
-    desktop: { gap: 6, cols: 24, rows: 4 },
-    style: {
-      maxWidth: null,
-      fullWidth: false,
-      hideOn: [],
-      background: {
-        mode: 'none',
-        lightColor: '',
-        darkcolorColor: '',
-        url_desk: '',
-        url_tab: '',
-        url_mob: '',
-        opacity: '1',
-        fix_img_back: false,
-        pos: 'img',
-        size: '',
-        repeat: false,
-        lightGradA: '',
-        lightGradB: '',
-        darkGradA: '',
-        darkGradB: '',
-        gradDeg: '',
-        focalX: '50',
-        focalY: '50',
-        zoom: '100'
-      },
-      section_background: {
-        mode: 'none',
-        lightColor: '',
-        darkcolorColor: '',
-        url_desk: '',
-        url_tab: '',
-        url_mob: '',
-        opacity: '1',
-        fix_img_back: false,
-        pos: 'img',
-        size: '',
-        repeat: false,
-        lightGradA: '',
-        lightGradB: '',
-        darkGradA: '',
-        darkGradB: '',
-        gradDeg: '',
-        focalX: '50',
-        focalY: '50',
-        zoom: '100'
-      },
-      padding: {
-        t: '0',
-        r: '0',
-        b: '0',
-        l: '0'
-      },
-      margin: {
-        t: '0',
-        r: '0',
-        b: '6px',
-        l: '0'
-      }
-    }
-  },
-  footer: {
-    id: 2,
-    blocks: [
-      {
-        d: { h: 3, w: 6, x: 1, y: 1 },
-        m: { h: 2, w: 6, x: 1, y: 1 },
-        t: { h: 3, w: 6, x: 1, y: 1 },
-        id: 2,
-        type: 'Text',
-        locales: {
-          text: '<h3>Footer</h3>'
-        },
-        style: {
-          hideOn: [],
-          background: {
-            mode: 'none',
-            lightColor: '',
-            darkcolorColor: '',
-            url_desk: '',
             url_tab: '',
             url_mob: '',
             opacity: '1',
-
             fix_img_back: false,
-            pos: 'img',
+            pos: 'cover',
             size: '',
             repeat: false,
             lightGradA: '',
@@ -287,7 +143,7 @@ export const siteOptions: siteOptions = {
         url_mob: '',
         opacity: '1',
         fix_img_back: false,
-        pos: 'img',
+        pos: 'cover',
         size: '',
         repeat: false,
         lightGradA: '',
@@ -308,7 +164,155 @@ export const siteOptions: siteOptions = {
         url_mob: '',
         opacity: '1',
         fix_img_back: false,
-        pos: 'img',
+        pos: 'cover',
+        size: '',
+        repeat: false,
+        lightGradA: '',
+        lightGradB: '',
+        darkGradA: '',
+        darkGradB: '',
+        gradDeg: '',
+        focalX: '50',
+        focalY: '50',
+        zoom: '100'
+      },
+      padding: {
+        t: '0',
+        r: '0',
+        b: '0',
+        l: '0'
+      },
+      margin: {
+        t: '0',
+        r: '0',
+        b: '6px',
+        l: '0'
+      }
+    }
+  },
+  footer: {
+    id: 2,
+    blocks: [
+      {
+        d: { h: 3, w: 6, x: 1, y: 1 },
+        m: { h: 2, w: 6, x: 1, y: 1 },
+        t: { h: 3, w: 6, x: 1, y: 1 },
+        id: 2,
+        type: 'Text',
+        locales: {
+          text: '<h3>Footer</h3>'
+        },
+        style: {
+          hideOn: [],
+          background: {
+            mode: 'none',
+            lightColor: '',
+            darkcolorColor: '',
+            url_desk: '',
+            url_tab: '',
+            url_mob: '',
+            opacity: '1',
+
+            fix_img_back: false,
+            pos: 'cover',
+            size: '',
+            repeat: false,
+            lightGradA: '',
+            lightGradB: '',
+            darkGradA: '',
+            darkGradB: '',
+            gradDeg: '',
+            focalX: '50',
+            focalY: '50',
+            zoom: '100'
+          },
+          border: {
+            radius: {
+              tl: '0',
+              tr: '0',
+              br: '0',
+              bl: '0'
+            },
+            allBorders: {
+              active: false,
+              thick: '0',
+              color: 'transparent',
+              mode: 'none'
+            },
+            sidesBorders: {
+              l: {
+                active: false,
+                thick: '0',
+                color: 'transparent',
+                mode: 'none'
+              },
+              t: {
+                active: false,
+                thick: '0',
+                color: 'transparent',
+                mode: 'none'
+              },
+              r: {
+                active: false,
+                thick: '0',
+                color: 'transparent',
+                mode: 'none'
+              },
+              b: {
+                active: false,
+                thick: '0',
+                color: 'transparent',
+                mode: 'none'
+              }
+            }
+          },
+          padding: {
+            t: '0',
+            r: '0',
+            b: '0',
+            l: '0'
+          }
+        }
+      }
+    ],
+    mobile: { gap: 4, cols: 8, rows: 4 },
+    tablet: { gap: 4, cols: 20, rows: 4 },
+    desktop: { gap: 6, cols: 24, rows: 4 },
+    style: {
+      maxWidth: null,
+      fullWidth: false,
+      hideOn: [],
+      background: {
+        mode: 'none',
+        lightColor: '',
+        darkcolorColor: '',
+        url_desk: '',
+        url_tab: '',
+        url_mob: '',
+        opacity: '1',
+        fix_img_back: false,
+        pos: 'cover',
+        size: '',
+        repeat: false,
+        lightGradA: '',
+        lightGradB: '',
+        darkGradA: '',
+        darkGradB: '',
+        gradDeg: '',
+        focalX: '50',
+        focalY: '50',
+        zoom: '100'
+      },
+      section_background: {
+        mode: 'none',
+        lightColor: '',
+        darkcolorColor: '',
+        url_desk: '',
+        url_tab: '',
+        url_mob: '',
+        opacity: '1',
+        fix_img_back: false,
+        pos: 'cover',
         size: '',
         repeat: false,
         lightGradA: '',

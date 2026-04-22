@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Fonts } from '@/types/defaultOptions'
+import { IconTrashFilled, IconSelectAll, IconDeselect, IconTypography, IconItalic } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 const st = siteStore()
@@ -145,6 +146,30 @@ const cancelEdit = () => {
   editingFamily.value = null
   editWeights.value = []
   editItalics.value = []
+}
+
+const editSelectAll = (family: string) => {
+  const available = weightsForFont(family)
+  editWeights.value = [...available]
+  editItalics.value = [...available]
+}
+
+const editDeselectAll = () => {
+  editWeights.value = [400]
+  editItalics.value = []
+}
+
+const editSelectAllWeights = (family: string) => {
+  editWeights.value = [...weightsForFont(family)]
+}
+
+const editSelectAllItalics = (family: string) => {
+  const font = getFont(family)
+  if (!font) { editItalics.value = [...ALL_WEIGHTS]; return }
+  editItalics.value = ALL_WEIGHTS.filter(w => {
+    if (w === 400) return font.variants.includes('italic')
+    return font.variants.includes(`${w}italic`)
+  })
 }
 
 const saveEdit = () => {
@@ -303,11 +328,17 @@ const weightsForFont = (family: string): number[] => {
       <div v-for="font in fonts" :key="font.family" class="fm-font-item border rounded p-2 mb-2">
         <div class="d-flex justify-content-between align-items-center">
           <div class="fw-semibold">{{ font.family }}</div>
-          <div class="d-flex gap-1">
+          <div v-if="editingFamily !== font.family" class="d-flex gap-1">
             <button class="btn btn-sm btn-outline-secondary" @click="startEdit(font)">
               {{ t('fonts.weights') }}
             </button>
-            <button class="btn btn-sm btn-outline-danger" @click="removeFont(font.family)">×</button>
+            <button class="btn btn-sm btn-danger" @click="removeFont(font.family)"><IconTrashFilled :size="16" /></button>
+          </div>
+          <div v-else class="d-flex gap-1">
+            <button class="btn btn-sm btn-outline-secondary" @click="editSelectAll(font.family)" :title="t('fonts.selectAll')"><IconSelectAll :size="16" /></button>
+            <button class="btn btn-sm btn-outline-secondary" @click="editDeselectAll" :title="t('fonts.deselectAll')"><IconDeselect :size="16" /></button>
+            <button class="btn btn-sm btn-outline-secondary" @click="editSelectAllWeights(font.family)" :title="t('fonts.selectNormals')"><IconTypography :size="16" /></button>
+            <button class="btn btn-sm btn-outline-secondary" @click="editSelectAllItalics(font.family)" :title="t('fonts.selectItalics')"><IconItalic :size="16" /></button>
           </div>
         </div>
 
@@ -338,9 +369,9 @@ const weightsForFont = (family: string): number[] => {
               {{ w }}i
             </button>
           </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-primary" @click="saveEdit">{{ t('common.save') }}</button>
+          <div class="d-flex justify-content-between mt-2 pt-2 border-top">
             <button class="btn btn-sm btn-outline-secondary" @click="cancelEdit">{{ t('common.cancel') }}</button>
+            <button class="btn btn-sm btn-primary" @click="saveEdit">{{ t('common.save') }}</button>
           </div>
         </div>
 

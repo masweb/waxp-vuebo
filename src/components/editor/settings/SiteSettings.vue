@@ -46,9 +46,8 @@ const updateOption = (key: string, value: number) => {
       @update:color="updateColor('darkBackColor', $event)"
     />
 
-    <FontManager />
-
     <NumberRange
+      class="mt-3"
       :modelValue="site?.options.desktopWidth ?? 1200"
       :label="t('siteSettings.desktopWidth')"
       :min="site?.options.tabletBP ?? 767"
@@ -69,5 +68,7 @@ const updateOption = (key: string, value: number) => {
       :max="site?.options.tabletBP ?? 1024"
       @update:modelValue="updateOption('mobileBP', $event)"
     />
+
+    <FontManager class="mt-4" />
   </COffcanvasBody>
 </template>

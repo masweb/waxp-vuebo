@@ -82,7 +82,9 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
       m: { x: 1, y: 1, w: 1, h: 1 },
       t: { x: 1, y: 1, w: 1, h: 1 },
       ...(blockType === 'Text' ? { color: null, darkColor: null, fontSize: null, lineHeight: null } : {}),
-      ...(blockType === 'Space' ? { divider: { active: false, color: '#cccccc', thick: '1', mode: 'solid' as const } } : {}),
+      ...(blockType === 'Space'
+        ? { divider: { active: false, color: '#cccccc', thick: '1', mode: 'solid' as const } }
+        : {}),
       ...(blockType === 'DarkMode' ? { color: null, darkColor: null, fontSize: null } : {}),
       style: {
         hideOn: [],
@@ -91,18 +93,21 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
           lightColor: '',
           darkcolorColor: '',
           url_desk: '',
-          url_mov: '',
-          url_thumb: '',
+          url_tab: '',
+          url_mob: '',
           fix_img_back: false,
           opacity: '',
-          pos: 'img',
+          pos: 'cover',
           size: '',
           repeat: false,
           lightGradA: '',
           lightGradB: '',
           darkGradA: '',
           darkGradB: '',
-          gradDeg: ''
+          gradDeg: '',
+          focalX: '50',
+          focalY: '50',
+          zoom: '100'
         },
         border: {
           radius: {
