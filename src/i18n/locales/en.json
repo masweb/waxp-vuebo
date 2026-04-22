@@ -198,6 +198,8 @@
     "position": "Position",
     "repeat": "Repeat",
     "opacity": "Opacity",
-    "selectImage": "Select image"
+    "selectImage": "Select image",
+    "focalPoint": "Focal point",
+    "zoom": "Zoom"
   }
 }

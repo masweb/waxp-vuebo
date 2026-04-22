@@ -69,6 +69,9 @@ export interface Background {
   darkGradA: string
   darkGradB: string
   gradDeg: string
+  focalX: string
+  focalY: string
+  zoom: string
 }
 
 export interface Border {
@@ -129,7 +132,10 @@ const defaultBackground = (): Background => ({
   lightGradB: '',
   darkGradA: '',
   darkGradB: '',
-  gradDeg: ''
+  gradDeg: '',
+  focalX: '50',
+  focalY: '50',
+  zoom: '100'
 })
 
 export const createSection = (id: number): Section => ({

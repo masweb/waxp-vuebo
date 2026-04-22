@@ -23,7 +23,10 @@
       "lightGradB": "",
       "darkGradA": "",
       "darkGradB": "",
-      "gradDeg": ""
+      "gradDeg": "",
+      "focalX": "50",
+      "focalY": "50",
+      "zoom": "100"
     },
     "background": {
       "mode": "none",
@@ -41,7 +44,10 @@
       "lightGradB": "",
       "darkGradA": "",
       "darkGradB": "",
-      "gradDeg": ""
+      "gradDeg": "",
+      "focalX": "50",
+      "focalY": "50",
+      "zoom": "100"
     },
     "padding": {
       "t": "0",

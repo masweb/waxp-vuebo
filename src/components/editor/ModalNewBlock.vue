@@ -8,26 +8,26 @@ const { t } = useI18n()
 const pick = (type: BlockType) => ed.selectBlockType(type)
 </script>
 <template>
-  <CModal :visible="showModalNewBlock" @close="showModalNewBlock = false" alignment="top">
+  <CModal :visible="showModalNewBlock" @close="showModalNewBlock = false">
     <CModalHeader>{{ t('block.newBlock') }}</CModalHeader>
-    <CModalBody class="d-flex justify-content-center py-4 toolsblock">
-      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('Text')">
+    <CModalBody class="d-flex justify-content-center p-0 toolsblock">
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Text')">
         <IconTextPlus size="40" stroke-width="1" />
         <small>{{ t('block.text') }}</small>
       </button>
-      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('Image')">
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Image')">
         <IconPhoto size="40" stroke-width="1" />
         <small>{{ t('block.image') }}</small>
       </button>
-      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('Space')">
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Space')">
         <IconSpacingVertical size="40" stroke-width="1" />
         <small>{{ t('block.space') }}</small>
       </button>
-      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('DarkMode')">
+      <button class="btn d-flex flex-column align-items-center" @click="pick('DarkMode')">
         <IconContrastFilled size="40" stroke-width="1" />
         <small>{{ t('block.darkModeBlock') }}</small>
       </button>
-      <button class="btn btn-secondary d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')">
+      <button class="btn d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')">
         <IconLanguage size="40" stroke-width="1" />
         <small>{{ t('block.languageSwitcher') }}</small>
       </button>

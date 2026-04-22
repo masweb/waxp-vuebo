@@ -216,7 +216,7 @@ const sectionMargin = computed(() => {
 </script>
 
 <template>
-  <div class="section-row-wrapper" :style="[rowBackgroundStyle.style, sectionMargin]" @contextmenu="onContextMenu">
+  <div class="section-row-wrapper" :style="[rowBackgroundStyle.style, sectionMargin, rowBackgroundStyle.clip ? 'overflow:hidden' : '']" @contextmenu="onContextMenu">
     <div v-if="rowBackgroundStyle.overlay" class="section-bg-overlay" :style="rowBackgroundStyle.overlay" />
     <div
       ref="sectionRef"
@@ -226,7 +226,7 @@ const sectionMargin = computed(() => {
         'section--show-grid': shouldShow,
         'section--show-blocks': shouldShowBlocks
       }"
-      :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style, sectionPadding]"
+      :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style, sectionPadding, backgroundStyle.clip ? 'overflow:hidden' : '']"
       @mouseenter="hovered = true"
       @mouseleave="hovered = false"
     >

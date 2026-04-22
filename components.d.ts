@@ -23,6 +23,7 @@ declare module 'vue' {
     DrawingOverlay: typeof import('./src/components/editor/DrawingOverlay.vue')['default']
     EditorToolbar: typeof import('./src/components/editor/EditorToolbar.vue')['default']
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
+    FocalPointPicker: typeof import('./src/components/editor/settings/fields/FocalPointPicker.vue')['default']
     FontFamilyField: typeof import('./src/components/editor/settings/fields/FontFamilyField.vue')['default']
     FontManager: typeof import('./src/components/editor/settings/FontManager.vue')['default']
     Image: typeof import('./src/components/editor/blocks/Image.vue')['default']

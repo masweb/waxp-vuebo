@@ -94,6 +94,9 @@ export const useBlockGrid = (block: () => Block, section?: () => Section) => {
         }
       })
     }
+    if (backgroundStyle.value.clip) {
+      s['overflow'] = 'hidden'
+    }
     return s
   })
 

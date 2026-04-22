@@ -7,14 +7,21 @@ export const useBackgroundStyles = (
 
   return computed(() => {
     const bg = bgGetter()
-    if (!bg || bg.mode === 'none') return { style: '', overlay: '' }
+    if (!bg || bg.mode === 'none') return { style: '', overlay: '', clip: false }
 
     const theme = themeGetter()
     const mode = modeGetter()
     const rules: string[] = []
     const overlayRules: string[] = []
+
+    const fx = bg.focalX || '50'
+    const fy = bg.focalY || '50'
+    const zoomVal = bg.pos === 'cover' ? Number(bg.zoom || 100) : 100
+    const needsZoom = zoomVal > 100
+
     const hasOpacity = bg.mode === 'image' && bg.opacity != null && bg.opacity !== '' && bg.opacity !== '1'
     const opacityVal = hasOpacity ? Number(bg.opacity) : 1
+    const useOverlay = hasOpacity || needsZoom
 
     if (bg.mode === 'color') {
       const color = theme === 'dark' ? bg.darkcolorColor : bg.lightColor
@@ -41,20 +48,26 @@ export const useBackgroundStyles = (
             : bg.url_desk
 
       if (url) {
-        if (hasOpacity) {
+        if (useOverlay) {
           overlayRules.push(`background-image: url('${apiBase}${url}');`)
-          overlayRules.push(`opacity: ${opacityVal};`)
+          if (hasOpacity) {
+            overlayRules.push(`opacity: ${opacityVal};`)
+          }
+          if (needsZoom) {
+            overlayRules.push(`transform: scale(${zoomVal / 100});`)
+            overlayRules.push(`transform-origin: ${fx}% ${fy}%;`)
+          }
         } else {
           rules.push(`background-image: url('${apiBase}${url}');`)
         }
 
-        const target = hasOpacity ? overlayRules : rules
+        const target = useOverlay ? overlayRules : rules
 
         if (bg.fix_img_back) target.push('background-attachment: fixed;')
 
         const posMap: Record<string, string> = {
           img: 'center center',
-          cover: 'center center',
+          cover: `${fx}% ${fy}%`,
           contain: 'center center',
           top: 'center top',
           bottom: 'center bottom',
@@ -73,7 +86,8 @@ export const useBackgroundStyles = (
 
     return {
       style: rules.join(' '),
-      overlay: overlayRules.join(' ')
+      overlay: overlayRules.join(' '),
+      clip: needsZoom && bg.mode === 'image'
     }
   })
 }

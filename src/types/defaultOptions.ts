@@ -47,9 +47,9 @@ export const siteOptions: siteOptions = {
     id: 1,
     blocks: [
       {
-        d: { h: 3, w: 24, x: 1, y: 1 },
-        m: { h: 2, w: 8, x: 1, y: 1 },
-        t: { h: 3, w: 20, x: 1, y: 1 },
+        d: { h: 3, w: 6, x: 1, y: 1 },
+        m: { h: 2, w: 6, x: 1, y: 1 },
+        t: { h: 3, w: 6, x: 1, y: 1 },
         id: 1,
         type: 'Text',
         locales: {
@@ -124,7 +124,7 @@ export const siteOptions: siteOptions = {
       }
     ],
     mobile: { gap: 4, cols: 8, rows: 4 },
-    tablet: { gap: 6, cols: 20, rows: 4 },
+    tablet: { gap: 4, cols: 20, rows: 4 },
     desktop: { gap: 6, cols: 24, rows: 4 },
     style: {
       maxWidth: null,
@@ -135,8 +135,8 @@ export const siteOptions: siteOptions = {
         lightColor: '',
         darkcolorColor: '',
         url_desk: '',
-        url_mov: '',
-        url_thumb: '',
+        url_tab: '',
+        url_mob: '',
         opacity: '1',
         fix_img_back: false,
         pos: 'img',
@@ -146,15 +146,18 @@ export const siteOptions: siteOptions = {
         lightGradB: '',
         darkGradA: '',
         darkGradB: '',
-        gradDeg: ''
+        gradDeg: '',
+        focalX: '50',
+        focalY: '50',
+        zoom: '100'
       },
       section_background: {
         mode: 'none',
         lightColor: '',
         darkcolorColor: '',
         url_desk: '',
-        url_mov: '',
-        url_thumb: '',
+        url_tab: '',
+        url_mob: '',
         opacity: '1',
         fix_img_back: false,
         pos: 'img',
@@ -164,7 +167,10 @@ export const siteOptions: siteOptions = {
         lightGradB: '',
         darkGradA: '',
         darkGradB: '',
-        gradDeg: ''
+        gradDeg: '',
+        focalX: '50',
+        focalY: '50',
+        zoom: '100'
       },
       padding: {
         t: '0',
@@ -184,9 +190,9 @@ export const siteOptions: siteOptions = {
     id: 2,
     blocks: [
       {
-        d: { h: 3, w: 24, x: 1, y: 1 },
-        m: { h: 2, w: 8, x: 1, y: 1 },
-        t: { h: 3, w: 20, x: 1, y: 1 },
+        d: { h: 3, w: 6, x: 1, y: 1 },
+        m: { h: 2, w: 6, x: 1, y: 1 },
+        t: { h: 3, w: 6, x: 1, y: 1 },
         id: 2,
         type: 'Text',
         locales: {
@@ -211,7 +217,10 @@ export const siteOptions: siteOptions = {
             lightGradB: '',
             darkGradA: '',
             darkGradB: '',
-            gradDeg: ''
+            gradDeg: '',
+            focalX: '50',
+            focalY: '50',
+            zoom: '100'
           },
           border: {
             radius: {
@@ -263,7 +272,7 @@ export const siteOptions: siteOptions = {
       }
     ],
     mobile: { gap: 4, cols: 8, rows: 4 },
-    tablet: { gap: 6, cols: 20, rows: 4 },
+    tablet: { gap: 4, cols: 20, rows: 4 },
     desktop: { gap: 6, cols: 24, rows: 4 },
     style: {
       maxWidth: null,
@@ -285,7 +294,10 @@ export const siteOptions: siteOptions = {
         lightGradB: '',
         darkGradA: '',
         darkGradB: '',
-        gradDeg: ''
+        gradDeg: '',
+        focalX: '50',
+        focalY: '50',
+        zoom: '100'
       },
       section_background: {
         mode: 'none',
@@ -303,7 +315,10 @@ export const siteOptions: siteOptions = {
         lightGradB: '',
         darkGradA: '',
         darkGradB: '',
-        gradDeg: ''
+        gradDeg: '',
+        focalX: '50',
+        focalY: '50',
+        zoom: '100'
       },
       padding: {
         t: '0',

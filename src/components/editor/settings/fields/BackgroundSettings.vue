@@ -22,6 +22,8 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
+const apiBase = import.meta.env.VITE_END_POINT
+
 const allModeOptions: { key: Background['mode']; label: string; icon: any }[] = [
   { key: 'none', label: t('editor.color.none'), icon: null },
   { key: 'color', label: t('background.color'), icon: IconColorSwatch },
@@ -48,6 +50,11 @@ const patch = (partial: Partial<Background>) => {
 }
 
 const currentMode = computed(() => props.background.mode)
+
+const pickerImageUrl = computed(() => {
+  const url = props.background.url_desk
+  return url ? `${apiBase}${url}` : ''
+})
 
 watch(
   () => props.allowedModes,
@@ -169,6 +176,18 @@ watch(
         >
           <option v-for="p in posOptions" :key="p.key" :value="p.key">{{ p.label }}</option>
         </select>
+      </div>
+
+      <div v-if="background.pos === 'cover' && pickerImageUrl" class="mb-2">
+        <label class="d-block mb-1">{{ t('background.focalPoint') }}</label>
+        <FocalPointPicker
+          :imageUrl="pickerImageUrl"
+          :focalX="background.focalX || '50'"
+          :focalY="background.focalY || '50'"
+          :zoom="background.zoom || '100'"
+          @update:position="(x, y) => patch({ focalX: x, focalY: y })"
+          @update:zoom="patch({ zoom: $event })"
+        />
       </div>
 
       <div class="d-flex align-items-center justify-content-between mb-2">
