@@ -54,7 +54,9 @@
     "pageOptions": "Page options",
     "unsavedChanges": "Unsaved changes",
     "unsavedChangesDesc": "You have unsaved changes. What would you like to do before switching language?",
-    "discardChanges": "Don't save"
+    "discardChanges": "Don't save",
+    "revisions": "Revisions",
+    "restore": "Restore"
   },
   "sites": {
     "sites": "Sites",

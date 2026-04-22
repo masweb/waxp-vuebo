@@ -54,7 +54,9 @@
     "pageOptions": "Opciones de página",
     "unsavedChanges": "Cambios sin guardar",
     "unsavedChangesDesc": "Tienes cambios sin guardar. ¿Qué deseas hacer antes de cambiar de idioma?",
-    "discardChanges": "No guardar"
+    "discardChanges": "No guardar",
+    "revisions": "Revisiones",
+    "restore": "Restaurar"
   },
   "sites": {
     "sites": "Sitios web",

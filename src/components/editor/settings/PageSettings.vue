@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { IconDeviceFloppy, IconAlertCircle } from '@tabler/icons-vue'
+import {
+  IconDeviceFloppy,
+  IconAlertCircle,
+  IconArrowBigRightFilled,
+  IconArrowBigLeftFilled,
+  IconHistory
+} from '@tabler/icons-vue'
 
 const stt = settingsStore()
 const pg = pageStore()
@@ -143,6 +149,70 @@ const handleSave = async () => {
     saving.value = false
   }
 }
+
+const allRevisions = ref<{ id: number; revision_number: number; created_at: string }[]>([])
+const revPerPage = 10
+const revCurrentPage = ref(1)
+const revLoading = ref(false)
+const restoringId = ref<number | null>(null)
+
+const revTotal = computed(() => allRevisions.value.length)
+const revTotalPages = computed(() => Math.ceil(revTotal.value / revPerPage))
+const revisions = computed(() => {
+  const start = (revCurrentPage.value - 1) * revPerPage
+  return allRevisions.value.slice(start, start + revPerPage)
+})
+
+const fetchRevisions = async () => {
+  if (!page.value || !st.site) return
+  revLoading.value = true
+  try {
+    const resp = await useApi(`/api/sites/${st.site.id}/pages/${page.value.id}/revisions`)
+    allRevisions.value = (resp.data ?? []).reverse()
+    revCurrentPage.value = 1
+  } catch {
+    allRevisions.value = []
+  } finally {
+    revLoading.value = false
+  }
+}
+
+const revNextPage = () => {
+  if (revCurrentPage.value < revTotalPages.value) revCurrentPage.value++
+}
+
+const revPrevPage = () => {
+  if (revCurrentPage.value > 1) revCurrentPage.value--
+}
+
+const formatRevDate = (iso: string) => {
+  const d = new Date(iso)
+  return d.toLocaleDateString(undefined, { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+}
+
+const restoreRevision = async (revisionId: number) => {
+  if (!page.value || !st.site) return
+  restoringId.value = revisionId
+  try {
+    const resp: Page = await useApi(
+      `/api/sites/${st.site.id}/pages/${page.value.id}/revisions/${revisionId}/restore?locale=${pg.currentLocale}`,
+      { method: 'POST' }
+    )
+    if (resp.id) {
+      page.value = resp
+      hs.clear(resp.id)
+      await fetchRevisions()
+    }
+  } catch (e: any) {
+    err.addError(e?.data || { error: 'Error restoring revision', code: 500 })
+  } finally {
+    restoringId.value = null
+  }
+}
+
+watch(page, (val) => {
+  if (val?.id) fetchRevisions()
+}, { immediate: true })
 </script>
 
 <template>
@@ -216,6 +286,58 @@ const handleSave = async () => {
         <IconDeviceFloppy v-else :size="14" class="me-1" />
         {{ t('common.save') }}
       </button>
+    </div>
+
+    <hr class="my-3" />
+
+    <div>
+      <div class="d-flex align-items-center gap-1 mb-2">
+        <IconHistory :size="14" />
+        <small class="fw-semibold text-secondary">{{ t('pages.revisions') }}</small>
+      </div>
+
+      <div v-if="revLoading && !revisions.length" class="text-center py-2">
+        <span class="spinner-border spinner-border-sm text-secondary" />
+      </div>
+
+      <div v-else-if="revisions.length">
+        <div
+          v-for="rev in revisions"
+          :key="rev.id"
+          class="d-flex align-items-center justify-content-between py-1 border-bottom"
+        >
+          <div>
+            <small class="fw-semibold text-secondary">#{{ rev.revision_number }}</small>
+            <small class="text-muted ms-2">{{ formatRevDate(rev.created_at) }}</small>
+          </div>
+          <button
+            class="btn btn-sm btn-link p-0 text-secondary"
+            :disabled="restoringId === rev.id"
+            @click="restoreRevision(rev.id)"
+          >
+            <span v-if="restoringId === rev.id" class="spinner-border spinner-border-sm" />
+            <small v-else>{{ t('pages.restore') }}</small>
+          </button>
+        </div>
+
+        <nav v-if="revTotal" class="d-flex justify-content-between align-items-center mt-2">
+          <small class="text-muted">
+            {{ t('common.pageOf', { page: revCurrentPage, total: revTotalPages }) }} · {{ revTotal }}
+          </small>
+          <div class="btn-group btn-group-sm">
+            <button class="btn btn-outline-secondary btn-sm p-0 px-1" :disabled="revCurrentPage <= 1" @click="revPrevPage">
+              <IconArrowBigLeftFilled :size="16" />
+            </button>
+            <button class="btn btn-outline-secondary btn-sm p-0 px-1" :disabled="revCurrentPage >= revTotalPages" @click="revNextPage">
+              <IconArrowBigRightFilled :size="16" />
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <div v-else class="text-center text-muted py-2">
+        <small>{{ t('common.noResults') }}</small>
+      </div>
     </div>
   </COffcanvasBody>
 </template>
