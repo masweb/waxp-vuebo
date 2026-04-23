@@ -2,9 +2,6 @@ export const useFontSize = (targetWidth: () => number | undefined, fullWidth?: (
   const st = siteStore()
   const vp = viewportStore()
 
-  const toPx = (base: number, vwAdd: number, width: number) =>
-    (base + vwAdd) * width / 100 + 'px'
-
   const computedStyles = computed(() => {
     const opts = st.site?.options
     if (!opts) return null
@@ -13,33 +10,48 @@ export const useFontSize = (targetWidth: () => number | undefined, fullWidth?: (
     if (tw == null) return null
 
     const fw = fullWidth?.() ?? false
-    let finalFontSize: string | number = opts.fontSize
-    let finalLineHeight: string | number = opts.lineHeight
+    const vw = effectiveVpWidth(vp)
 
-    if (fw && vp.mode === 'desktop') {
-      const factor = 1.491 - 0.000965 * tw
-      finalFontSize = toPx(opts.fontSize, factor, vp.width)
-      finalLineHeight = parseFloat(finalFontSize) * opts.lineHeight + 'px'
-    } else if (vp.mode === 'desktop' && (vp.forcedMode === 'desktop' || (!vp.forcedMode && tw >= vp.width))) {
-      const factor = 1.491 - 0.000965 * tw
-      const effectiveWidth = vp.forcedMode ? tw : vp.width
-      finalFontSize = toPx(opts.fontSize, factor, effectiveWidth)
-      finalLineHeight = parseFloat(finalFontSize) * opts.lineHeight + 'px'
-    } else if (vp.mode === 'tablet' || vp.forcedMode === 'tablet') {
-      const effectiveWidth = vp.forcedMode ? 820 : vp.width
-      finalFontSize = toPx(opts.fontSize, 0.933, effectiveWidth)
-      finalLineHeight = parseFloat(finalFontSize) * opts.lineHeight + 'px'
-    } else if (vp.mode === 'mobile' || vp.forcedMode === 'mobile') {
-      const effectiveWidth = vp.forcedMode ? 480 : vp.width
-      finalFontSize = toPx(opts.fontSize, 3, effectiveWidth)
-      finalLineHeight = parseFloat(finalFontSize) * opts.lineHeight + 'px'
-    } else {
-      finalFontSize = opts.fontSize + 'em'
-      finalLineHeight = opts.lineHeight + 'em'
-    }
-
-    return { fontSize: finalFontSize, lineHeight: finalLineHeight }
+    return calcFluidFont(opts.fontSize, opts.lineHeight, tw, vw, vp.mode, fw, opts.desktopTextZoom, opts.tabletTextZoom, opts.mobileTextZoom)
   })
 
   return { computedStyles }
+}
+
+export function calcFluidFont(
+  fontSize: number,
+  lineHeight: number,
+  targetWidth: number,
+  viewportWidth: number,
+  viewportMode: ViewportMode,
+  fullWidth: boolean,
+  desktopTextZoom: number,
+  tabletTextZoom: number,
+  mobileTextZoom: number
+): { fontSize: string; lineHeight: string } {
+  if (!fullWidth && viewportWidth >= targetWidth) {
+    return { fontSize: fontSize + 'em', lineHeight: lineHeight + 'em' }
+  }
+
+  if (viewportMode === 'desktop') {
+    if (fullWidth) {
+      const zoomFactor = 1.491 - 0.000965 * targetWidth
+      const pxResult = (fontSize + zoomFactor) * viewportWidth / 100
+      return { fontSize: pxResult + 'px', lineHeight: pxResult * lineHeight + 'px' }
+    }
+    const fixedPx = fontSize * 16
+    const reduction = 1 - viewportWidth / targetWidth
+    const fs = fixedPx * (1 - desktopTextZoom * reduction)
+    return { fontSize: fs + 'px', lineHeight: fs * lineHeight + 'px' }
+  }
+
+  const zoomFactor = viewportMode === 'mobile' ? mobileTextZoom : tabletTextZoom
+  const pxResult = (fontSize + zoomFactor) * viewportWidth / 100
+  return { fontSize: pxResult + 'px', lineHeight: pxResult * lineHeight + 'px' }
+}
+
+export function effectiveVpWidth(vp: ReturnType<typeof viewportStore>): number {
+  if (vp.forcedMode === 'tablet') return 820
+  if (vp.forcedMode === 'mobile') return 480
+  return vp.width
 }

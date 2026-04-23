@@ -1,5 +1,3 @@
-import { computed } from 'vue'
-
 const modeKey: Record<ViewportMode, 'd' | 'm' | 't'> = {
   mobile: 'm',
   tablet: 't',
@@ -24,9 +22,6 @@ export const useBlockGrid = (block: () => Block, section?: () => Section) => {
     return section().style.maxWidth ?? st.site?.options.desktopWidth ?? undefined
   })
 
-  const toPx = (base: number, vwAdd: number, width: number) =>
-    (base + vwAdd) * width / 100 + 'px'
-
   const blockFontStyle = computed(() => {
     const b = block()
     if (b.fontSize == null && b.lineHeight == null) return null
@@ -39,34 +34,12 @@ export const useBlockGrid = (block: () => Block, section?: () => Section) => {
     const lh = b.lineHeight ?? opts.lineHeight
     const fw = section?.().style.fullWidth ?? false
 
-    let finalFontSize: string | number = fs
-    let finalLineHeight: string | number = lh
-
-    if (fw && vp.mode === 'desktop') {
-      const factor = 1.491 - 0.000965 * tw
-      finalFontSize = toPx(fs, factor, vp.width)
-      finalLineHeight = parseFloat(finalFontSize) * lh + 'px'
-    } else if (vp.mode === 'desktop' && (vp.forcedMode === 'desktop' || (!vp.forcedMode && tw >= vp.width))) {
-      const factor = 1.491 - 0.000965 * tw
-      const effectiveWidth = vp.forcedMode ? tw : vp.width
-      finalFontSize = toPx(fs, factor, effectiveWidth)
-      finalLineHeight = parseFloat(finalFontSize) * lh + 'px'
-    } else if (vp.mode === 'tablet' || vp.forcedMode === 'tablet') {
-      const effectiveWidth = vp.forcedMode ? 820 : vp.width
-      finalFontSize = toPx(fs, 0.933, effectiveWidth)
-      finalLineHeight = parseFloat(finalFontSize) * lh + 'px'
-    } else if (vp.mode === 'mobile' || vp.forcedMode === 'mobile') {
-      const effectiveWidth = vp.forcedMode ? 480 : vp.width
-      finalFontSize = toPx(fs, 3, effectiveWidth)
-      finalLineHeight = parseFloat(finalFontSize) * lh + 'px'
-    } else {
-      finalFontSize = fs + 'em'
-      finalLineHeight = lh + 'em'
-    }
+    const vw = effectiveVpWidth(vp)
+    const result = calcFluidFont(fs, lh, tw, vw, vp.mode, fw, opts.desktopTextZoom, opts.tabletTextZoom, opts.mobileTextZoom)
 
     const s: Record<string, string> = {}
-    if (b.fontSize != null) s['font-size'] = String(finalFontSize)
-    if (b.lineHeight != null) s['line-height'] = String(finalLineHeight)
+    if (b.fontSize != null) s['font-size'] = result.fontSize
+    if (b.lineHeight != null) s['line-height'] = result.lineHeight
     return s
   })
 
@@ -85,14 +58,17 @@ export const useBlockGrid = (block: () => Block, section?: () => Section) => {
       'grid-row': `${coords.value.y} / span ${coords.value.h}`
     }
     if (backgroundStyle.value.style) {
-      backgroundStyle.value.style.split(';').filter(Boolean).forEach(rule => {
-        const idx = rule.indexOf(':')
-        if (idx !== -1) {
-          const prop = rule.slice(0, idx).trim()
-          const val = rule.slice(idx + 1).trim()
-          if (prop && val) s[prop] = val
-        }
-      })
+      backgroundStyle.value.style
+        .split(';')
+        .filter(Boolean)
+        .forEach(rule => {
+          const idx = rule.indexOf(':')
+          if (idx !== -1) {
+            const prop = rule.slice(0, idx).trim()
+            const val = rule.slice(idx + 1).trim()
+            if (prop && val) s[prop] = val
+          }
+        })
     }
     if (backgroundStyle.value.clip) {
       s['overflow'] = 'hidden'

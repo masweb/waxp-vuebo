@@ -12,9 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppSettings: typeof import('./src/views/AppSettings.vue')['default']
-    Background: typeof import('./src/components/editor/settings/fields/Background.vue')['default']
     BackgroundSettings: typeof import('./src/components/editor/settings/fields/BackgroundSettings.vue')['default']
-    BlockControls: typeof import('./src/components/editor/blocks/BlockControls.vue')['default']
     BlockSettings: typeof import('./src/components/editor/settings/BlockSettings.vue')['default']
     Button: typeof import('./src/components/editor/blocks/Button.vue')['default']
     ButtonSettings: typeof import('./src/components/editor/settings/blocks/ButtonSettings.vue')['default']
@@ -23,7 +21,6 @@ declare module 'vue' {
     DarkModeSettings: typeof import('./src/components/editor/settings/blocks/DarkModeSettings.vue')['default']
     DashBoard: typeof import('./src/views/DashBoard.vue')['default']
     DrawingOverlay: typeof import('./src/components/editor/DrawingOverlay.vue')['default']
-    EditorToolbar: typeof import('./src/components/editor/EditorToolbar.vue')['default']
     ErrorsNotifier: typeof import('./src/components/ErrorsNotifier.vue')['default']
     FocalPointPicker: typeof import('./src/components/editor/settings/fields/FocalPointPicker.vue')['default']
     FontFamilyField: typeof import('./src/components/editor/settings/fields/FontFamilyField.vue')['default']
@@ -45,7 +42,6 @@ declare module 'vue' {
     PageSection: typeof import('./src/components/editor/PageSection.vue')['default']
     PageSettings: typeof import('./src/components/editor/settings/PageSettings.vue')['default']
     PageTreeNode: typeof import('./src/components/editor/settings/routing/PageTreeNode.vue')['default']
-    RangeSlider: typeof import('./src/components/editor/settings/fields/RangeSlider.vue')['default']
     RouterContent: typeof import('./src/components/editor/RouterContent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -53,7 +49,6 @@ declare module 'vue' {
     SectionRange: typeof import('./src/components/editor/settings/fields/SectionRange.vue')['default']
     SectionSettings: typeof import('./src/components/editor/settings/SectionSettings.vue')['default']
     SettingsPane: typeof import('./src/components/editor/SettingsPane.vue')['default']
-    SettingsPanel: typeof import('./src/components/editor/SettingsPanel.vue')['default']
     SidesField: typeof import('./src/components/editor/settings/fields/SidesField.vue')['default']
     SiteEditor: typeof import('./src/components/editor/SiteEditor.vue')['default']
     SiteManager: typeof import('./src/components/manager/SiteManager.vue')['default']

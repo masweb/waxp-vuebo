@@ -14,6 +14,7 @@ export interface siteOptions {
   mobileTextZoom: number
   tabletBP: number
   tabletTextZoom: number
+  desktopTextZoom: number
   desktopWidth: number | null
   header: Section
   footer: Section
@@ -41,7 +42,8 @@ export const siteOptions: siteOptions = {
   mobileBP: 767,
   mobileTextZoom: 3,
   tabletBP: 1024,
-  tabletTextZoom: 1.5,
+  tabletTextZoom: 1.2,
+  desktopTextZoom: 1,
   desktopWidth: 1200,
   header: {
     id: 1,

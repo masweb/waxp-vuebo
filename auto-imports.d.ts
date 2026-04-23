@@ -13,6 +13,9 @@ declare global {
   const MODE_KEY: typeof import('./src/types/layout').MODE_KEY
   const THEME_CHANGE_EVENT: typeof import('./src/composables/useTheme').THEME_CHANGE_EVENT
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
+  const calcFluidFont: typeof import('./src/composables/useFontSize').calcFluidFont
+  const calcFluidFs: typeof import('./src/composables/useFontSize').calcFluidFs
+  const calcFluidSize: typeof import('./src/composables/useFontSize').calcFluidSize
   const computed: typeof import('vue').computed
   const configure: typeof import('vee-validate').configure
   const createApp: typeof import('vue').createApp
@@ -27,7 +30,9 @@ declare global {
   const drawingStore: typeof import('./src/stores/drawingStore').drawingStore
   const editorStore: typeof import('./src/stores/editorStore').editorStore
   const effectScope: typeof import('vue').effectScope
+  const effectiveVpWidth: typeof import('./src/composables/useFontSize').effectiveVpWidth
   const errorsStore: typeof import('./src/stores/errorsStore').errorsStore
+  const fluidFontCSS: typeof import('./src/composables/useFontSize').fluidFontCSS
   const getActivePinia: typeof import('pinia').getActivePinia
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope

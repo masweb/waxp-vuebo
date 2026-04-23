@@ -88,11 +88,28 @@ const globalFont = computed<Font>({
       @update:modelValue="updateOption('desktopWidth', $event)"
     />
     <NumberRange
+      class="mt-3"
+      :modelValue="site?.options.desktopTextZoom ?? 1"
+      :label="t('siteSettings.desktopTextZoom')"
+      :min="0"
+      :max="2000"
+      @update:modelValue="updateOption('desktopTextZoom', $event)"
+    />
+    <NumberRange
       :modelValue="site?.options.tabletBP ?? 1024"
       :label="t('siteSettings.tabletBreakpoint')"
       :min="site?.options.mobileBP ?? 767"
       :max="site?.options.desktopWidth ?? 1200"
       @update:modelValue="updateOption('tabletBP', $event)"
+    />
+    <NumberRange
+      class="mt-3"
+      :modelValue="site?.options.tabletTextZoom ?? 1"
+      :label="t('siteSettings.tabletTextZoom')"
+      :min="0"
+      :steep="0.1"
+      :max="2000"
+      @update:modelValue="updateOption('tabletTextZoom', $event)"
     />
     <NumberRange
       :modelValue="site?.options.mobileBP ?? 767"
