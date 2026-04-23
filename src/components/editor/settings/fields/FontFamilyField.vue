@@ -89,12 +89,36 @@ const onKeydown = (e: KeyboardEvent) => {
   }
 }
 
-const currentFont = computed<Fonts | undefined>(() =>
-  fonts.value.find(f => f.family === props.modelValue.family)
-)
+const currentFont = computed<Fonts | undefined>(() => fonts.value.find(f => f.family === props.modelValue.family))
 
-const availableWeights = computed(() => currentFont.value?.weights ?? [])
-const availableItalics = computed(() => currentFont.value?.italics ?? [])
+const variantCount = (font: Fonts) => {
+  return font.weights.length + (font.italics?.length ?? 0)
+}
+
+const variantOptions = computed(() => {
+  if (!currentFont.value) return []
+  const opts: { weight: number; italic: boolean; label: string }[] = []
+  for (const w of currentFont.value.weights) {
+    opts.push({ weight: w, italic: false, label: `${w}` })
+  }
+  for (const w of currentFont.value.italics ?? []) {
+    opts.push({ weight: w, italic: true, label: `${w} italic` })
+  }
+  return opts
+})
+
+const selectedVariant = computed({
+  get: () => {
+    const idx = variantOptions.value.findIndex(
+      v => v.weight === props.modelValue.weight && v.italic === !!props.modelValue.italic
+    )
+    return idx >= 0 ? String(idx) : ''
+  },
+  set: (v: string) => {
+    const opt = variantOptions.value[Number(v)]
+    if (opt) emit('update:modelValue', { ...props.modelValue, weight: opt.weight, italic: opt.italic })
+  }
+})
 
 const pickFamily = (font: Fonts) => {
   emit('update:modelValue', {
@@ -112,14 +136,6 @@ const clearFamily = () => {
   nextTick(() => inputRef.value?.focus())
 }
 
-const setWeight = (w: number) => {
-  emit('update:modelValue', { ...props.modelValue, weight: w })
-}
-
-const toggleItalic = () => {
-  emit('update:modelValue', { ...props.modelValue, italic: !props.modelValue.italic })
-}
-
 const onDocClick = (e: MouseEvent) => {
   if (!containerRef.value?.contains(e.target as Node)) {
     isOpen.value = false
@@ -130,8 +146,8 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
 </script>
 
 <template>
-  <div ref="containerRef" class="font-family-field mb-2">
-    <label v-if="label" class="small mb-1">{{ label }}</label>
+  <div ref="containerRef" class="font-family-field mb-3">
+    <label v-if="label" class="mb-1">{{ label }}</label>
     <div class="font-search-row">
       <div class="font-search-input-wrap">
         <input
@@ -145,7 +161,13 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
           @focus="onFocus"
           @keydown="onKeydown"
         />
-        <button v-if="modelValue.family" class="font-clear-btn" type="button" :title="t('fonts.removeFont')" @click="clearFamily">
+        <button
+          v-if="modelValue.family"
+          class="font-clear-btn"
+          type="button"
+          :title="t('fonts.removeFont')"
+          @click="clearFamily"
+        >
           ×
         </button>
       </div>
@@ -160,36 +182,16 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
           @click="pickFamily(font)"
         >
           <span class="font-dropdown-family">{{ font.family }}</span>
-          <span class="font-dropdown-category">
-            <span v-for="w in font.weights" :key="w" class="badge bg-secondary me-1">{{ w }}</span>
-            <span v-for="w in (font.italics ?? [])" :key="'i'+w" class="badge bg-primary me-1">{{ w }}i</span>
-          </span>
+          <span class="font-dropdown-category"> {{ variantCount(font) }} {{ t('fonts.variants') }} </span>
         </button>
         <div v-if="!filtered.length && query.length > 1" class="font-dropdown-empty">{{ t('common.noResults') }}</div>
       </div>
     </div>
 
-    <div v-if="currentFont" class="font-variant-row mt-1">
-      <button
-        v-for="w in availableWeights"
-        :key="w"
-        type="button"
-        class="btn btn-sm"
-        :class="modelValue.weight === w && !modelValue.italic ? 'btn-primary' : 'btn-outline-secondary'"
-        @click="setWeight(w)"
-      >
-        {{ w }}
-      </button>
-      <button
-        v-for="w in availableItalics"
-        :key="'i'+w"
-        type="button"
-        class="btn btn-sm"
-        :class="modelValue.weight === w && modelValue.italic ? 'btn-primary' : 'btn-outline-secondary'"
-        @click="emit('update:modelValue', { family: modelValue.family, weight: w, italic: true })"
-      >
-        {{ w }}i
-      </button>
+    <div v-if="currentFont" class="mt-1">
+      <select class="form-select form-select-sm" v-model="selectedVariant">
+        <option v-for="(opt, idx) in variantOptions" :key="idx" :value="String(idx)">{{ opt.label }}</option>
+      </select>
     </div>
   </div>
 </template>

@@ -49,8 +49,8 @@ $toolColorHover: var(--se-tool-color-hover);
   .page-content {
     width: 100%;
     /* max-width: var(--se-desktop-width); */
-    padding-left: 10px;
-    padding-right: 10px;
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
     transition: max-width 0.3s ease;
     display: flex;
     flex-direction: column;

@@ -124,7 +124,8 @@
     "selectAll": "Seleccionar todo",
     "deselectAll": "Deseleccionar todo",
     "selectNormals": "Seleccionar normales",
-    "selectItalics": "Seleccionar cursivas"
+    "selectItalics": "Seleccionar cursivas",
+    "variants": "variantes"
   },
   "block": {
     "darkModeBlock": "Modo",

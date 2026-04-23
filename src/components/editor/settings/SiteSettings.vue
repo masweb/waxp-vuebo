@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type { Font } from '@/types/defaultOptions'
+import FontFamilyField from './fields/FontFamilyField.vue'
+
 const stt = settingsStore()
 const { showsettings } = storeToRefs(stt)
 const st = siteStore()
@@ -17,6 +20,15 @@ const updateOption = (key: string, value: number) => {
   hs.snapshot()
   ;(site.value.options as any)[key] = value
 }
+
+const globalFont = computed<Font>({
+  get: () => site.value?.options?.globalFontFamily ?? { family: '', weight: 400, italic: false },
+  set: (v: Font) => {
+    if (!site.value?.options) return
+    hs.snapshot()
+    site.value.options.globalFontFamily = v
+  }
+})
 </script>
 
 <template>
@@ -25,6 +37,27 @@ const updateOption = (key: string, value: number) => {
     <CCloseButton class="text-reset" @click="showsettings = false" />
   </COffcanvasHeader>
   <COffcanvasBody>
+    <div class="mt-3">
+      <FontFamilyField v-model="globalFont" :label="t('fonts.globalFont')" />
+      <NumberRange
+        class="mt-2"
+        :modelValue="site?.options.fontSize ?? 1"
+        :label="t('block.fontSize')"
+        :min="0.1"
+        :max="2"
+        :step="0.01"
+        @update:modelValue="updateOption('fontSize', $event)"
+      />
+      <NumberRange
+        class="mt-2"
+        :modelValue="site?.options.lineHeight ?? 1.4"
+        :label="t('block.lineHeight')"
+        :min="0.1"
+        :max="3"
+        :step="0.01"
+        @update:modelValue="updateOption('lineHeight', $event)"
+      />
+    </div>
     <ColorPicker
       :label="t('siteSettings.colorLight')"
       :color="site?.options.lightColor"

@@ -202,25 +202,15 @@ const resetLineHeight = () => {
   <hr class="my-3" />
 
   <div class="mb-3">
-    <TextField v-model="labelText" :label="t('block.buttonLabel')" :placeholder="t('block.buttonLabelHint')" />
-  </div>
-
-  <div class="mb-3">
     <label class="form-label fw-semibold mb-1">{{ t('block.buttonBg') }}</label>
     <div class="row g-2">
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.bg?.light ?? ''"
-          :label="t('block.light')"
-          @update:color="patchColor('bg', 'light', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.bg?.light ?? ''" @update:color="patchColor('bg', 'light', $event)" />
+        <label>{{ t('block.light') }}</label>
       </div>
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.bg?.dark ?? ''"
-          :label="t('block.dark')"
-          @update:color="patchColor('bg', 'dark', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.bg?.dark ?? ''" @update:color="patchColor('bg', 'dark', $event)" />
+        <label>{{ t('block.dark') }}</label>
       </div>
     </div>
   </div>
@@ -228,19 +218,13 @@ const resetLineHeight = () => {
   <div class="mb-3">
     <label class="form-label fw-semibold mb-1">{{ t('block.buttonHover') }}</label>
     <div class="row g-2">
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.hover?.light ?? ''"
-          :label="t('block.light')"
-          @update:color="patchColor('hover', 'light', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.hover?.light ?? ''" @update:color="patchColor('hover', 'light', $event)" />
+        <label>{{ t('block.light') }}</label>
       </div>
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.hover?.dark ?? ''"
-          :label="t('block.dark')"
-          @update:color="patchColor('hover', 'dark', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.hover?.dark ?? ''" @update:color="patchColor('hover', 'dark', $event)" />
+        <label>{{ t('block.dark') }}</label>
       </div>
     </div>
   </div>
@@ -248,19 +232,13 @@ const resetLineHeight = () => {
   <div class="mb-3">
     <label class="form-label fw-semibold mb-1">{{ t('block.buttonActive') }}</label>
     <div class="row g-2">
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.active?.light ?? ''"
-          :label="t('block.light')"
-          @update:color="patchColor('active', 'light', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.active?.light ?? ''" @update:color="patchColor('active', 'light', $event)" />
+        <label>{{ t('block.light') }}</label>
       </div>
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.active?.dark ?? ''"
-          :label="t('block.dark')"
-          @update:color="patchColor('active', 'dark', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.active?.dark ?? ''" @update:color="patchColor('active', 'dark', $event)" />
+        <label>{{ t('block.dark') }}</label>
       </div>
     </div>
   </div>
@@ -268,19 +246,13 @@ const resetLineHeight = () => {
   <div class="mb-3">
     <label class="form-label fw-semibold mb-1">{{ t('block.buttonFocus') }}</label>
     <div class="row g-2">
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.focus?.light ?? ''"
-          :label="t('block.light')"
-          @update:color="patchColor('focus', 'light', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.focus?.light ?? ''" @update:color="patchColor('focus', 'light', $event)" />
+        <label>{{ t('block.light') }}</label>
       </div>
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.focus?.dark ?? ''"
-          :label="t('block.dark')"
-          @update:color="patchColor('focus', 'dark', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.focus?.dark ?? ''" @update:color="patchColor('focus', 'dark', $event)" />
+        <label>{{ t('block.dark') }}</label>
       </div>
     </div>
   </div>
@@ -288,19 +260,13 @@ const resetLineHeight = () => {
   <div class="mb-3">
     <label class="form-label fw-semibold mb-1">{{ t('block.buttonTextColor') }}</label>
     <div class="row g-2">
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.textColor?.light ?? ''"
-          :label="t('block.light')"
-          @update:color="patchColor('textColor', 'light', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.textColor?.light ?? ''" @update:color="patchColor('textColor', 'light', $event)" />
+        <label>{{ t('block.light') }}</label>
       </div>
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.textColor?.dark ?? ''"
-          :label="t('block.dark')"
-          @update:color="patchColor('textColor', 'dark', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.textColor?.dark ?? ''" @update:color="patchColor('textColor', 'dark', $event)" />
+        <label>{{ t('block.dark') }}</label>
       </div>
     </div>
   </div>
@@ -308,19 +274,13 @@ const resetLineHeight = () => {
   <div class="mb-3">
     <label class="form-label fw-semibold mb-1">{{ t('block.buttonHoverTextColor') }}</label>
     <div class="row g-2">
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.hoverTextColor?.light ?? ''"
-          :label="t('block.light')"
-          @update:color="patchColor('hoverTextColor', 'light', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.hoverTextColor?.light ?? ''" @update:color="patchColor('hoverTextColor', 'light', $event)" />
+        <label>{{ t('block.light') }}</label>
       </div>
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.hoverTextColor?.dark ?? ''"
-          :label="t('block.dark')"
-          @update:color="patchColor('hoverTextColor', 'dark', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.hoverTextColor?.dark ?? ''" @update:color="patchColor('hoverTextColor', 'dark', $event)" />
+        <label>{{ t('block.dark') }}</label>
       </div>
     </div>
   </div>
@@ -328,21 +288,21 @@ const resetLineHeight = () => {
   <div class="mb-3">
     <label class="form-label fw-semibold mb-1">{{ t('block.buttonActiveTextColor') }}</label>
     <div class="row g-2">
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.activeTextColor?.light ?? ''"
-          :label="t('block.light')"
-          @update:color="patchColor('activeTextColor', 'light', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.activeTextColor?.light ?? ''" @update:color="patchColor('activeTextColor', 'light', $event)" />
+        <label>{{ t('block.light') }}</label>
       </div>
-      <div class="col-6">
-        <ColorPicker
-          :color="btn?.activeTextColor?.dark ?? ''"
-          :label="t('block.dark')"
-          @update:color="patchColor('activeTextColor', 'dark', $event)"
-        />
+      <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+        <ColorPicker :color="btn?.activeTextColor?.dark ?? ''" @update:color="patchColor('activeTextColor', 'dark', $event)" />
+        <label>{{ t('block.dark') }}</label>
       </div>
     </div>
+  </div>
+
+  <hr class="my-3" />
+
+  <div class="mb-3">
+    <TextField v-model="labelText" :label="t('block.buttonLabel')" :placeholder="t('block.buttonLabelHint')" />
   </div>
 
   <hr class="my-3" />
@@ -425,19 +385,13 @@ const resetLineHeight = () => {
     <div class="mb-3">
       <label class="form-label fw-semibold mb-1">{{ t('block.buttonBorderColor') }}</label>
       <div class="row g-2">
-        <div class="col-6">
-          <ColorPicker
-            :color="btn?.borderColor?.light ?? ''"
-            :label="t('block.light')"
-            @update:color="patchColor('borderColor', 'light', $event)"
-          />
+        <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+          <ColorPicker :color="btn?.borderColor?.light ?? ''" @update:color="patchColor('borderColor', 'light', $event)" />
+          <label>{{ t('block.light') }}</label>
         </div>
-        <div class="col-6">
-          <ColorPicker
-            :color="btn?.borderColor?.dark ?? ''"
-            :label="t('block.dark')"
-            @update:color="patchColor('borderColor', 'dark', $event)"
-          />
+        <div class="col-6 d-flex justify-content-start align-items-baseline gap-3">
+          <ColorPicker :color="btn?.borderColor?.dark ?? ''" @update:color="patchColor('borderColor', 'dark', $event)" />
+          <label>{{ t('block.dark') }}</label>
         </div>
       </div>
     </div>

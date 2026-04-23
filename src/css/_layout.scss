@@ -108,8 +108,7 @@ body {
   }
 
   &.active {
-    background: var(--cui-primary-bg-subtle);
-    color: var(--cui-primary-text-emphasis);
+    background: var(--cui-tertiary-bg);
   }
 
   &.highlighted:not(.active) {
@@ -125,10 +124,4 @@ body {
   font-size: 11px;
   color: var(--cui-secondary-color);
   flex-shrink: 0;
-}
-
-.font-variant-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
 }

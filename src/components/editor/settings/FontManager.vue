@@ -13,7 +13,6 @@ onMounted(() => {
 })
 
 const fonts = computed<Fonts[]>(() => site.value?.options?.fonts ?? [])
-const globalFont = computed(() => site.value?.options?.globalFontFamily ?? { family: '', weight: 400, italic: false })
 
 const isAdding = ref(false)
 const searchQuery = ref('')
@@ -124,7 +123,7 @@ const removeFont = (family: string) => {
   const idx = site.value.options.fonts.findIndex(f => f.family === family)
   if (idx >= 0) site.value.options.fonts.splice(idx, 1)
 
-  if (globalFont.value.family === family) {
+  if (site.value.options.globalFontFamily?.family === family) {
     const first = site.value.options.fonts[0]
     site.value.options.globalFontFamily = first
       ? { family: first.family, weight: first.weights[0] ?? 400, italic: false }
@@ -165,7 +164,10 @@ const editSelectAllWeights = (family: string) => {
 
 const editSelectAllItalics = (family: string) => {
   const font = getFont(family)
-  if (!font) { editItalics.value = [...ALL_WEIGHTS]; return }
+  if (!font) {
+    editItalics.value = [...ALL_WEIGHTS]
+    return
+  }
   editItalics.value = ALL_WEIGHTS.filter(w => {
     if (w === 400) return font.variants.includes('italic')
     return font.variants.includes(`${w}italic`)
@@ -182,10 +184,11 @@ const saveEdit = () => {
   font.italics = [...editItalics.value].sort((a, b) => a - b)
   injectWeights(font.family, font.weights, font.italics)
 
-  if (globalFont.value.family === font.family) {
-    const hasWeight = font.weights.includes(globalFont.value.weight)
-    const hasItalic = globalFont.value.italic && (font.italics ?? []).includes(globalFont.value.weight)
-    if (!hasWeight || (globalFont.value.italic && !hasItalic)) {
+  if (site.value.options.globalFontFamily?.family === font.family) {
+    const gf = site.value.options.globalFontFamily
+    const hasWeight = font.weights.includes(gf.weight)
+    const hasItalic = gf.italic && (font.italics ?? []).includes(gf.weight)
+    if (!hasWeight || (gf.italic && !hasItalic)) {
       site.value.options.globalFontFamily = {
         family: font.family,
         weight: font.weights[0] ?? 400,
@@ -216,17 +219,6 @@ const toggleEditItalic = (w: number) => {
     editItalics.value.push(w)
   }
 }
-
-const setGlobalFont = (family: string, weight: number, italic: boolean = false) => {
-  if (!site.value?.options) return
-  hs.snapshot()
-  site.value.options.globalFontFamily = { family, weight, italic }
-}
-
-const globalWeightOptions = computed(() => {
-  const f = fonts.value.find(f => f.family === globalFont.value.family)
-  return f ? f.weights : [400]
-})
 
 const weightsForFont = (family: string): number[] => {
   const font = getFont(family)
@@ -332,13 +324,35 @@ const weightsForFont = (family: string): number[] => {
             <button class="btn btn-sm btn-outline-secondary" @click="startEdit(font)">
               {{ t('fonts.weights') }}
             </button>
-            <button class="btn btn-sm btn-danger" @click="removeFont(font.family)"><IconTrashFilled :size="16" /></button>
+            <button class="btn btn-sm btn-danger" @click="removeFont(font.family)">
+              <IconTrashFilled :size="16" />
+            </button>
           </div>
           <div v-else class="d-flex gap-1">
-            <button class="btn btn-sm btn-outline-secondary" @click="editSelectAll(font.family)" :title="t('fonts.selectAll')"><IconSelectAll :size="16" /></button>
-            <button class="btn btn-sm btn-outline-secondary" @click="editDeselectAll" :title="t('fonts.deselectAll')"><IconDeselect :size="16" /></button>
-            <button class="btn btn-sm btn-outline-secondary" @click="editSelectAllWeights(font.family)" :title="t('fonts.selectNormals')"><IconTypography :size="16" /></button>
-            <button class="btn btn-sm btn-outline-secondary" @click="editSelectAllItalics(font.family)" :title="t('fonts.selectItalics')"><IconItalic :size="16" /></button>
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              @click="editSelectAll(font.family)"
+              :title="t('fonts.selectAll')"
+            >
+              <IconSelectAll :size="16" />
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" @click="editDeselectAll" :title="t('fonts.deselectAll')">
+              <IconDeselect :size="16" />
+            </button>
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              @click="editSelectAllWeights(font.family)"
+              :title="t('fonts.selectNormals')"
+            >
+              <IconTypography :size="16" />
+            </button>
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              @click="editSelectAllItalics(font.family)"
+              :title="t('fonts.selectItalics')"
+            >
+              <IconItalic :size="16" />
+            </button>
           </div>
         </div>
 
@@ -359,7 +373,7 @@ const weightsForFont = (family: string): number[] => {
           <div class="d-flex flex-wrap gap-1 mb-2">
             <button
               v-for="w in ALL_WEIGHTS"
-              :key="'i'+w"
+              :key="'i' + w"
               type="button"
               class="btn btn-sm"
               :class="editItalics.includes(w) ? 'btn-primary' : 'btn-outline-secondary'"
@@ -377,42 +391,11 @@ const weightsForFont = (family: string): number[] => {
 
         <div v-else class="mt-1">
           <span v-for="w in font.weights" :key="w" class="badge bg-secondary me-1">{{ w }}</span>
-          <span v-for="w in (font.italics ?? [])" :key="'i'+w" class="badge bg-primary me-1">{{ w }}i</span>
+          <span v-for="w in font.italics ?? []" :key="'i' + w" class="badge bg-primary me-1">{{ w }}i</span>
         </div>
       </div>
 
       <div v-if="!fonts.length" class="text-muted small">{{ t('fonts.empty') }}</div>
-    </div>
-
-    <div v-if="fonts.length > 0" class="mt-3">
-      <label class="form-label mb-1">{{ t('fonts.globalFont') }}</label>
-      <div class="d-flex gap-2 align-items-center">
-        <select
-          class="form-select form-select-sm"
-          style="max-width: 200px"
-          :value="globalFont.family"
-          @change="setGlobalFont(($event.target as HTMLSelectElement).value, globalWeightOptions[0] ?? 400, globalFont.italic ?? false)"
-        >
-          <option v-for="f in fonts" :key="f.family" :value="f.family">{{ f.family }}</option>
-        </select>
-        <select
-          class="form-select form-select-sm"
-          style="max-width: 100px"
-          :value="globalFont.weight"
-          @change="setGlobalFont(globalFont.family, Number(($event.target as HTMLSelectElement).value), globalFont.italic ?? false)"
-        >
-          <option v-for="w in globalWeightOptions" :key="w" :value="w">{{ w }}</option>
-        </select>
-        <label class="form-check form-check-inline mb-0">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            :checked="globalFont.italic ?? false"
-            @change="setGlobalFont(globalFont.family, globalFont.weight, ($event.target as HTMLInputElement).checked)"
-          />
-          <span class="small">{{ t('fonts.italic') }}</span>
-        </label>
-      </div>
     </div>
   </div>
 </template>

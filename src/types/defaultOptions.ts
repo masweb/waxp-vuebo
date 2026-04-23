@@ -47,13 +47,13 @@ export const siteOptions: siteOptions = {
     id: 1,
     blocks: [
       {
-        d: { h: 3, w: 6, x: 1, y: 1 },
-        m: { h: 2, w: 6, x: 1, y: 1 },
-        t: { h: 3, w: 6, x: 1, y: 1 },
+        d: { h: 1, w: 4, x: 1, y: 1 },
+        m: { h: 1, w: 3, x: 1, y: 1 },
+        t: { h: 1, w: 5, x: 1, y: 1 },
         id: 1,
         type: 'Text',
         locales: {
-          text: '<h3>Header</h3>'
+          text: '<h2>Header</h2>'
         },
         style: {
           hideOn: [],
@@ -125,6 +125,93 @@ export const siteOptions: siteOptions = {
             l: '0'
           }
         }
+      },
+      {
+        d: { h: 1, w: 1, x: 24, y: 1 },
+        m: { h: 1, w: 1, x: 8, y: 1 },
+        t: { h: 1, w: 1, x: 20, y: 1 },
+        id: 3,
+        type: 'DarkMode',
+        color: null,
+        style: {
+          border: {
+            radius: { bl: '0', br: '0', tl: '0', tr: '0' },
+            allBorders: { mode: 'none', color: 'transparent', thick: '0', active: false },
+            sidesBorders: {
+              b: { mode: 'none', color: 'transparent', thick: '0', active: false },
+              l: { mode: 'none', color: 'transparent', thick: '0', active: false },
+              r: { mode: 'none', color: 'transparent', thick: '0', active: false },
+              t: { mode: 'none', color: 'transparent', thick: '0', active: false }
+            }
+          },
+          hideOn: [],
+          padding: { b: '0', l: '0', r: '0', t: '0' },
+          background: {
+            pos: 'cover',
+            mode: 'none',
+            size: '',
+            zoom: '100',
+            focalX: '50',
+            focalY: '50',
+            repeat: false,
+            gradDeg: '',
+            opacity: '',
+            url_mob: '',
+            url_tab: '',
+            url_desk: '',
+            darkGradA: '',
+            darkGradB: '',
+            lightColor: '',
+            lightGradA: '',
+            lightGradB: '',
+            fix_img_back: false,
+            darkcolorColor: ''
+          }
+        },
+        fontSize: null,
+        darkColor: null
+      },
+      {
+        d: { h: 1, w: 1, x: 23, y: 1 },
+        m: { h: 1, w: 1, x: 7, y: 1 },
+        t: { h: 1, w: 1, x: 19, y: 1 },
+        id: 4,
+        type: 'LanguageSwitcher',
+        style: {
+          border: {
+            radius: { bl: '0', br: '0', tl: '0', tr: '0' },
+            allBorders: { mode: 'none', color: 'transparent', thick: '0', active: false },
+            sidesBorders: {
+              b: { mode: 'none', color: 'transparent', thick: '0', active: false },
+              l: { mode: 'none', color: 'transparent', thick: '0', active: false },
+              r: { mode: 'none', color: 'transparent', thick: '0', active: false },
+              t: { mode: 'none', color: 'transparent', thick: '0', active: false }
+            }
+          },
+          hideOn: [],
+          padding: { b: '0', l: '0', r: '0', t: '0' },
+          background: {
+            pos: 'cover',
+            mode: 'none',
+            size: '',
+            zoom: '100',
+            focalX: '50',
+            focalY: '50',
+            repeat: false,
+            gradDeg: '',
+            opacity: '',
+            url_mob: '',
+            url_tab: '',
+            url_desk: '',
+            darkGradA: '',
+            darkGradB: '',
+            lightColor: '',
+            lightGradA: '',
+            lightGradB: '',
+            fix_img_back: false,
+            darkcolorColor: ''
+          }
+        }
       }
     ],
     mobile: { gap: 4, cols: 8, rows: 4 },
@@ -194,7 +281,7 @@ export const siteOptions: siteOptions = {
     id: 2,
     blocks: [
       {
-        d: { h: 3, w: 6, x: 1, y: 1 },
+        d: { h: 2, w: 4, x: 1, y: 1 },
         m: { h: 2, w: 6, x: 1, y: 1 },
         t: { h: 3, w: 6, x: 1, y: 1 },
         id: 2,
