@@ -1,3 +1,5 @@
+import type { Font } from './defaultOptions'
+
 export interface BreakpointSize {
   cols: number
   rows: number
@@ -34,6 +36,15 @@ export interface Block {
   image?: BlockImage
   link?: BlockLink
   button?: BlockButton
+  menu?: MenuItem[]
+  menuColors?: MenuColors
+  menuFont?: Font
+  menuFontSize?: null | number
+  menuLineHeight?: null | number
+  menuSubFont?: Font
+  menuSubFontSize?: null | number
+  menuSubLineHeight?: null | number
+  isMobileMenu?: boolean
 }
 
 export interface Section {
@@ -177,6 +188,18 @@ export interface BlockImage {
 export interface BlockButtonColors {
   light: string
   dark: string
+}
+
+export interface MenuColors {
+  color: BlockButtonColors
+  hover: BlockButtonColors
+  active: BlockButtonColors
+}
+
+export interface MenuItem {
+  locales: { label: string }
+  link?: BlockLink
+  children?: MenuItem[]
 }
 
 export interface BlockButton {

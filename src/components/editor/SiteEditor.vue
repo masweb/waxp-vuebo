@@ -12,6 +12,8 @@ const dynamicStyle = computed(() => {
   if (!opts) return ''
   const color = opts.darkMode ? opts.darkColor : opts.lightColor
   const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor
+  const scrollbarThumb = color
+  const scrollbarTrack = bgColor
   const toolColor = opts.darkMode ? '#804244' : '#abbbc5'
   const toolColorHover = opts.darkMode ? '#b94c47' : '#93a4ae'
   const gf = opts.globalFontFamily
@@ -19,6 +21,16 @@ const dynamicStyle = computed(() => {
   const finalFontSize = fs ? fs.fontSize : opts.fontSize + 'em'
   const finalLineHeight = fs ? fs.lineHeight : opts.lineHeight + 'em'
   const fStyle = gf.italic ? 'italic' : 'normal'
+
+  const headers = opts.headers
+    ? Object.entries(opts.headers)
+        .map(([level, cfg]) => {
+          const fs = cfg.italic ? 'italic' : 'normal'
+          const lh = cfg.lineHeight ?? cfg.size
+          return `.site-editor .tiptap ${level.toLowerCase()} { font-size: ${cfg.size}em; line-height: ${lh}em; font-family: '${cfg.family}', sans-serif; font-weight: ${cfg.weight}; font-style: ${fs}; }`
+        })
+        .join('\n')
+    : ''
 
   return `.site-editor {
   --se-font-family: '${gf.family}', sans-serif;
@@ -30,8 +42,11 @@ const dynamicStyle = computed(() => {
   --se-bg-color: ${bgColor};
   --se-tool-color: ${toolColor};
   --se-tool-color-hover: ${toolColorHover};
+  --se-scrollbar-thumb: ${scrollbarThumb};
+  --se-scrollbar-track: ${scrollbarTrack};
   --se-desktop-width: ${opts.desktopWidth}px;
-}`
+}
+${headers}`
 })
 
 onMounted(async () => {

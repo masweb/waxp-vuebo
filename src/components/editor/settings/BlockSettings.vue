@@ -21,7 +21,8 @@ const settingsComponents: Record<string, Component> = {
   Image: defineAsyncComponent(() => import('./blocks/ImageSettings.vue')),
   Space: defineAsyncComponent(() => import('./blocks/SpaceSettings.vue')),
   DarkMode: defineAsyncComponent(() => import('./blocks/DarkModeSettings.vue')),
-  Button: defineAsyncComponent(() => import('./blocks/ButtonSettings.vue'))
+  Button: defineAsyncComponent(() => import('./blocks/ButtonSettings.vue')),
+  Menu: defineAsyncComponent(() => import('./blocks/MenuSettings.vue'))
 }
 
 const settingsComponent = computed(() => settingsComponents[activeBlock.value?.type ?? ''])

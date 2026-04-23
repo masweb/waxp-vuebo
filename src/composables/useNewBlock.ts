@@ -124,6 +124,23 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
             image: { url_desk: '', url_tab: '', url_mob: '', fit: 'cover' as const }
           }
         : {}),
+      ...(blockType === 'Menu'
+        ? {
+            menu: [],
+            menuColors: {
+              color: { light: '#212529', dark: '#f8f9fa' },
+              hover: { light: '#0d6efd', dark: '#6ea8fe' },
+              active: { light: '#0a58ca', dark: '#5aa4f0' }
+            },
+            menuFont: { family: '', weight: 400, italic: false },
+            menuFontSize: null,
+            menuLineHeight: null,
+            menuSubFont: { family: '', weight: 400, italic: false },
+            menuSubFontSize: null,
+            menuSubLineHeight: null,
+            isMobileMenu: false
+          }
+        : {}),
       style: {
         hideOn: [],
         background: {

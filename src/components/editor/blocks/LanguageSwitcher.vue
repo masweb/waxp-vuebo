@@ -19,11 +19,17 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
 const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
 const { computedStyles: sectionFont } = useFontSize(() => sectionTargetWidth.value, () => props.section.style.fullWidth)
 
+const isDark = computed(() => !!st.site?.options.darkMode)
+
 const fluidTextStyle = computed(() => {
   const s: Record<string, string> = { ...textStyle.value }
   if (!s['font-size'] && sectionFont.value) {
     s['font-size'] = sectionFont.value.fontSize
     s['line-height'] = sectionFont.value.lineHeight
+  }
+  if (!s['color']) {
+    const opts = st.site?.options
+    s['color'] = isDark.value ? opts?.darkColor : opts?.lightColor
   }
   return s
 })

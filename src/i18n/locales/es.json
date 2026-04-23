@@ -182,7 +182,19 @@
     "buttonBorderColor": "Color del borde",
     "buttonBorderThick": "Grosor del borde",
     "buttonBorderStyle": "Estilo del borde",
-    "buttonBorderRadius": "Radio de borde"
+    "buttonBorderRadius": "Radio de borde",
+    "menu": "Menú",
+    "menuItems": "Elementos del menú",
+    "menuItemLabel": "Texto del enlace",
+    "menuEmpty": "Sin elementos. Añade el primero.",
+    "menuColor": "Color del texto",
+    "menuHover": "Color hover",
+    "menuActive": "Color activo",
+    "menuFont": "Tipo de letra",
+    "menuLevel1": "Nivel 1",
+    "menuSubLevels": "Subniveles",
+    "menuMobile": "Menú móvil",
+    "menuMobileHint": "Marcado como menú para la versión móvil (funcionalidad pendiente)"
   },
   "grid": {
     "cols": "Columnas",
@@ -197,7 +209,8 @@
     "colorLight": "Color modo claro",
     "desktopWidth": "Ancho escritorio",
     "mobileBreakpoint": "Punto de corte móvil",
-    "tabletBreakpoint": "Punto de corte tablet"
+    "tabletBreakpoint": "Punto de corte tablet",
+    "headers": "Cabeceras"
   },
   "viewport": {
     "desktop": "Escritorio",

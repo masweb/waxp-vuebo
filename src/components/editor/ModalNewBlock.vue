@@ -5,7 +5,8 @@ import {
   IconSpacingVertical,
   IconContrastFilled,
   IconLanguage,
-  IconXboxB
+  IconXboxB,
+  IconMenu2
 } from '@tabler/icons-vue'
 import type { BlockType } from '@/stores/editorStore'
 const ed = editorStore()
@@ -41,6 +42,10 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
       <button class="btn d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')">
         <IconLanguage size="40" stroke-width="1" />
         <small>{{ t('block.languageSwitcher') }}</small>
+      </button>
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Menu')">
+        <IconMenu2 size="40" stroke-width="1" />
+        <small>{{ t('block.menu') }}</small>
       </button>
 
       <button class="btn d-flex flex-column align-items-center" @click="pick('Button')"></button>

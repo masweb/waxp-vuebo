@@ -159,10 +159,10 @@ declare global {
   export type { User, AuthResponse, RegisterRequest, LoginRequest, ApiError, StoredError } from './src/types/auth'
   import('./src/types/auth')
   // @ts-ignore
-  export type { Fonts, Font } from './src/types/defaultOptions'
+  export type { HeaderStyle, HeadersConfig, Fonts, Font } from './src/types/defaultOptions'
   import('./src/types/defaultOptions')
   // @ts-ignore
-  export type { BreakpointSize, BlockCoords, BlockLinkType, BlockLink, Block, Section, SectionStyle, BlockStyle, Background, Border, SidesBorders, SideBorder, Sides, Corners, ViewportMode, BlockImageFit, BlockImage, BlockButtonColors, BlockButton } from './src/types/layout'
+  export type { BreakpointSize, BlockCoords, BlockLinkType, BlockLink, Block, Section, SectionStyle, BlockStyle, Background, Border, SidesBorders, SideBorder, Sides, Corners, ViewportMode, BlockImageFit, BlockImage, BlockButtonColors, MenuColors, MenuItem, BlockButton } from './src/types/layout'
   import('./src/types/layout')
   // @ts-ignore
   export type { PageType, PageSeo, Slug, Page, PageRoute, CreatePageRequest, UpdatePageRequest, ListPagesParams, ListPagesResponse, RoutesResponse } from './src/types/page'

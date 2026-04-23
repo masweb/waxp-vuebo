@@ -1,3 +1,4 @@
+import Italic from '@tiptap/extension-italic'
 import type { Section } from './layout'
 
 export interface siteOptions {
@@ -16,15 +17,27 @@ export interface siteOptions {
   tabletTextZoom: number
   desktopTextZoom: number
   desktopWidth: number | null
+  headers: HeadersConfig
   header: Section
   footer: Section
 }
+
+export interface HeaderStyle {
+  size: number
+  family: string
+  weight: number
+  lineHeight: number
+  italic?: boolean
+}
+
+export type HeadersConfig = Record<'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6', HeaderStyle>
 
 export interface Fonts {
   family: string
   weights: number[]
   italics?: number[]
 }
+
 export interface Font {
   family: string
   weight: number
@@ -33,8 +46,8 @@ export interface Font {
 
 export const siteOptions: siteOptions = {
   darkColor: '#EEEEEE',
-  lightColor: '#333333',
-  darkBackColor: '#111111',
+  lightColor: '#292929',
+  darkBackColor: '#1f1f1f',
   lightBackColor: '#EEEEEE',
   fontSize: 1,
   lineHeight: 1.4,
@@ -45,6 +58,50 @@ export const siteOptions: siteOptions = {
   tabletTextZoom: 1,
   desktopTextZoom: 1,
   desktopWidth: 1260,
+  headers: {
+    H1: {
+      size: 2.5,
+      lineHeight: 1,
+      family: 'Inter',
+      weight: 800,
+      italic: true
+    },
+    H2: {
+      size: 2.2,
+      lineHeight: 1,
+      family: 'Inter',
+      weight: 800,
+      italic: true
+    },
+    H3: {
+      size: 1.9,
+      lineHeight: 1,
+      family: 'Inter',
+      weight: 800,
+      italic: true
+    },
+    H4: {
+      size: 1.6,
+      lineHeight: 1,
+      family: 'Inter',
+      weight: 800,
+      italic: true
+    },
+    H5: {
+      size: 1.3,
+      lineHeight: 1,
+      family: 'Inter',
+      weight: 800,
+      italic: true
+    },
+    H6: {
+      size: 0.9,
+      lineHeight: 1,
+      family: 'Inter',
+      weight: 800,
+      italic: true
+    }
+  },
   header: {
     id: 1,
     blocks: [
@@ -432,6 +489,11 @@ export const siteOptions: siteOptions = {
       family: 'Montserrat',
       weights: [400],
       italics: []
+    },
+    {
+      family: 'Inter',
+      weights: [400, 800],
+      italics: [400, 800]
     }
   ],
   globalFontFamily: {

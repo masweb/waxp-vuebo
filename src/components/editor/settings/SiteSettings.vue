@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { Font } from '@/types/defaultOptions'
+import type { Font, HeadersConfig } from '@/types/defaultOptions'
 import FontFamilyField from './fields/FontFamilyField.vue'
+import HeaderSettings from './HeaderSettings.vue'
 
 const stt = settingsStore()
 const { showsettings } = storeToRefs(stt)
@@ -27,6 +28,15 @@ const globalFont = computed<Font>({
     if (!site.value?.options) return
     hs.snapshot()
     site.value.options.globalFontFamily = v
+  }
+})
+
+const headers = computed<HeadersConfig>({
+  get: () => site.value?.options?.headers ?? {} as HeadersConfig,
+  set: (v: HeadersConfig) => {
+    if (!site.value?.options) return
+    hs.snapshot()
+    site.value.options.headers = v
   }
 })
 </script>
@@ -130,6 +140,8 @@ const globalFont = computed<Font>({
       :max="5"
       @update:modelValue="updateOption('mobileTextZoom', $event)"
     />
+
+    <HeaderSettings v-model="headers" />
 
     <FontManager class="mt-4" />
   </COffcanvasBody>

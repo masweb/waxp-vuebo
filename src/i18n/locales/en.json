@@ -182,7 +182,19 @@
     "buttonBorderColor": "Border color",
     "buttonBorderThick": "Border thickness",
     "buttonBorderStyle": "Border style",
-    "buttonBorderRadius": "Border radius"
+    "buttonBorderRadius": "Border radius",
+    "menu": "Menu",
+    "menuItems": "Menu items",
+    "menuItemLabel": "Link text",
+    "menuEmpty": "No items. Add the first one.",
+    "menuColor": "Text color",
+    "menuHover": "Hover color",
+    "menuActive": "Active color",
+    "menuFont": "Font",
+    "menuLevel1": "Level 1",
+    "menuSubLevels": "Sublevels",
+    "menuMobile": "Mobile menu",
+    "menuMobileHint": "Marked as mobile menu (functionality pending)"
   },
   "grid": {
     "cols": "Columns",
@@ -197,7 +209,8 @@
     "colorLight": "Color light",
     "desktopWidth": "Desktop width",
     "mobileBreakpoint": "Mobile breakpoint",
-    "tabletBreakpoint": "Tablet breakpoint"
+    "tabletBreakpoint": "Tablet breakpoint",
+    "headers": "Headers"
   },
   "viewport": {
     "desktop": "Desktop",
