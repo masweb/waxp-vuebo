@@ -220,7 +220,7 @@ El locale actual se almacena en `pageStore().currentLocale`. Se establece en `ge
 
 ## Propiedades compartidas: tamaño y color responsive
 
-`color`, `darkColor` y `fontSize` no son exclusivas de Text. Cualquier bloque que necesite tamaño configurable con comportamiento responsive las usa (Text, DarkMode, y futuros bloques).
+`color`, `darkColor` y `fontSize` no son exclusivas de Text. Cualquier bloque que necesite tamaño configurable con comportamiento responsive las usa (Text, DarkMode, Button, y futuros bloques).
 
 ### Cadena de herencia
 
@@ -234,32 +234,81 @@ Valor hardcodeado (ej. 1 para fontSize, 24px para iconos)
 
 En los settings se muestra un badge "Heredado" cuando la propiedad del bloque es `null`. El usuario puede resetear al valor heredado con el botón ✕.
 
-### Cálculo responsive — `useBlockGrid`
+### Cálculo responsive — `calcFluidFont`
 
-**`src/composables/useBlockGrid.ts`** → `blockFontStyle`
+**`src/composables/useFontSize.ts`** → `calcFluidFont`
 
-El tamaño base (`fontSize`, ya sea del bloque o heredado del site) se transforma en píxeles según el viewport y las dimensiones de la sección:
+Toda la lógica de tipografía fluida reside en una única función `calcFluidFont`, consumida tanto por `useFontSize` (tipografía de sección/site) como por `useBlockGrid` → `blockFontStyle` (tipografía de bloque con override).
 
-| Condición | Fórmula | Notas |
+#### Parámetros del site (`site.options`)
+
+| Parámetro | Tipo | Default | Descripción |
+|---|---|---|---|
+| `fontSize` | `number` | 1 | Tamaño base en rem |
+| `lineHeight` | `number` | 1.4 | Ratio de line-height (unitless) |
+| `desktopWidth` | `number \| null` | 1200 | Ancho de referencia desktop |
+| `desktopTextZoom` | `number` | 0.5 | Factor de reducción desktop (0 = sin reducción) |
+| `tabletBP` | `number` | 1024 | Breakpoint tablet |
+| `tabletTextZoom` | `number` | 1.5 | Zoom aditivo tablet |
+| `mobileBP` | `number` | 767 | Breakpoint móvil |
+| `mobileTextZoom` | `number` | 3 | Zoom aditivo móvil |
+
+#### Fórmulas por modo
+
+```
+Desktop fijo  (vw >= targetWidth, no fullWidth):
+  fontSize em, lineHeight em
+
+Desktop fluido (vw < targetWidth, no fullWidth):
+  fixedPx * (1 - desktopTextZoom * (1 - vw / targetWidth))  → px
+  fixedPx = fontSize * 16
+
+Desktop fullWidth:
+  (fontSize + factor) * vw / 100  → px
+  factor = 1.491 - 0.000965 * targetWidth
+
+Tablet:
+  (fontSize + tabletTextZoom) * effectiveVw / 100  → px
+
+Móvil:
+  (fontSize + mobileTextZoom) * effectiveVw / 100  → px
+```
+
+Donde `effectiveVpWidth` devuelve el ancho del viewport real, o 820 (tablet) / 480 (móvil) en modo preview forzado del editor.
+
+#### Valores de ejemplo
+
+Con `fontSize = 1`, `desktopWidth = 1200`, `desktopTextZoom = 0.5`:
+
+| Viewport | Modo | Resultado |
 |---|---|---|
-| Desktop + fullWidth | `(fontSize + factor) * viewportWidth / 100` px | `factor = 1.491 - 0.000965 * sectionWidth` |
-| Desktop + maxWidth | `(fontSize + factor) * effectiveWidth / 100` px | `effectiveWidth = forcedMode ? maxWidth : viewportWidth` |
-| Tablet | `(fontSize + 0.933) * effectiveWidth / 100` px | `effectiveWidth = forcedMode ? 820 : viewportWidth` |
-| Mobile | `(fontSize + 3) * effectiveWidth / 100` px | `effectiveWidth = forcedMode ? 480 : viewportWidth` |
-| Fallback | `fontSize` em | Cuando no hay contexto de sección |
+| 1400 | Desktop fijo | 16px (1em) |
+| 1100 | Desktop fluido | 15.33px |
+| 1025 | Desktop fluido | 14.82px |
+| 820 | Tablet preview | 20.5px |
+| 480 | Móvil preview | 19.2px |
 
-El factor de desktop decrece con el ancho de sección: a secciones más anchas, el tamaño crece menos por unidad de `fontSize`.
+#### `targetWidth` por contexto
+
+- **Site editor** (`SiteEditor.vue`): usa `site.options.desktopWidth`
+- **Sección** (`PageSection.vue`): usa `section.style.maxWidth ?? site.options.desktopWidth`
+- **Bloque** (`useBlockGrid`): usa el targetWidth de su sección
 
 ### `textStyle` — salida final
+
+`useBlockGrid` expone `textStyle`, un computed que combina color y tipografía:
 
 ```typescript
 const textStyle = computed(() => {
   const color = isDark ? block.darkColor : block.color
-  // color se incluye solo si no es null/undefined
-  // fontSize se incluye con el cálculo responsive solo si block.fontSize != null
-  // lineHeight se incluye con cálculo responsive solo si block.lineHeight != null
+  // color → solo si no es null
+  // font-size → solo si block.fontSize != null (via calcFluidFont)
+  // line-height → solo si block.lineHeight != null (via calcFluidFont)
+  // Si ambos son null, hereda de la sección
 })
 ```
+
+Si el bloque no tiene `fontSize` ni `lineHeight` propios, `textStyle` solo contiene color y el bloque hereda la tipografía fluida de la sección.
 
 ### Uso por tipo de bloque
 
@@ -711,7 +760,8 @@ Card: defineAsyncComponent(() => import('./blocks/CardSettings.vue'))
 | `src/stores/siteStore.ts` | `loadedLocale`, `loadSiteForLocale(locale)`, `updateSite(locale)` |
 | `src/composables/useNewBlock.ts` | Drag handler, creación del objeto Block, colocación |
 | `src/composables/useBlockBase.ts` | Lógica compartida (grid, move, resize, context menu) |
-| `src/composables/useBlockGrid.ts` | Cálculo de estilos (grid position, fondo, texto responsive) |
+| `src/composables/useFontSize.ts` | `calcFluidFont` (fórmula única fluida), `useFontSize`, `effectiveVpWidth` |
+| `src/composables/useBlockGrid.ts` | Cálculo de estilos (grid position, fondo, texto via `calcFluidFont`) |
 | `src/composables/useBlockLink.ts` | Lógica de navegación para la capa de enlace |
 | `src/composables/useTipTap.ts` | Editor TipTap singleton, lee/escribe `block.locales.text` |
 | `src/components/editor/ModalNewBlock.vue` | Modal de selección de tipo |

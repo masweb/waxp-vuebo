@@ -16,6 +16,18 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
   () => props.section
 )
 
+const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
+const { computedStyles: sectionFont } = useFontSize(() => sectionTargetWidth.value, () => props.section.style.fullWidth)
+
+const fluidTextStyle = computed(() => {
+  const s: Record<string, string> = { ...textStyle.value }
+  if (!s['font-size'] && sectionFont.value) {
+    s['font-size'] = sectionFont.value.fontSize
+    s['line-height'] = sectionFont.value.lineHeight
+  }
+  return s
+})
+
 const showModal = ref(false)
 const pendingLocale = ref('')
 
@@ -76,7 +88,7 @@ const cancelSwitch = () => {
     <select
       class="form-select form-select-sm lang-select"
       :value="pg.currentLocale"
-      :style="textStyle"
+      :style="fluidTextStyle"
       @change="switchLocale(($event.target as HTMLSelectElement).value)"
     >
       <option v-for="loc in locales" :key="loc" :value="loc">{{ loc.toUpperCase() }}</option>
@@ -156,5 +168,7 @@ const cancelSwitch = () => {
   outline: none;
   box-shadow: none;
   cursor: pointer;
+  text-align: center;
+  text-align-last: center;
 }
 </style>

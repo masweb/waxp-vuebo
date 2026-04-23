@@ -91,6 +91,7 @@ const globalFont = computed<Font>({
       class="mt-3"
       :modelValue="site?.options.desktopTextZoom ?? 1"
       :label="t('siteSettings.desktopTextZoom')"
+      :step="0.1"
       :min="0"
       :max="2000"
       @update:modelValue="updateOption('desktopTextZoom', $event)"
@@ -107,16 +108,27 @@ const globalFont = computed<Font>({
       :modelValue="site?.options.tabletTextZoom ?? 1"
       :label="t('siteSettings.tabletTextZoom')"
       :min="0"
-      :steep="0.1"
+      :step="0.1"
       :max="2000"
       @update:modelValue="updateOption('tabletTextZoom', $event)"
     />
+
     <NumberRange
       :modelValue="site?.options.mobileBP ?? 767"
       :label="t('siteSettings.mobileBreakpoint')"
       :min="320"
       :max="site?.options.tabletBP ?? 1024"
       @update:modelValue="updateOption('mobileBP', $event)"
+    />
+
+    <NumberRange
+      class="mt-3"
+      :modelValue="site?.options.mobileTextZoom ?? 1"
+      :label="t('siteSettings.mobileTextZoom')"
+      :min="0"
+      :step="0.1"
+      :max="5"
+      @update:modelValue="updateOption('mobileTextZoom', $event)"
     />
 
     <FontManager class="mt-4" />

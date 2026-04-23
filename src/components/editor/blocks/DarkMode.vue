@@ -12,6 +12,7 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
 )
 
 const st = siteStore()
+const vp = viewportStore()
 
 const isDark = computed(() => !!st.site?.options.darkMode)
 
@@ -21,15 +22,17 @@ const toggleDarkMode = () => {
   }
 }
 
+const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
+const { computedStyles: sectionFont } = useFontSize(() => sectionTargetWidth.value, () => props.section.style.fullWidth)
+
 const iconSize = computed(() => {
-  const fs = textStyle.value?.['font-size']
+  const fs = textStyle.value?.['font-size'] ?? sectionFont.value?.fontSize
   if (fs) {
     if (fs.endsWith('px')) return parseFloat(fs)
-    if (fs.endsWith('em')) return Math.round(parseFloat(fs) * 16)
+    if (fs.endsWith('em')) return Math.round(parseFloat(fs) * 24)
     return parseFloat(fs) || 24
   }
-  const base = st.site?.options.fontSize ?? 1
-  return Math.round(base * 24)
+  return 24
 })
 
 const iconColor = computed(() => {

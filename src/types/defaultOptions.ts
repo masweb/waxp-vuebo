@@ -40,11 +40,11 @@ export const siteOptions: siteOptions = {
   lineHeight: 1.4,
   darkMode: true,
   mobileBP: 767,
-  mobileTextZoom: 3,
+  mobileTextZoom: 2.6,
   tabletBP: 1024,
-  tabletTextZoom: 1.2,
+  tabletTextZoom: 1,
   desktopTextZoom: 1,
-  desktopWidth: 1200,
+  desktopWidth: 1260,
   header: {
     id: 1,
     blocks: [
