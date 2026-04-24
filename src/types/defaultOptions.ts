@@ -1,4 +1,3 @@
-import Italic from '@tiptap/extension-italic'
 import type { Section } from './layout'
 
 export interface siteOptions {
@@ -273,9 +272,9 @@ export const siteOptions: siteOptions = {
         }
       }
     ],
-    mobile: { gap: 4, cols: 8, rows: 4 },
-    tablet: { gap: 4, cols: 20, rows: 4 },
-    desktop: { gap: 6, cols: 24, rows: 4 },
+    mobile: { gap: 8, cols: 8, rows: 4 },
+    tablet: { gap: 8, cols: 20, rows: 4 },
+    desktop: { gap: 12, cols: 24, rows: 4 },
     style: {
       maxWidth: null,
       fullWidth: false,
@@ -329,7 +328,7 @@ export const siteOptions: siteOptions = {
         l: '0'
       },
       margin: {
-        t: '0',
+        t: '12px',
         r: '0',
         b: '6px',
         l: '0'
@@ -421,9 +420,9 @@ export const siteOptions: siteOptions = {
         }
       }
     ],
-    mobile: { gap: 4, cols: 8, rows: 4 },
-    tablet: { gap: 4, cols: 20, rows: 4 },
-    desktop: { gap: 6, cols: 24, rows: 4 },
+    mobile: { gap: 8, cols: 8, rows: 4 },
+    tablet: { gap: 8, cols: 20, rows: 4 },
+    desktop: { gap: 12, cols: 24, rows: 4 },
     style: {
       maxWidth: null,
       fullWidth: false,
@@ -477,7 +476,7 @@ export const siteOptions: siteOptions = {
         l: '0'
       },
       margin: {
-        t: '0',
+        t: '6px',
         r: '0',
         b: '6px',
         l: '0'

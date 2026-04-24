@@ -46,9 +46,15 @@ export const useSectionGrid = (section: () => Section) => {
 
     ctx.fillStyle = color
 
+    const radius = 4
+
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        ctx.fillRect(c * (cellW + gap), r * (cellH + gap), cellW, cellH)
+        const x = c * (cellW + gap)
+        const y = r * (cellH + gap)
+        ctx.beginPath()
+        ctx.roundRect(x, y, cellW, cellH, radius)
+        ctx.fill()
       }
     }
   }

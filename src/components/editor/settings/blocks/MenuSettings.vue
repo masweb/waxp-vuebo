@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Font } from '@/types/defaultOptions'
 import type { MenuItem, MenuColors, BlockLinkType, BlockLink } from '@/types/layout'
-import { IconChevronUp, IconChevronDown, IconPlus, IconTrash, IconLink, IconX } from '@tabler/icons-vue'
+import { IconChevronUp, IconChevronDown, IconCirclePlusFilled, IconTrash, IconLink, IconX } from '@tabler/icons-vue'
 import ColorPicker from '../fields/ColorPicker.vue'
 import NumberRange from '../fields/NumberRange.vue'
 import TextField from '../fields/TextField.vue'
@@ -203,12 +203,12 @@ const isMobileMenu = computed({
   <div class="mb-3">
     <div class="d-flex align-items-center justify-content-between mb-2">
       <label class="form-label fw-semibold mb-0">{{ t('block.menuItems') }}</label>
-      <button class="btn btn-sm btn-outline-primary py-0 px-2" @click="addItem">
-        <IconPlus :size="14" /> {{ t('common.add') }}
+      <button class="btn btn-sm btn-link py-0 px-2" @click="addItem">
+        <IconCirclePlusFilled :size="14" /> {{ t('common.add') }}
       </button>
     </div>
 
-    <div v-for="(item, idx) in menu" :key="idx" class="menu-settings__item mb-2">
+    <div v-for="(item, idx) in menu" :key="idx" class="menu-settings__item mb-2 border rounded p-2">
       <div class="d-flex align-items-center gap-1 mb-1">
         <button
           class="btn btn-sm btn-link p-0 text-secondary"
@@ -232,8 +232,8 @@ const isMobileMenu = computed({
             @input="updateLabel(item, ($event.target as HTMLInputElement).value)"
           />
         </div>
-        <button class="btn btn-sm btn-link p-0 text-secondary" @click="addChild(item)">
-          <IconPlus :size="14" />
+        <button class="btn btn-sm btn-link p-0" @click="addChild(item)">
+          <IconCirclePlusFilled :size="14" />
         </button>
         <button class="btn btn-sm btn-link p-0 text-danger" @click="removeItem(menu, idx)">
           <IconTrash :size="14" />
@@ -241,30 +241,8 @@ const isMobileMenu = computed({
       </div>
 
       <div class="ms-4 mb-1">
-        <div class="form-check form-switch mb-1">
-          <input
-            :id="`menu-link-${idx}`"
-            class="form-check-input"
-            type="checkbox"
-            role="switch"
-            :checked="!!item.link"
-            @change="toggleLink(item, ($event.target as HTMLInputElement).checked)"
-          />
-          <label class="form-check-label small" :for="`menu-link-${idx}`">
-            <IconLink :size="12" /> {{ t('block.link') }}
-          </label>
-        </div>
         <template v-if="item.link">
-          <select
-            class="form-select form-select-sm mb-1"
-            :value="item.link.type"
-            @change="updateLinkType(item, ($event.target as HTMLSelectElement).value as BlockLinkType)"
-          >
-            <option value="internal">{{ t('block.linkInternal') }}</option>
-            <option value="external">{{ t('block.linkExternal') }}</option>
-            <option value="anchor" disabled>{{ t('block.linkAnchor') }}</option>
-          </select>
-          <div v-if="item.link.type === 'internal'">
+          <div v-if="item.link.type === 'internal'" class="mb-1">
             <select
               class="form-select form-select-sm"
               :value="item.link.url"
@@ -282,7 +260,7 @@ const isMobileMenu = computed({
               </optgroup>
             </select>
           </div>
-          <div v-else>
+          <div v-else class="mb-1">
             <input
               class="form-control form-control-sm"
               :value="item.link.url"
@@ -291,6 +269,43 @@ const isMobileMenu = computed({
             />
           </div>
         </template>
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="form-check form-switch mb-0">
+            <input
+              :id="`menu-link-${idx}`"
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              :checked="!!item.link"
+              @change="toggleLink(item, ($event.target as HTMLInputElement).checked)"
+            />
+            <label class="form-check-label small" :for="`menu-link-${idx}`">
+              <IconLink :size="12" /> {{ t('block.link') }}
+            </label>
+          </div>
+          <div v-if="item.link" class="btn-group btn-group-sm" role="group">
+            <button
+              type="button"
+              class="btn btn-outline-secondary py-0 px-2"
+              :class="{ active: item.link.type === 'internal' }"
+              :title="t('block.linkInternal')"
+              @click="updateLinkType(item, 'internal')"
+            >I</button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary py-0 px-2"
+              :class="{ active: item.link.type === 'external' }"
+              :title="t('block.linkExternal')"
+              @click="updateLinkType(item, 'external')"
+            >E</button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary py-0 px-2 disabled"
+              :title="t('block.linkAnchor')"
+              disabled
+            >A</button>
+          </div>
+        </div>
       </div>
 
       <div v-if="item.children?.length" class="menu-settings__children ms-4 border-start ps-2">
@@ -323,30 +338,8 @@ const isMobileMenu = computed({
             </button>
           </div>
           <div class="ms-3">
-            <div class="form-check form-switch mb-1">
-              <input
-                :id="`menu-link-${idx}-${cIdx}`"
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                :checked="!!child.link"
-                @change="toggleLink(child, ($event.target as HTMLInputElement).checked)"
-              />
-              <label class="form-check-label small" :for="`menu-link-${idx}-${cIdx}`">
-                <IconLink :size="12" /> {{ t('block.link') }}
-              </label>
-            </div>
             <template v-if="child.link">
-              <select
-                class="form-select form-select-sm mb-1"
-                :value="child.link.type"
-                @change="updateLinkType(child, ($event.target as HTMLSelectElement).value as BlockLinkType)"
-              >
-                <option value="internal">{{ t('block.linkInternal') }}</option>
-                <option value="external">{{ t('block.linkExternal') }}</option>
-                <option value="anchor" disabled>{{ t('block.linkAnchor') }}</option>
-              </select>
-              <div v-if="child.link.type === 'internal'">
+              <div v-if="child.link.type === 'internal'" class="mb-1">
                 <select
                   class="form-select form-select-sm"
                   :value="child.link.url"
@@ -364,7 +357,7 @@ const isMobileMenu = computed({
                   </optgroup>
                 </select>
               </div>
-              <div v-else>
+              <div v-else class="mb-1">
                 <input
                   class="form-control form-control-sm"
                   :value="child.link.url"
@@ -373,6 +366,43 @@ const isMobileMenu = computed({
                 />
               </div>
             </template>
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="form-check form-switch mb-0">
+                <input
+                  :id="`menu-link-${idx}-${cIdx}`"
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  :checked="!!child.link"
+                  @change="toggleLink(child, ($event.target as HTMLInputElement).checked)"
+                />
+                <label class="form-check-label small" :for="`menu-link-${idx}-${cIdx}`">
+                  <IconLink :size="12" /> {{ t('block.link') }}
+                </label>
+              </div>
+              <div v-if="child.link" class="btn-group btn-group-sm" role="group">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary py-0 px-2"
+                  :class="{ active: child.link.type === 'internal' }"
+                  :title="t('block.linkInternal')"
+                  @click="updateLinkType(child, 'internal')"
+                >I</button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary py-0 px-2"
+                  :class="{ active: child.link.type === 'external' }"
+                  :title="t('block.linkExternal')"
+                  @click="updateLinkType(child, 'external')"
+                >E</button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary py-0 px-2 disabled"
+                  :title="t('block.linkAnchor')"
+                  disabled
+                >A</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

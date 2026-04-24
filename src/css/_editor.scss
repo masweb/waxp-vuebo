@@ -149,13 +149,15 @@ $toolColorHover: var(--se-tool-color-hover);
         pointer-events: none;
         opacity: 0;
         transition: opacity 0.15s ease;
+        border-radius: 4px;
       }
 
-      .section-bg-overlay {
+.section-bg-overlay {
         position: absolute;
         inset: 0;
         pointer-events: none;
         z-index: 0;
+        border-radius: 4px;
       }
 
       &--hovered .section-canvas,

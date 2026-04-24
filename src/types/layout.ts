@@ -162,9 +162,9 @@ const defaultBackground = (): Background => ({
 export const createSection = (id: number): Section => ({
   id,
   blocks: [],
-  mobile: { cols: 8, rows: 12, gap: 4 },
-  tablet: { cols: 20, rows: 12, gap: 4 },
-  desktop: { cols: 24, rows: 12, gap: 6 },
+  mobile: { cols: 8, rows: 12, gap: 8 },
+  tablet: { cols: 20, rows: 12, gap: 8 },
+  desktop: { cols: 24, rows: 12, gap: 12 },
   style: {
     maxWidth: null,
     fullWidth: false,
@@ -172,7 +172,7 @@ export const createSection = (id: number): Section => ({
     section_background: defaultBackground(),
     background: defaultBackground(),
     padding: { t: '0', r: '0', b: '0', l: '0' },
-    margin: { t: '0', r: '0', b: '6px', l: '0' }
+    margin: { t: '6px', r: '0', b: '6px', l: '0' }
   }
 })
 
