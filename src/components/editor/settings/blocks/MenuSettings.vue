@@ -15,70 +15,6 @@ const { t } = useI18n()
 
 const menu = computed(() => activeBlock.value?.menu ?? [])
 
-const patchMenuColor = (
-  field: 'color' | 'hover' | 'active',
-  mode: 'light' | 'dark',
-  color: string
-) => {
-  const mc = activeBlock.value?.menuColors
-  if (!mc) return
-  hs.snapshot()
-  mc[field] = { ...mc[field], [mode]: color }
-}
-
-const addItem = () => {
-  if (!activeBlock.value) return
-  hs.snapshot()
-  if (!activeBlock.value.menu) activeBlock.value.menu = []
-  activeBlock.value.menu.push({ locales: { label: '' }, link: undefined })
-}
-
-const addChild = (parent: MenuItem) => {
-  hs.snapshot()
-  if (!parent.children) parent.children = []
-  parent.children.push({ locales: { label: '' }, link: undefined })
-}
-
-const removeItem = (list: MenuItem[], index: number) => {
-  hs.snapshot()
-  list.splice(index, 1)
-}
-
-const moveItem = (list: MenuItem[], index: number, direction: -1 | 1) => {
-  const target = index + direction
-  if (target < 0 || target >= list.length) return
-  hs.snapshot()
-  const temp = list[index]
-  list[index] = list[target]
-  list[target] = temp
-}
-
-const updateLabel = (item: MenuItem, label: string) => {
-  hs.snapshot()
-  item.locales.label = label
-}
-
-const updateLinkType = (item: MenuItem, type: BlockLinkType) => {
-  hs.snapshot()
-  if (!item.link) item.link = { type, url: '' }
-  else {
-    item.link.type = type
-    item.link.url = ''
-  }
-}
-
-const updateLinkUrl = (item: MenuItem, url: string) => {
-  hs.snapshot()
-  if (!item.link) item.link = { type: 'internal', url }
-  else item.link.url = url
-}
-
-const toggleLink = (item: MenuItem, active: boolean) => {
-  hs.snapshot()
-  if (active) item.link = { type: 'internal', url: '' }
-  else item.link = undefined
-}
-
 const allRoutes = computed(() => {
   const routes = st.site?.routes
   if (!routes) return []
@@ -103,6 +39,70 @@ const routesByLocale = computed(() => {
   }
   return map
 })
+
+const patchMenuColor = (
+  field: 'color' | 'hover' | 'active',
+  mode: 'light' | 'dark',
+  color: string
+) => {
+  const mc = activeBlock.value?.menuColors
+  if (!mc) return
+  hs.snapshot()
+  mc[field] = { ...mc[field], [mode]: color }
+}
+
+const addItem = () => {
+  if (!activeBlock.value) return
+  hs.snapshot()
+  if (!activeBlock.value.menu) activeBlock.value.menu = []
+  activeBlock.value.menu.push({ label: '', link: undefined })
+}
+
+const addChild = (parent: MenuItem) => {
+  hs.snapshot()
+  if (!parent.children) parent.children = []
+  parent.children.push({ label: '', link: undefined })
+}
+
+const removeItem = (list: MenuItem[], index: number) => {
+  hs.snapshot()
+  list.splice(index, 1)
+}
+
+const moveItem = (list: MenuItem[], index: number, direction: -1 | 1) => {
+  const target = index + direction
+  if (target < 0 || target >= list.length) return
+  hs.snapshot()
+  const temp = list[index]
+  list[index] = list[target]
+  list[target] = temp
+}
+
+const updateLabel = (item: MenuItem, label: string) => {
+  hs.snapshot()
+  item.label = label
+}
+
+const updateLinkType = (item: MenuItem, type: BlockLinkType) => {
+  hs.snapshot()
+  if (!item.link) item.link = { type, url: '' }
+  else {
+    item.link.type = type
+    item.link.url = ''
+  }
+}
+
+const updateLinkUrl = (item: MenuItem, url: string) => {
+  hs.snapshot()
+  if (!item.link) item.link = { type: 'internal', url }
+  else item.link.url = url
+}
+
+const toggleLink = (item: MenuItem, active: boolean) => {
+  hs.snapshot()
+  if (active) item.link = { type: 'internal', url: '' }
+  else item.link = undefined
+}
 
 const menuFont = computed<Font>({
   get: () => activeBlock.value?.menuFont ?? { family: '', weight: 400, italic: false },
@@ -227,7 +227,7 @@ const isMobileMenu = computed({
         <div class="flex-grow-1">
           <input
             class="form-control form-control-sm"
-            :value="item.locales?.label"
+            :value="item.label"
             :placeholder="t('block.menuItemLabel')"
             @input="updateLabel(item, ($event.target as HTMLInputElement).value)"
           />
@@ -313,7 +313,7 @@ const isMobileMenu = computed({
             <div class="flex-grow-1">
               <input
                 class="form-control form-control-sm"
-                :value="child.locales?.label"
+                :value="child.label"
                 :placeholder="t('block.menuItemLabel')"
                 @input="updateLabel(child, ($event.target as HTMLInputElement).value)"
               />

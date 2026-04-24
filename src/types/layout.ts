@@ -197,7 +197,7 @@ export interface MenuColors {
 }
 
 export interface MenuItem {
-  locales: { label: string }
+  label: string
   link?: BlockLink
   children?: MenuItem[]
 }

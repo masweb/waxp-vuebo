@@ -401,7 +401,6 @@ onUnmounted(() => {
         <IconX :size="18" stroke-width="1.5" />
       </button>
     </div>
-    <ErrorsNotifier v-else />
 
     <!-- Dropdowns -->
     <Teleport to="body">

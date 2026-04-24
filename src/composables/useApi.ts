@@ -1,5 +1,6 @@
 import { ofetch } from 'ofetch'
 import { siteStore } from '@/stores/siteStore'
+import type { ApiError } from '@/types/auth'
 
 const apiRoute = import.meta.env.VITE_END_POINT
 
@@ -30,7 +31,13 @@ export const useApi = async (url: string, options?: any) => {
       ...opts
     })
     return res
-  } catch (error) {
+  } catch (error: any) {
+    if (!error.response) {
+      const networkError: { data: ApiError } = {
+        data: { error: 'Servidor no disponible', code: 503 }
+      }
+      throw networkError
+    }
     console.error('API Error:', error)
     throw error
   }

@@ -23,6 +23,7 @@ const currentView = computed(() => views[nav.main])
 </script>
 
 <template>
+  <ErrorsNotifier />
   <MainBar />
   <div class="main-content">
     <ModalNewBlock />

@@ -19,6 +19,35 @@ const vp = viewportStore()
 const isDark = computed(() => !!st.site?.options.darkMode)
 const mode = computed(() => (isDark.value ? 'dark' : 'light'))
 
+const openIndex = ref<number | null>(null)
+let closeTimer: ReturnType<typeof setTimeout> | null = null
+
+const openSubmenu = (idx: number) => {
+  if (closeTimer) { clearTimeout(closeTimer); closeTimer = null }
+  const item = props.block.menu?.[idx]
+  if (item?.children?.length) openIndex.value = idx
+}
+
+const scheduleClose = () => {
+  closeTimer = setTimeout(() => { openIndex.value = null }, 150)
+}
+
+const cancelClose = () => {
+  if (closeTimer) { clearTimeout(closeTimer); closeTimer = null }
+}
+
+const submenuPos = (idx: number) => {
+  const parentLi = blockRef.value?.querySelector(`[data-idx="${idx}"]`) as HTMLElement | null
+  if (!parentLi) return {}
+  const rect = parentLi.getBoundingClientRect()
+  return {
+    position: 'fixed' as const,
+    top: `${rect.bottom}px`,
+    left: `${rect.left}px`,
+    minWidth: `${Math.max(rect.width, 180)}px`
+  }
+}
+
 const colors = computed(() => {
   const mc = props.block.menuColors
   if (!mc) return null
@@ -73,7 +102,8 @@ const cssVars = computed(() => {
   return {
     '--menu-color': colors.value.color,
     '--menu-hover': colors.value.hover,
-    '--menu-active': colors.value.active
+    '--menu-active': colors.value.active,
+    '--menu-submenu-bg': isDark.value ? '#2b2b2b' : '#ffffff'
   }
 })
 
@@ -99,8 +129,11 @@ const navigate = (item: MenuItem) => {
         <li
           v-for="(item, idx) in block.menu"
           :key="idx"
+          :data-idx="idx"
           class="menu-block__item"
           :class="{ 'menu-block__item--has-children': item.children?.length }"
+          @mouseenter="openSubmenu(idx)"
+          @mouseleave="scheduleClose"
         >
           <a
             v-if="item.link?.url"
@@ -111,30 +144,37 @@ const navigate = (item: MenuItem) => {
             :rel="item.link.type === 'external' ? 'noopener noreferrer' : undefined"
             @click.prevent="navigate(item)"
           >
-            {{ item.locales?.label }}
+            {{ item.label }}
           </a>
-          <span v-else class="menu-block__link" :style="level1Style">{{ item.locales?.label }}</span>
-          <ul v-if="item.children?.length" class="menu-block__submenu">
-            <li v-for="(child, cIdx) in item.children" :key="cIdx" class="menu-block__subitem">
-              <a
-                v-if="child.link?.url"
-                class="menu-block__sublink"
-                :style="subLevelStyle"
-                :href="child.link.type === 'external' ? child.link.url : undefined"
-                :target="child.link.type === 'external' ? '_blank' : undefined"
-                :rel="child.link.type === 'external' ? 'noopener noreferrer' : undefined"
-                @click.prevent="navigate(child)"
-              >
-                {{ child.locales?.label }}
-              </a>
-              <span v-else class="menu-block__sublink" :style="subLevelStyle">{{ child.locales?.label }}</span>
-            </li>
-          </ul>
+          <span v-else class="menu-block__link" :style="level1Style">{{ item.label }}</span>
         </li>
       </ul>
     </nav>
     <div class="blockui resize"></div>
   </div>
+
+  <Teleport to="body">
+    <div
+      v-for="(item, idx) in block.menu"
+      :key="'sub-' + idx"
+      v-show="item.children?.length && openIndex === idx"
+      ref="submenuRefs"
+      class="menu-block__submenu"
+      :style="{ ...subLevelStyle, ...submenuPos(idx), ...cssVars }"
+      @mouseenter="cancelClose"
+      @mouseleave="scheduleClose"
+    >
+      <a
+        v-for="(child, cIdx) in item.children"
+        :key="cIdx"
+        class="menu-block__sublink"
+        :style="subLevelStyle"
+        @click.prevent="navigate(child)"
+      >
+        {{ child.label }}
+      </a>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -181,24 +221,17 @@ const navigate = (item: MenuItem) => {
 .menu-block__link:active {
   color: var(--menu-active) !important;
 }
+</style>
 
+<style>
 .menu-block__submenu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 180px;
   list-style: none;
   margin: 0;
-  padding: 0.5rem 0;
-  background: var(--menu-bg, #fff);
+  padding: 0.35rem 0;
+  background: var(--menu-submenu-bg);
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  z-index: 10;
-}
-
-.menu-block__item--has-children:hover > .menu-block__submenu {
-  display: block;
+  z-index: 99999;
 }
 
 .menu-block__sublink {

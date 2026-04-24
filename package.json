@@ -49,9 +49,9 @@
     "ofetch": "^1.5.1",
     "pinia": "^3.0.4",
     "vee-validate": "^4.15.1",
-    "vue": "^3.5.32",
-    "vue-i18n": "^11.3.2",
-    "vue-router": "^5.0.4"
+    "vue": "^3.5.33",
+    "vue-i18n": "^11.4.0",
+    "vue-router": "^5.0.6"
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^11.0.7",
