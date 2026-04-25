@@ -51,8 +51,17 @@ export const useMoveBlock = (blockEl: Ref<HTMLElement | undefined>, block: () =>
       return
     }
 
+    const b = block()
+    if (b.type === 'Text') {
+      const { editing } = useTipTap()
+      if (editing.value) {
+        cancelled = true
+        return
+      }
+    }
+
     sectionRect = sectionElement.getBoundingClientRect()
-    originalCoords = { ...block()[MODE_KEY[vp.mode]] }
+    originalCoords = { ...b[MODE_KEY[vp.mode]] }
     cancelled = false
 
     ;(event.target as HTMLElement).classList.add('block--moving')

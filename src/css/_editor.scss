@@ -221,6 +221,8 @@ $toolColorHover: var(--se-tool-color-hover);
           &.tiptap-readonly {
             pointer-events: none;
             cursor: default;
+            user-select: none;
+            -webkit-user-select: none;
             p {
               min-height: var(--se-line-height);
             }
