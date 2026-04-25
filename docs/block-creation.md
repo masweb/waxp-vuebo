@@ -91,14 +91,14 @@ type BlockLinkType = 'internal' | 'external' | 'anchor'
 
 interface BlockLink {
   type: BlockLinkType
-  url: string
 }
 ```
 
 - `internal` — ruta interna del site, navega con `router.push(url)`
 - `external` — URL externa, abre con `window.open(url, '_blank')`
 - `anchor` — reservado, aún sin desarrollar
-- Solo algunos tipos de bloque soportan esta capa (Image: opcional, Button: obligatorio)
+- Solo algunos tipos de bloque soportan esta capa (Image: opcional, Icon: opcional, Button: obligatorio)
+- La URL se almacena en `block.locales.linkUrl` — sigue el mismo patrón de resolución i18n que el resto de campos de `locales`. El backend guarda `{ "linkUrl": { "es": "/inicio", "en": "/home" } }` en BD y resuelve al string del locale activo en la respuesta API.
 
 ### BlockButtonColors
 
@@ -165,11 +165,12 @@ Cada tipo de bloque define qué claves tiene `locales`. Por defecto `locales` es
 | Tipo | `locales` | Ejemplo |
 |---|---|---|
 | `Text` | `{ text: string }` | `{ "text": "Bienvenidos" }` |
-| `Image` | `{ alt: string }` | `{ "alt": "Logo de la empresa" }` |
+| `Image` | `{ alt: string, linkUrl?: string }` | `{ "alt": "Logo", "linkUrl": "/productos" }` |
 | `Space` | `undefined` | — |
 | `DarkMode` | `undefined` | — |
 | `LanguageSwitcher` | `undefined` | — |
-| `Button` | `{ label: string }` | `{ "label": "Comprar" }` |
+| `Button` | `{ label: string, linkUrl: string }` | `{ "label": "Comprar", "linkUrl": "/carrito" }` |
+| `Icon` | `{ linkUrl?: string }` | `{ "linkUrl": "/inicio" }` |
 | `Card` (futuro) | `{ title: string, description: string }` | `{ "title": "Producto", "description": "Detalle" }` |
 
 Un bloque puede tener múltiples campos en `locales` (título + descripción, etc.).
@@ -414,9 +415,9 @@ const block: Block = {
     : {}),
   ...(blockType === 'Button'
     ? {
-        locales: { label: 'Button' },
+        locales: { label: 'Button', linkUrl: '' },
         color: null, darkColor: null, fontSize: null, lineHeight: null,
-        link: { type: 'internal', url: '' },
+        link: { type: 'internal' },
         button: { bg, hover, active, focus, textColor, hoverTextColor, activeTextColor, borderColor, border, width, padding }
       }
     : {}),
@@ -754,7 +755,7 @@ Card: defineAsyncComponent(() => import('./blocks/CardSettings.vue'))
 
 | Archivo | Rol |
 |---|---|
-| `src/types/layout.ts` | Tipos `Block`, `BlockCoords`, `SideBorder`, `BlockLink`, `BlockButton`, `BlockButtonColors`, `MODE_KEY` |
+| `src/types/layout.ts` | Tipos `Block`, `BlockCoords`, `SideBorder`, `BlockLink`, `MenuItemLink`, `BlockButton`, `BlockButtonColors`, `MODE_KEY` |
 | `src/stores/editorStore.ts` | `BlockType`, modal de selección, modo editor |
 | `src/stores/pageStore.ts` | `currentLocale`, `getPage(id, locale)`, `updatePage(locale)` |
 | `src/stores/siteStore.ts` | `loadedLocale`, `loadSiteForLocale(locale)`, `updateSite(locale)` |
@@ -762,7 +763,7 @@ Card: defineAsyncComponent(() => import('./blocks/CardSettings.vue'))
 | `src/composables/useBlockBase.ts` | Lógica compartida (grid, move, resize, context menu) |
 | `src/composables/useFontSize.ts` | `calcFluidFont` (fórmula única fluida), `useFontSize`, `effectiveVpWidth` |
 | `src/composables/useBlockGrid.ts` | Cálculo de estilos (grid position, fondo, texto via `calcFluidFont`) |
-| `src/composables/useBlockLink.ts` | Lógica de navegación para la capa de enlace |
+| `src/composables/useBlockLink.ts` | Lógica de navegación para la capa de enlace (lee URL de `locales.linkUrl`) |
 | `src/composables/useTipTap.ts` | Editor TipTap singleton, lee/escribe `block.locales.text` |
 | `src/components/editor/ModalNewBlock.vue` | Modal de selección de tipo |
 | `src/components/editor/PageBlock.vue` | Dispatcher de componentes de bloque |
@@ -779,7 +780,7 @@ Card: defineAsyncComponent(() => import('./blocks/CardSettings.vue'))
 | `src/components/editor/settings/blocks/SpaceSettings.vue` | Opciones de Space (divider) |
 | `src/components/editor/settings/blocks/DarkModeSettings.vue` | Opciones de DarkMode |
 | `src/components/editor/settings/blocks/ButtonSettings.vue` | Opciones de Button |
-| `src/components/editor/settings/blocks/LinkSettings.vue` | Capa de enlace (toggle, tipo, ruta/URL) |
+| `src/components/editor/settings/blocks/LinkSettings.vue` | Capa de enlace (toggle, tipo, ruta/URL via `locales.linkUrl`) |
 | `src/components/editor/settings/fields/BackgroundSettings.vue` | Fondo con modos (acepta `allowedModes`) |
 
 ---

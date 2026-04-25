@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Font } from '@/types/defaultOptions'
-import type { MenuItem, MenuColors, BlockLinkType, BlockLink } from '@/types/layout'
+import type { MenuItem, MenuColors, BlockLinkType, MenuItemLink } from '@/types/layout'
 import { IconChevronUp, IconChevronDown, IconCirclePlusFilled, IconTrash, IconLink, IconX } from '@tabler/icons-vue'
 import ColorPicker from '../fields/ColorPicker.vue'
 import NumberRange from '../fields/NumberRange.vue'

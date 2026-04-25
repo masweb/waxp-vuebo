@@ -81,6 +81,7 @@ const buildSiteQuery = (values: Record<string, any>) => {
     :filters="filters"
     url="/api/sites"
     :limit="10"
+    :reverse="true"
     :title="t('sites.sites')"
     :create-initial-values="{ options: { ...siteOptions } }"
     :submit-query="buildSiteQuery"

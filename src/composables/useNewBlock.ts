@@ -88,12 +88,12 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
       ...(blockType === 'DarkMode' ? { color: null, darkColor: null, fontSize: null } : {}),
       ...(blockType === 'Button'
         ? {
-            locales: { label: 'Button' },
+            locales: { label: 'Button', linkUrl: '' },
             color: null,
             darkColor: null,
             fontSize: null,
             lineHeight: null,
-            link: { type: 'internal', url: '' },
+            link: { type: 'internal' },
             button: {
               bg: { light: '#e9ecef', dark: '#495057' },
               hover: { light: '#dee2e6', dark: '#3d4349' },

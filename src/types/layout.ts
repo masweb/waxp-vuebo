@@ -17,6 +17,10 @@ export type BlockLinkType = 'internal' | 'external' | 'anchor'
 
 export interface BlockLink {
   type: BlockLinkType
+}
+
+export interface MenuItemLink {
+  type: BlockLinkType
   url: string
 }
 
@@ -199,7 +203,7 @@ export interface MenuColors {
 
 export interface MenuItem {
   label: string
-  link?: BlockLink
+  link?: MenuItemLink
   children?: MenuItem[]
 }
 

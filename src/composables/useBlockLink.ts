@@ -4,38 +4,37 @@ export const useBlockLink = (block: () => Block) => {
   const router = useRouter()
 
   const linkConfig = computed(() => block().link)
+  const linkUrl = computed(() => block().locales?.linkUrl || '')
 
-  const hasLink = computed(() => !!linkConfig.value?.url)
+  const hasLink = computed(() => !!linkUrl.value)
 
   const onBlockClick = () => {
     const link = linkConfig.value
-    if (!link?.url) return
+    if (!linkUrl.value) return
 
     if (link.type === 'external') {
-      window.open(link.url, '_blank', 'noopener,noreferrer')
+      window.open(linkUrl.value, '_blank', 'noopener,noreferrer')
       return
     }
 
     if (link.type === 'internal') {
-      router.push(link.url)
+      router.push(linkUrl.value)
       return
     }
   }
 
   const linkTag = computed(() => {
-    const link = linkConfig.value
-    if (!link?.url) return 'div'
-    if (link.type === 'external') return 'a'
+    if (!linkUrl.value) return 'div'
+    if (linkConfig.value?.type === 'external') return 'a'
     return 'div'
   })
 
   const linkAttrs = computed(() => {
-    const link = linkConfig.value
-    if (!link?.url) return {}
+    if (!linkUrl.value) return {}
 
-    if (link.type === 'external') {
+    if (linkConfig.value?.type === 'external') {
       return {
-        href: link.url,
+        href: linkUrl.value,
         target: '_blank',
         rel: 'noopener noreferrer'
       }

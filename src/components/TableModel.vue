@@ -11,8 +11,9 @@ const props = withDefaults(
     limit?: number
     createInitialValues?: Record<string, any>
     submitQuery?: (values: Record<string, any>, isEdit: boolean) => string
+    reverse?: boolean
   }>(),
-  { limit: 25, createEditSchema: undefined, filters: undefined, createInitialValues: undefined, submitQuery: undefined }
+  { limit: 25, createEditSchema: undefined, filters: undefined, createInitialValues: undefined, submitQuery: undefined, reverse: false }
 )
 
 const { t } = useI18n()
@@ -154,7 +155,8 @@ const fetchData = async (cursor?: number) => {
   loading.value = true
   try {
     const res = await useApi(buildUrl(cursor))
-    data.value = res.data ?? res
+    const items = res.data ?? res
+    data.value = props.reverse ? [...items].reverse() : items
     nextCursor.value = res.next_cursor ?? null
     hasMore.value = res.has_more ?? false
     total.value = res.total ?? 0

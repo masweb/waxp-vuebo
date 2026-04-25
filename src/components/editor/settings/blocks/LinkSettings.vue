@@ -35,7 +35,13 @@ const routesByLocale = computed(() => {
 const ensureLink = () => {
   if (!activeBlock.value) return
   if (!activeBlock.value.link) {
-    activeBlock.value.link = { type: 'internal', url: '' }
+    activeBlock.value.link = { type: 'internal' }
+  }
+  if (!activeBlock.value.locales) {
+    activeBlock.value.locales = {}
+  }
+  if (activeBlock.value.locales.linkUrl === undefined) {
+    activeBlock.value.locales.linkUrl = ''
   }
 }
 
@@ -45,9 +51,12 @@ const linkActive = computed({
     if (!activeBlock.value) return
     hs.snapshot()
     if (v) {
-      activeBlock.value.link = { type: 'internal', url: '' }
+      activeBlock.value.link = { type: 'internal' }
+      if (!activeBlock.value.locales) activeBlock.value.locales = {}
+      activeBlock.value.locales.linkUrl = ''
     } else {
       activeBlock.value.link = undefined
+      if (activeBlock.value.locales) delete activeBlock.value.locales.linkUrl
     }
   }
 })
@@ -58,17 +67,17 @@ const linkType = computed({
     if (!activeBlock.value?.link) return
     hs.snapshot()
     activeBlock.value.link.type = v
-    activeBlock.value.link.url = ''
+    if (activeBlock.value.locales) activeBlock.value.locales.linkUrl = ''
   }
 })
 
 const linkUrl = computed({
-  get: () => activeBlock.value?.link?.url ?? '',
+  get: () => activeBlock.value?.locales?.linkUrl ?? '',
   set: (v: string) => {
     if (!activeBlock.value) return
     hs.snapshot()
     ensureLink()
-    activeBlock.value.link!.url = v
+    activeBlock.value.locales!.linkUrl = v
   }
 })
 </script>
