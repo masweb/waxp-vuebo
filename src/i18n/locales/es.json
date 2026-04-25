@@ -194,7 +194,10 @@
     "menuLevel1": "Nivel 1",
     "menuSubLevels": "Subniveles",
     "menuMobile": "Menú móvil",
-    "menuMobileHint": "Marcado como menú para la versión móvil (funcionalidad pendiente)"
+    "menuMobileHint": "Marcado como menú para la versión móvil (funcionalidad pendiente)",
+    "icon": "Icono",
+    "iconSelect": "Seleccionar icono",
+    "iconStrokeWidth": "Grosor del trazo"
   },
   "grid": {
     "cols": "Columnas",

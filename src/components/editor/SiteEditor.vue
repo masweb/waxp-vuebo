@@ -14,7 +14,7 @@ const dynamicStyle = computed(() => {
   const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor
   const scrollbarThumb = color
   const scrollbarTrack = bgColor
-  const toolColor = opts.darkMode ? '#804244' : '#abbbc5'
+  const toolColor = opts.darkMode ? '#bf7680' : '#abbbc5'
   const toolColorHover = opts.darkMode ? '#b94c47' : '#93a4ae'
   const gf = opts.globalFontFamily
   const fs = computedStyles.value

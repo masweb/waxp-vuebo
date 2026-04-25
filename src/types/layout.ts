@@ -36,6 +36,7 @@ export interface Block {
   image?: BlockImage
   link?: BlockLink
   button?: BlockButton
+  icon?: BlockIcon
   menu?: MenuItem[]
   menuColors?: MenuColors
   menuFont?: Font
@@ -214,4 +215,9 @@ export interface BlockButton {
   border: Border
   width: string
   padding: Sides
+}
+
+export interface BlockIcon {
+  name: string
+  strokeWidth: number
 }

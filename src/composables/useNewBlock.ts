@@ -124,6 +124,14 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
             image: { url_desk: '', url_tab: '', url_mob: '', fit: 'cover' as const }
           }
         : {}),
+      ...(blockType === 'Icon'
+        ? {
+            color: null,
+            darkColor: null,
+            fontSize: null,
+            icon: { name: 'IconHomeFilled', strokeWidth: 1 }
+          }
+        : {}),
       ...(blockType === 'Menu'
         ? {
             menu: [],

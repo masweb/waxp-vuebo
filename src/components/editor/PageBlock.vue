@@ -11,6 +11,7 @@ const blockComponents: Record<string, Component> = {
   DarkMode: defineAsyncComponent(() => import('./blocks/DarkMode.vue')),
   LanguageSwitcher: defineAsyncComponent(() => import('./blocks/LanguageSwitcher.vue')),
   Button: defineAsyncComponent(() => import('./blocks/Button.vue')),
+  Icon: defineAsyncComponent(() => import('./blocks/Icon.vue')),
   Menu: defineAsyncComponent(() => import('./blocks/Menu.vue'))
 }
 
