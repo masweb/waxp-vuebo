@@ -16,6 +16,9 @@ export interface siteOptions {
   tabletTextZoom: number
   desktopTextZoom: number
   desktopWidth: number | null
+  desktopMargin: number
+  mobileMargin: number
+  tabletMargin: number
   headers: HeadersConfig
   header: Section
   footer: Section
@@ -57,6 +60,9 @@ export const siteOptions: siteOptions = {
   tabletTextZoom: 1,
   desktopTextZoom: 1,
   desktopWidth: 1260,
+  desktopMargin: 10,
+  mobileMargin: 10,
+  tabletMargin: 10,
   headers: {
     H1: {
       size: 2.5,
@@ -272,9 +278,9 @@ export const siteOptions: siteOptions = {
         }
       }
     ],
-    mobile: { gap: 8, cols: 8, rows: 4 },
-    tablet: { gap: 8, cols: 20, rows: 4 },
-    desktop: { gap: 12, cols: 24, rows: 4 },
+    mobile: { gap: 6, cols: 8, rows: 1 },
+    tablet: { gap: 8, cols: 20, rows: 1 },
+    desktop: { gap: 10, cols: 24, rows: 1 },
     style: {
       maxWidth: null,
       fullWidth: false,
@@ -328,9 +334,9 @@ export const siteOptions: siteOptions = {
         l: '0'
       },
       margin: {
-        t: '12px',
+        t: '5px',
         r: '0',
-        b: '6px',
+        b: '5px',
         l: '0'
       }
     }
@@ -420,9 +426,9 @@ export const siteOptions: siteOptions = {
         }
       }
     ],
-    mobile: { gap: 8, cols: 8, rows: 4 },
-    tablet: { gap: 8, cols: 20, rows: 4 },
-    desktop: { gap: 12, cols: 24, rows: 4 },
+    mobile: { gap: 6, cols: 8, rows: 2 },
+    tablet: { gap: 8, cols: 20, rows: 2 },
+    desktop: { gap: 10, cols: 24, rows: 2 },
     style: {
       maxWidth: null,
       fullWidth: false,
@@ -476,9 +482,9 @@ export const siteOptions: siteOptions = {
         l: '0'
       },
       margin: {
-        t: '6px',
+        t: '5px',
         r: '0',
-        b: '6px',
+        b: '5px',
         l: '0'
       }
     }

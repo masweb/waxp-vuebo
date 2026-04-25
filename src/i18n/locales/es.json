@@ -211,8 +211,11 @@
     "colorDark": "Color modo oscuro",
     "colorLight": "Color modo claro",
     "desktopWidth": "Ancho escritorio",
+    "desktopMargin": "Margen lateral escritorio",
     "mobileBreakpoint": "Punto de corte móvil",
+    "mobileMargin": "Margen lateral móvil",
     "tabletBreakpoint": "Punto de corte tablet",
+    "tabletMargin": "Margen lateral tablet",
     "headers": "Cabeceras"
   },
   "viewport": {

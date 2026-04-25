@@ -51,7 +51,15 @@ export function calcFluidFont(
 }
 
 export function effectiveVpWidth(vp: ReturnType<typeof viewportStore>): number {
-  if (vp.forcedMode === 'tablet') return 820
-  if (vp.forcedMode === 'mobile') return 480
-  return vp.width
+  const st = siteStore()
+  const mode = vp.forcedMode ?? vp.mode
+  const margin = mode === 'mobile' ? (st.site?.options.mobileMargin ?? 10)
+    : mode === 'tablet' ? (st.site?.options.tabletMargin ?? 10)
+    : (st.site?.options.desktopMargin ?? 10)
+
+  const rawWidth = vp.forcedMode === 'tablet' ? 820
+    : vp.forcedMode === 'mobile' ? 480
+    : vp.width
+
+  return rawWidth - margin * 2
 }

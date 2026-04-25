@@ -211,8 +211,11 @@
     "colorDark": "Color dark",
     "colorLight": "Color light",
     "desktopWidth": "Desktop width",
+    "desktopMargin": "Desktop lateral margin",
     "mobileBreakpoint": "Mobile breakpoint",
+    "mobileMargin": "Mobile lateral margin",
     "tabletBreakpoint": "Tablet breakpoint",
+    "tabletMargin": "Tablet lateral margin",
     "headers": "Headers"
   },
   "viewport": {

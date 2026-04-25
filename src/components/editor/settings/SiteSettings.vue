@@ -98,6 +98,13 @@ const headers = computed<HeadersConfig>({
       @update:modelValue="updateOption('desktopWidth', $event)"
     />
     <NumberRange
+      :modelValue="site?.options.desktopMargin ?? 10"
+      :label="t('siteSettings.desktopMargin')"
+      :min="0"
+      :max="100"
+      @update:modelValue="updateOption('desktopMargin', $event)"
+    />
+    <NumberRange
       class="mt-3"
       :modelValue="site?.options.desktopTextZoom ?? 1"
       :label="t('siteSettings.desktopTextZoom')"
@@ -112,6 +119,13 @@ const headers = computed<HeadersConfig>({
       :min="site?.options.mobileBP ?? 767"
       :max="site?.options.desktopWidth ?? 1200"
       @update:modelValue="updateOption('tabletBP', $event)"
+    />
+    <NumberRange
+      :modelValue="site?.options.tabletMargin ?? 10"
+      :label="t('siteSettings.tabletMargin')"
+      :min="0"
+      :max="100"
+      @update:modelValue="updateOption('tabletMargin', $event)"
     />
     <NumberRange
       class="mt-3"
@@ -129,6 +143,13 @@ const headers = computed<HeadersConfig>({
       :min="320"
       :max="site?.options.tabletBP ?? 1024"
       @update:modelValue="updateOption('mobileBP', $event)"
+    />
+    <NumberRange
+      :modelValue="site?.options.mobileMargin ?? 10"
+      :label="t('siteSettings.mobileMargin')"
+      :min="0"
+      :max="100"
+      @update:modelValue="updateOption('mobileMargin', $event)"
     />
 
     <NumberRange

@@ -192,8 +192,8 @@ const onContextMenu = (e: MouseEvent) => {
 
 const sectionWidth = computed(() => {
   if (props.section.style.fullWidth) return ''
-  if (props.section.style.maxWidth) return 'max-width: ' + props.section.style.maxWidth + 'px;'
-  return 'max-width: ' + st.site?.options.desktopWidth + 'px;'
+  const mw = props.section.style.maxWidth ?? st.site?.options.desktopWidth
+  return `max-width: ${mw}px;`
 })
 
 const sectionFontVars = computed(() => {

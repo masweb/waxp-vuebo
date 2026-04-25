@@ -10,6 +10,15 @@ const vp = viewportStore()
 const { page } = storeToRefs(pg)
 const { mode } = storeToRefs(vp)
 
+const lateralMargin = computed(() => {
+  const opts = st.site?.options
+  const margin = vp.mode === 'mobile' ? (opts?.mobileMargin ?? 10)
+    : vp.mode === 'tablet' ? (opts?.tabletMargin ?? 10)
+    : (opts?.desktopMargin ?? 10)
+  if (!margin) return ''
+  return `padding-left: ${margin}px; padding-right: ${margin}px;`
+})
+
 const visibleSections = computed(
   () => page.value?.layout.filter(s => !s.style.hideOn?.includes(mode.value)) ?? []
 )
@@ -27,7 +36,7 @@ watch(() => props.locale, async (loc) => {
 })
 </script>
 <template>
-  <div class="page-content" :class="{ 'hide-helpers': !vp.showBlocks }">
+  <div class="page-content" :class="{ 'hide-helpers': !vp.showBlocks }" :style="lateralMargin">
     <PageSection v-if="st.site?.options?.header" :section="st.site.options.header" fixed />
     <NewSection />
     <PageSection v-for="section in visibleSections" :key="section.id" :section="section" />
