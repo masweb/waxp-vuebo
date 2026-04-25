@@ -7,7 +7,7 @@ import {
   IconLanguage,
   IconXboxB,
   IconMenu2,
-  IconHomeFilled
+  IconHome
 } from '@tabler/icons-vue'
 import type { BlockType } from '@/stores/editorStore'
 const ed = editorStore()
@@ -33,8 +33,12 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
         <small>{{ t('block.button') }}</small>
       </button>
       <button class="btn d-flex flex-column align-items-center" @click="pick('Icon')">
-        <IconHomeFilled size="40" stroke-width="1" />
+        <IconHome size="40" stroke-width="1" />
         <small>{{ t('block.icon') }}</small>
+      </button>
+      <button class="btn d-flex flex-column align-items-center" @click="pick('Menu')">
+        <IconMenu2 size="40" stroke-width="1" />
+        <small>{{ t('block.menu') }}</small>
       </button>
       <button class="btn d-flex flex-column align-items-center" @click="pick('Space')">
         <IconSpacingVertical size="40" stroke-width="1" />
@@ -47,11 +51,6 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
       <button class="btn d-flex flex-column align-items-center" @click="pick('LanguageSwitcher')">
         <IconLanguage size="40" stroke-width="1" />
         <small>{{ t('block.languageSwitcher') }}</small>
-      </button>
-
-      <button class="btn d-flex flex-column align-items-center" @click="pick('Menu')">
-        <IconMenu2 size="40" stroke-width="1" />
-        <small>{{ t('block.menu') }}</small>
       </button>
     </CModalBody>
   </CModal>

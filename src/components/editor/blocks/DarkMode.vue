@@ -12,7 +12,6 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
 )
 
 const st = siteStore()
-const vp = viewportStore()
 
 const isDark = computed(() => !!st.site?.options.darkMode)
 
@@ -22,32 +21,25 @@ const toggleDarkMode = () => {
   }
 }
 
-const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
-const { computedStyles: sectionFont } = useFontSize(() => sectionTargetWidth.value, () => props.section.style.fullWidth)
-
-const iconSize = computed(() => {
-  const fs = textStyle.value?.['font-size'] ?? sectionFont.value?.fontSize
-  if (fs) {
-    if (fs.endsWith('px')) return parseFloat(fs)
-    if (fs.endsWith('em')) return Math.round(parseFloat(fs) * 24)
-    return parseFloat(fs) || 24
+const iconStyle = computed(() => {
+  const s: Record<string, string> = {}
+  if (textStyle.value?.['font-size']) s['font-size'] = textStyle.value['font-size']
+  if (textStyle.value?.['color']) {
+    s['color'] = textStyle.value['color']
+  } else {
+    const opts = st.site?.options
+    s['color'] = isDark.value ? (opts?.darkColor ?? '') : (opts?.lightColor ?? '')
   }
-  return 24
-})
-
-const iconColor = computed(() => {
-  if (textStyle.value?.['color']) return textStyle.value['color']
-  const opts = st.site?.options
-  return isDark.value ? opts?.darkColor : opts?.lightColor
+  return s
 })
 </script>
 
 <template>
   <div ref="blockRef" class="block darkmode-block" :style="blockStyle" @contextmenu="onContextMenu">
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
-    <button class="darkmode-toggle" :style="{ color: iconColor }" @click.stop="toggleDarkMode">
-      <IconMoonFilled v-if="!isDark" :size="iconSize" />
-      <IconSunFilled v-else :size="iconSize" />
+    <button class="darkmode-toggle" :style="iconStyle" @click.stop="toggleDarkMode">
+      <IconMoonFilled v-if="!isDark" :size="'1em'" />
+      <IconSunFilled v-else :size="'1em'" />
     </button>
     <div class="blockui resize"></div>
   </div>

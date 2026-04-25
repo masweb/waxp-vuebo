@@ -109,23 +109,16 @@ const isDark = computed(() => !!st.site?.options.darkMode)
 const iconName = computed(() => props.block.icon?.name || 'IconHomeFilled')
 const iconComponent = computed(() => iconMap[iconName.value] || IconHomeFilled)
 
-const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
-const { computedStyles: sectionFont } = useFontSize(() => sectionTargetWidth.value, () => props.section.style.fullWidth)
-
-const iconSize = computed(() => {
-  const fs = textStyle.value?.['font-size'] ?? sectionFont.value?.fontSize
-  if (fs) {
-    if (fs.endsWith('px')) return parseFloat(fs)
-    if (fs.endsWith('em')) return Math.round(parseFloat(fs) * 24)
-    return parseFloat(fs) || 24
+const iconStyle = computed(() => {
+  const s: Record<string, string> = {}
+  if (textStyle.value?.['font-size']) s['font-size'] = textStyle.value['font-size']
+  const color = isDark.value ? textStyle.value?.['color'] : textStyle.value?.['color']
+  if (textStyle.value?.['color']) s['color'] = textStyle.value['color']
+  else {
+    const opts = st.site?.options
+    s['color'] = isDark.value ? (opts?.darkColor ?? '') : (opts?.lightColor ?? '')
   }
-  return 24
-})
-
-const iconColor = computed(() => {
-  if (textStyle.value?.['color']) return textStyle.value['color']
-  const opts = st.site?.options
-  return isDark.value ? opts?.darkColor : opts?.lightColor
+  return s
 })
 
 const strokeWidth = computed(() => props.block.icon?.strokeWidth ?? 1)
@@ -146,8 +139,8 @@ const onClick = (e: MouseEvent) => {
     @click="onClick"
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
-    <div class="icon-block__inner" :style="{ color: iconColor }">
-      <component :is="iconComponent" :size="iconSize" :stroke-width="strokeWidth" />
+    <div class="icon-block__inner" :style="iconStyle">
+      <component :is="iconComponent" :size="'1em'" :stroke-width="strokeWidth" class="icon-block__svg" />
     </div>
     <div class="blockui resize"></div>
   </div>
