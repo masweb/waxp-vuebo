@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-vue'
+import { IconSettingsFilled, IconTrashFilled, IconCopyFilled } from '@tabler/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
 import { useTheme } from './useTheme'
 
@@ -15,6 +15,10 @@ export const useBlockBase = (block: () => Block, section: () => Section) => {
 
   useMoveBlock(blockRef, block, section)
   useResizeBlock(blockRef, block, section)
+
+  const copyBlock = () => {
+    ps.clipboardBlock = JSON.parse(JSON.stringify(block()))
+  }
 
   const deleteBlock = () => {
     hs.snapshot()
@@ -54,6 +58,11 @@ export const useBlockBase = (block: () => Block, section: () => Section) => {
           icon: h(IconSettingsFilled, { size: 20 }),
           divided: 'up',
           onClick: () => blockSettings()
+        },
+        {
+          label: t('contextMenu.copyBlock'),
+          icon: h(IconCopyFilled, { size: 20 }),
+          onClick: () => copyBlock()
         },
         {
           label: 'Eliminar',

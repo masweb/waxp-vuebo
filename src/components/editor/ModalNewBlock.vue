@@ -7,10 +7,12 @@ import {
   IconLanguage,
   IconXboxB,
   IconMenu2,
-  IconHome
+  IconHome,
+  IconClipboard
 } from '@tabler/icons-vue'
 import type { BlockType } from '@/stores/editorStore'
 const ed = editorStore()
+const pg = pageStore()
 const { showModalNewBlock } = storeToRefs(ed)
 const { t } = useI18n()
 
@@ -20,6 +22,10 @@ const pick = (type: BlockType) => ed.selectBlockType(type)
   <CModal :visible="showModalNewBlock" @close="showModalNewBlock = false" size="sm">
     <CModalHeader>{{ t('block.newBlock') }}</CModalHeader>
     <CModalBody class="d-flex justify-content-center flex-wrap p-0 toolsblock">
+      <button v-if="pg.clipboardBlock" class="btn d-flex flex-column align-items-center" @click="pick('Paste')">
+        <IconClipboard size="40" stroke-width="1" />
+        <small>{{ t('block.paste') }}</small>
+      </button>
       <button class="btn d-flex flex-column align-items-center" @click="pick('Text')">
         <IconTextPlus size="40" stroke-width="1" />
         <small>{{ t('block.text') }}</small>

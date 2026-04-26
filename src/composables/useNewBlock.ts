@@ -80,6 +80,35 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
 
     const sec = section()
     const modeKey = MODE_KEY[vp.mode]
+
+    if (blockType === 'Paste') {
+      const pg = pageStore()
+      if (!pg.clipboardBlock) return
+      const resp = await useApi(`/api/sites/${st.site?.id}/blocks/next-id`, { method: 'POST' })
+      const pasted: Block = JSON.parse(JSON.stringify(pg.clipboardBlock))
+      pasted.id = resp.id
+
+      const sourceCoords = pg.clipboardBlock[modeKey] as BlockCoords
+      drawnCoords.w = Math.min(sourceCoords.w, drawnCoords.w > 1 ? drawnCoords.w : sourceCoords.w)
+      drawnCoords.h = Math.min(sourceCoords.h, drawnCoords.h > 1 ? drawnCoords.h : sourceCoords.h)
+
+      pasted[modeKey] = drawnCoords
+      sec.blocks.push(pasted)
+
+      pushDown(sec.blocks, modeKey, drawnCoords, pasted.id)
+      ensureRows(sec, vp.mode)
+
+      const otherModes = (['mobile', 'tablet', 'desktop'] as ViewportMode[]).filter(m => m !== vp.mode)
+      for (const mode of otherModes) {
+        const key = MODE_KEY[mode]
+        const coords = pasted[key] as BlockCoords
+        pasted[key] = findFreeCoords(sec, mode, coords.w, coords.h)
+      }
+
+      trimRows(sec)
+      return
+    }
+
     const resp = await useApi(`/api/sites/${st.site?.id}/blocks/next-id`, { method: 'POST' })
 
     const block: Block = {

@@ -132,6 +132,7 @@
     "image": "Imagen",
     "languageSwitcher": "Idioma",
     "newBlock": "Nuevo bloque",
+    "paste": "Pegar",
     "options": "Opciones de bloque",
     "space": "Espacio",
     "text": "Texto",
@@ -237,7 +238,9 @@
   },
   "contextMenu": {
     "block": "Bloque",
-    "section": "Sección"
+    "section": "Sección",
+    "copyBlock": "Copiar bloque",
+    "pasteBlock": "Pegar bloque"
   },
   "newSection": {
     "add": "Nueva sección",

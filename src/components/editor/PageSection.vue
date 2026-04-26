@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import { h } from 'vue'
-import { IconSettingsFilled } from '@tabler/icons-vue'
 import {
-  IconSettings,
-  IconCopy,
-  IconClipboard,
-  IconArrowBigUp,
-  IconArrowBigDown,
-  IconTrash,
-  IconPlus
+  IconSettingsFilled,
+  IconCopyFilled,
+  IconClipboardFilled,
+  IconArrowBigUpFilled,
+  IconArrowBigDownFilled,
+  IconTrashFilled,
+  IconPlusFilled
 } from '@tabler/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
 import { useTheme } from '@/composables/useTheme'
@@ -122,6 +121,28 @@ const pasteSection = async () => {
   pg.page.layout.splice(insertAt, 0, pasted)
 }
 
+const pasteBlock = async () => {
+  if (!pg.clipboardBlock) return
+  hs.snapshot()
+  const sec = props.section
+  const modeKey = MODE_KEY[vp.mode]
+  const { findFreeCoordsAt, ensureRows, trimRows } = useGridConversion()
+  const resp = await useApi(`/api/sites/${st.site?.id}/blocks/next-id`, { method: 'POST' })
+  const pasted: Block = JSON.parse(JSON.stringify(pg.clipboardBlock))
+  pasted.id = resp.id
+
+  const otherModes = (['mobile', 'tablet', 'desktop'] as ViewportMode[]).filter(m => m !== vp.mode)
+  pasted[modeKey] = findFreeCoordsAt(sec, vp.mode, pg.clipboardBlock[modeKey] as BlockCoords)
+  for (const mode of otherModes) {
+    const key = MODE_KEY[mode]
+    pasted[key] = findFreeCoordsAt(sec, mode, pasted[key] as BlockCoords)
+  }
+
+  sec.blocks.push(pasted)
+  ensureRows(sec, vp.mode)
+  trimRows(sec)
+}
+
 const onContextMenu = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.block')) return
   e.preventDefault()
@@ -133,19 +154,22 @@ const onContextMenu = (e: MouseEvent) => {
     disabled: true,
     clickClose: false,
     preserveIconWidth: false,
-    attrs: { style: 'padding-top: 0; padding-bottom: 0; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6;' }
+    attrs: {
+      style:
+        'padding-top: 0; padding-bottom: 0; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6;'
+    }
   })
 
   items.push(
     {
-      label: t('newSection.settings'),
-      icon: h(IconSettings, { size: 16 }),
+      label: 'Configurar',
+      icon: h(IconSettingsFilled, { size: 16 }),
       divided: 'up',
       onClick: () => sectionSettings()
     },
     {
       label: t('newSection.copy'),
-      icon: h(IconCopy, { size: 16 }),
+      icon: h(IconCopyFilled, { size: 16 }),
       onClick: () => copySection()
     }
   )
@@ -153,15 +177,23 @@ const onContextMenu = (e: MouseEvent) => {
   if (pg.clipboardSection) {
     items.push({
       label: t('newSection.paste'),
-      icon: h(IconClipboard, { size: 16 }),
+      icon: h(IconClipboardFilled, { size: 16 }),
       onClick: () => pasteSection()
+    })
+  }
+
+  if (pg.clipboardBlock) {
+    items.push({
+      label: t('contextMenu.pasteBlock'),
+      icon: h(IconClipboardFilled, { size: 16 }),
+      onClick: () => pasteBlock()
     })
   }
 
   if (!isFirst.value) {
     items.push({
       label: t('newSection.moveUp'),
-      icon: h(IconArrowBigUp, { size: 16 }),
+      icon: h(IconArrowBigUpFilled, { size: 16 }),
       onClick: () => moveUp()
     })
   }
@@ -169,7 +201,7 @@ const onContextMenu = (e: MouseEvent) => {
   if (!isLast.value) {
     items.push({
       label: t('newSection.moveDown'),
-      icon: h(IconArrowBigDown, { size: 16 }),
+      icon: h(IconArrowBigDownFilled, { size: 16 }),
       onClick: () => moveDown()
     })
   }
@@ -177,12 +209,12 @@ const onContextMenu = (e: MouseEvent) => {
   items.push(
     {
       label: t('newSection.delete'),
-      icon: h(IconTrash, { size: 16 }),
+      icon: h(IconTrashFilled, { size: 16 }),
       onClick: () => deleteSection()
     },
     {
       label: t('newSection.add'),
-      icon: h(IconPlus, { size: 16 }),
+      icon: h(IconPlusFilled, { size: 16 }),
       onClick: () => addSection()
     }
   )
@@ -216,7 +248,11 @@ const sectionMargin = computed(() => {
 </script>
 
 <template>
-  <div class="section-row-wrapper" :style="[rowBackgroundStyle.style, sectionMargin, rowBackgroundStyle.clip ? 'overflow:hidden' : '']" @contextmenu="onContextMenu">
+  <div
+    class="section-row-wrapper"
+    :style="[rowBackgroundStyle.style, sectionMargin, rowBackgroundStyle.clip ? 'overflow:hidden' : '']"
+    @contextmenu="onContextMenu"
+  >
     <div v-if="rowBackgroundStyle.overlay" class="section-bg-overlay" :style="rowBackgroundStyle.overlay" />
     <div
       ref="sectionRef"
@@ -226,7 +262,14 @@ const sectionMargin = computed(() => {
         'section--show-grid': shouldShow,
         'section--show-blocks': shouldShowBlocks
       }"
-      :style="[gridStyle, sectionWidth, sectionFontVars, backgroundStyle.style, sectionPadding, backgroundStyle.clip ? 'overflow:hidden' : '']"
+      :style="[
+        gridStyle,
+        sectionWidth,
+        sectionFontVars,
+        backgroundStyle.style,
+        sectionPadding,
+        backgroundStyle.clip ? 'overflow:hidden' : ''
+      ]"
       @mouseenter="hovered = true"
       @mouseleave="hovered = false"
     >

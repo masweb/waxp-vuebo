@@ -107,6 +107,24 @@ export const useGridConversion = () => {
     return { x: 1, y: maxY + 1, w: cw, h: ch }
   }
 
+  const findFreeCoordsAt = (section: Section, mode: ViewportMode, coords: BlockCoords): BlockCoords => {
+    const bp = section[mode] as BreakpointSize
+    const cw = Math.min(coords.w, bp.cols)
+    const ch = Math.min(coords.h, bp.rows)
+    const x = Math.min(coords.x, bp.cols - cw + 1)
+    const key = MODE_KEY[mode] as keyof Block
+    const taken = section.blocks.map(b => b[key] as BlockCoords)
+
+    for (let y = x === coords.x ? coords.y : 1; y <= bp.rows - ch + 1; y++) {
+      const candidate: BlockCoords = { x, y, w: cw, h: ch }
+      if (!taken.some(ex => rectsOverlap(candidate, ex))) return candidate
+    }
+
+    const maxY = taken.reduce((max, c) => Math.max(max, c.y + c.h), 0)
+    bp.rows = maxY + ch
+    return { x, y: maxY + 1, w: cw, h: ch }
+  }
+
   const ensureRows = (section: Section, mode: ViewportMode) => {
     const bp = section[mode] as BreakpointSize
     const key = MODE_KEY[mode] as keyof Block
@@ -136,6 +154,7 @@ export const useGridConversion = () => {
     rectsOverlap,
     pushDown,
     findFreeCoords,
+    findFreeCoordsAt,
     ensureRows,
     trimRows
   }

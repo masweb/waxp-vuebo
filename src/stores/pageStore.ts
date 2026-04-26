@@ -4,6 +4,7 @@ export const pageStore = defineStore('page', () => {
   const activeBlock: Ref<Block | null> = ref(null)
   const openNewSectionId: Ref<number | null> = ref(null)
   const clipboardSection: Ref<Section | null> = ref(null)
+  const clipboardBlock: Ref<Block | null> = ref(null)
   const currentLocale = ref('es')
 
   const _savedSectionId = localStorage.getItem('pageActiveSectionId')
@@ -85,6 +86,7 @@ export const pageStore = defineStore('page', () => {
     activeBlock,
     openNewSectionId,
     clipboardSection,
+    clipboardBlock,
     currentLocale,
     getPage,
     updatePage,
