@@ -210,13 +210,17 @@
     "backgroundLight": "Background light",
     "colorDark": "Color dark",
     "colorLight": "Color light",
-    "desktopWidth": "Desktop width",
-    "desktopMargin": "Desktop lateral margin",
-    "mobileBreakpoint": "Mobile breakpoint",
-    "mobileMargin": "Mobile lateral margin",
-    "tabletBreakpoint": "Tablet breakpoint",
-    "tabletMargin": "Tablet lateral margin",
-    "headers": "Headers"
+    "accentLight": "Accent color light",
+    "accentDark": "Accent color dark",
+    "width": "Width",
+    "margin": "Lateral margin",
+    "textZoom": "Text zoom",
+    "breakpoint": "Breakpoint",
+    "headers": "Headers",
+    "tabs": {
+      "general": "General",
+      "typography": "Typography"
+    }
   },
   "viewport": {
     "desktop": "Desktop",

@@ -5,6 +5,8 @@ export interface siteOptions {
   lightColor: string
   darkBackColor: string
   lightBackColor: string
+  darkAccentColor: string
+  lightAccentColor: string
   fonts: Fonts[]
   globalFontFamily: Font
   fontSize: number
@@ -51,6 +53,8 @@ export const siteOptions: siteOptions = {
   lightColor: '#292929',
   darkBackColor: '#1f1f1f',
   lightBackColor: '#EEEEEE',
+  darkAccentColor: '#ff368c',
+  lightAccentColor: '#2e90c8',
   fontSize: 1,
   lineHeight: 1.4,
   darkMode: true,

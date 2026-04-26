@@ -97,12 +97,27 @@ const subLevelStyle = computed(() => ({
   color: colors.value?.color
 }))
 
+const accentColor = computed(() => {
+  const opts = st.site?.options
+  if (!opts) return ''
+  return isDark.value ? opts.darkAccentColor : opts.lightAccentColor
+})
+
+const darkenHex = (hex: string, amount: number): string => {
+  const c = hex.replace('#', '')
+  const r = Math.max(0, parseInt(c.substring(0, 2), 16) - amount)
+  const g = Math.max(0, parseInt(c.substring(2, 4), 16) - amount)
+  const b = Math.max(0, parseInt(c.substring(4, 6), 16) - amount)
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+}
+
 const cssVars = computed(() => {
-  if (!colors.value) return {}
+  const hover = colors.value?.hover || accentColor.value
+  const active = colors.value?.active || darkenHex(accentColor.value, 40)
   return {
-    '--menu-color': colors.value.color,
-    '--menu-hover': colors.value.hover,
-    '--menu-active': colors.value.active,
+    '--menu-color': colors.value?.color,
+    '--menu-hover': hover,
+    '--menu-active': active,
     '--menu-submenu-bg': isDark.value ? '#2b2b2b' : '#ffffff'
   }
 })

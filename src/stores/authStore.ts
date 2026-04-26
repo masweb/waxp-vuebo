@@ -2,6 +2,7 @@ import type { ApiError } from '@/types/auth'
 
 export const useAuthStore = defineStore('auth', () => {
   const nav = navigationStore()
+  const st = siteStore()
 
   const initialToken = localStorage.getItem('auth_token')
   const initialUser = localStorage.getItem('auth_user')
@@ -11,6 +12,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated: ComputedRef<boolean> = computed(() => !!token.value)
   const isAdmin: ComputedRef<boolean> = computed(() => user.value?.role === 'admin')
+
+  watch(
+    () => st.REACT401,
+    () => logout()
+  )
 
   const initializeAuth = (): void => {
     const storedToken = localStorage.getItem('auth_token')

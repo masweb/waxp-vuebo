@@ -4,6 +4,7 @@ const auth = useAuthStore()
 const nav = navigationStore()
 const st = siteStore()
 auth.initializeAuth()
+
 if (!auth.isAuthenticated) {
   nav.setView('login')
 } else if (nav.main === 'site') {
@@ -30,4 +31,3 @@ const currentView = computed(() => views[nav.main])
     <component :is="currentView" />
   </div>
 </template>
-s

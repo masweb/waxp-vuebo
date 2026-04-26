@@ -210,13 +210,17 @@
     "backgroundLight": "Fondo modo claro",
     "colorDark": "Color modo oscuro",
     "colorLight": "Color modo claro",
-    "desktopWidth": "Ancho escritorio",
-    "desktopMargin": "Margen lateral escritorio",
-    "mobileBreakpoint": "Punto de corte móvil",
-    "mobileMargin": "Margen lateral móvil",
-    "tabletBreakpoint": "Punto de corte tablet",
-    "tabletMargin": "Margen lateral tablet",
-    "headers": "Cabeceras"
+    "accentLight": "Color acento claro",
+    "accentDark": "Color acento oscuro",
+    "width": "Ancho",
+    "margin": "Margen lateral",
+    "textZoom": "Zoom texto",
+    "breakpoint": "Punto de corte",
+    "headers": "Cabeceras",
+    "tabs": {
+      "general": "General",
+      "typography": "Tipografía"
+    }
   },
   "viewport": {
     "desktop": "Escritorio",

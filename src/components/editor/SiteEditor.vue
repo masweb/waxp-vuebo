@@ -12,6 +12,7 @@ const dynamicStyle = computed(() => {
   if (!opts) return ''
   const color = opts.darkMode ? opts.darkColor : opts.lightColor
   const bgColor = opts.darkMode ? opts.darkBackColor : opts.lightBackColor
+  const accentColor = opts.darkMode ? opts.darkAccentColor : opts.lightAccentColor
   const scrollbarThumb = color
   const scrollbarTrack = bgColor
   const toolColor = opts.darkMode ? '#bf7680' : '#abbbc5'
@@ -45,7 +46,9 @@ const dynamicStyle = computed(() => {
   --se-scrollbar-thumb: ${scrollbarThumb};
   --se-scrollbar-track: ${scrollbarTrack};
   --se-desktop-width: ${opts.desktopWidth}px;
+  --se-accent-color: ${accentColor};
 }
+.site-editor .tiptap a { color: var(--se-accent-color); }
 ${headers}`
 })
 

@@ -16,6 +16,14 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
   let throttleTimer: number | null = null
   let cancelled = false
 
+  const darkenHex = (hex: string, amount: number): string => {
+    const c = hex.replace('#', '')
+    const r = Math.max(0, parseInt(c.substring(0, 2), 16) - amount)
+    const g = Math.max(0, parseInt(c.substring(2, 4), 16) - amount)
+    const b = Math.max(0, parseInt(c.substring(4, 6), 16) - amount)
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+  }
+
   const getBpConfig = () => {
     return section()[vp.mode] as BreakpointSize
   }
@@ -137,8 +145,14 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
             menu: [],
             menuColors: {
               color: { light: '#212529', dark: '#f8f9fa' },
-              hover: { light: '#0d6efd', dark: '#6ea8fe' },
-              active: { light: '#0a58ca', dark: '#5aa4f0' }
+              hover: {
+                light: st.site?.options.lightAccentColor ?? '#6C63FF',
+                dark: st.site?.options.darkAccentColor ?? '#6C63FF'
+              },
+              active: {
+                light: darkenHex(st.site?.options.lightAccentColor ?? '#6C63FF', 40),
+                dark: darkenHex(st.site?.options.darkAccentColor ?? '#6C63FF', 40)
+              }
             },
             menuFont: { family: '', weight: 400, italic: false },
             menuFontSize: null,
