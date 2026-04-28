@@ -260,6 +260,12 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
           r: '0',
           b: '0',
           l: '0'
+        },
+        margin: {
+          t: '0',
+          r: '0',
+          b: '0',
+          l: '0'
         }
       }
     }

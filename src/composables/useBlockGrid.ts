@@ -73,6 +73,15 @@ export const useBlockGrid = (block: () => Block, section?: () => Section) => {
     if (backgroundStyle.value.clip) {
       s['overflow'] = 'hidden'
     }
+    const b = block()
+    const p = b.style?.padding
+    if (p && (p.t !== '0' || p.r !== '0' || p.b !== '0' || p.l !== '0')) {
+      s['padding'] = `${p.t} ${p.r} ${p.b} ${p.l}`
+    }
+    const m = b.style?.margin
+    if (m && (m.t !== '0' || m.r !== '0' || m.b !== '0' || m.l !== '0')) {
+      s['margin'] = `${m.t} ${m.r} ${m.b} ${m.l}`
+    }
     return s
   })
 

@@ -39,6 +39,23 @@ const onBackgroundUpdate = (bg: Background) => {
   activeBlock.value.style.background = bg
 }
 
+const ensureSides = (block: Block, key: 'padding' | 'margin'): Sides => {
+  if (!block.style[key]) block.style[key] = { t: '0', r: '0', b: '0', l: '0' }
+  return block.style[key]
+}
+
+const onPaddingUpdate = (sides: Sides) => {
+  if (!activeBlock.value) return
+  hs.snapshot()
+  activeBlock.value.style.padding = sides
+}
+
+const onMarginUpdate = (sides: Sides) => {
+  if (!activeBlock.value) return
+  hs.snapshot()
+  activeBlock.value.style.margin = sides
+}
+
 const modes: { key: ViewportMode; label: string; icon: any }[] = [
   { key: 'desktop', label: t('viewport.desktop'), icon: IconDeviceDesktop },
   { key: 'tablet', label: t('viewport.tablet'), icon: IconDeviceTablet },
@@ -99,6 +116,18 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
       :background="activeBlock.style.background"
       :allowedModes="bgAllowedModes"
       @update="onBackgroundUpdate"
+    />
+
+    <SidesField
+      :modelValue="ensureSides(activeBlock, 'padding')"
+      :label="t('block.padding')"
+      @update:modelValue="onPaddingUpdate"
+    />
+
+    <SidesField
+      :modelValue="ensureSides(activeBlock, 'margin')"
+      :label="t('block.margin')"
+      @update:modelValue="onMarginUpdate"
     />
 
     <table class="table table-sm table-borderless mb-0 align-middle" style="table-layout: fixed">

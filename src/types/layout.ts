@@ -76,6 +76,7 @@ export interface BlockStyle {
   background: Background
   border: Border
   padding: Sides
+  margin: Sides
 }
 
 export interface Background {
