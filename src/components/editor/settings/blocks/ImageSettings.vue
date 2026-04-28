@@ -11,7 +11,7 @@ const { t } = useI18n()
 const ensureImage = () => {
   if (!activeBlock.value) return
   if (!activeBlock.value.image) {
-    activeBlock.value.image = { url_desk: '', url_tab: '', url_mob: '', fit: 'width' }
+    activeBlock.value.image = { url_desk: '', url_tab: '', url_mob: '', url_desk_dark: '', url_tab_dark: '', url_mob_dark: '', fit: 'width' }
   }
 }
 
@@ -35,6 +35,21 @@ const urlTab = computed({
 const urlMob = computed({
   get: () => activeBlock.value?.image?.url_mob ?? '',
   set: (v: string) => patchImage({ url_mob: v })
+})
+
+const urlDeskDark = computed({
+  get: () => activeBlock.value?.image?.url_desk_dark ?? '',
+  set: (v: string) => patchImage({ url_desk_dark: v })
+})
+
+const urlTabDark = computed({
+  get: () => activeBlock.value?.image?.url_tab_dark ?? '',
+  set: (v: string) => patchImage({ url_tab_dark: v })
+})
+
+const urlMobDark = computed({
+  get: () => activeBlock.value?.image?.url_mob_dark ?? '',
+  set: (v: string) => patchImage({ url_mob_dark: v })
 })
 
 const fit = computed({
@@ -72,6 +87,30 @@ const altText = computed({
       </div>
       <div class="text-center d-flex flex-column align-items-center">
         <MediaPicker :url="urlMob" @select="urlMob = $event" @clear="urlMob = ''">
+          <template #icon><IconDeviceMobile :size="20" /></template>
+        </MediaPicker>
+        <div class="small text-muted mt-1">{{ t('background.mobileImage') }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label mb-2">{{ t('block.imageUrlsDark') }}</label>
+    <div class="d-flex gap-3">
+      <div class="text-center d-flex flex-column align-items-center">
+        <MediaPicker :url="urlDeskDark" @select="urlDeskDark = $event" @clear="urlDeskDark = ''">
+          <template #icon><IconDeviceDesktop :size="20" /></template>
+        </MediaPicker>
+        <div class="small text-muted mt-1">{{ t('background.desktopImage') }}</div>
+      </div>
+      <div class="text-center d-flex flex-column align-items-center">
+        <MediaPicker :url="urlTabDark" @select="urlTabDark = $event" @clear="urlTabDark = ''">
+          <template #icon><IconDeviceTablet :size="20" /></template>
+        </MediaPicker>
+        <div class="small text-muted mt-1">{{ t('background.tabletImage') }}</div>
+      </div>
+      <div class="text-center d-flex flex-column align-items-center">
+        <MediaPicker :url="urlMobDark" @select="urlMobDark = $event" @clear="urlMobDark = ''">
           <template #icon><IconDeviceMobile :size="20" /></template>
         </MediaPicker>
         <div class="small text-muted mt-1">{{ t('background.mobileImage') }}</div>

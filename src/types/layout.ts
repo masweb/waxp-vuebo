@@ -86,6 +86,9 @@ export interface Background {
   url_desk: string
   url_tab: string
   url_mob: string
+  url_desk_dark: string
+  url_tab_dark: string
+  url_mob_dark: string
   opacity: string
   fix_img_back: boolean
   pos: 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'
@@ -150,6 +153,9 @@ const defaultBackground = (): Background => ({
   url_desk: '',
   url_tab: '',
   url_mob: '',
+  url_desk_dark: '',
+  url_tab_dark: '',
+  url_mob_dark: '',
   opacity: '1',
   fix_img_back: false,
   pos: 'cover',
@@ -188,6 +194,9 @@ export interface BlockImage {
   url_desk: string
   url_tab: string
   url_mob: string
+  url_desk_dark: string
+  url_tab_dark: string
+  url_mob_dark: string
   fit: BlockImageFit
 }
 

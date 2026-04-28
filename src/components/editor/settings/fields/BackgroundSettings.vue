@@ -136,6 +136,7 @@ watch(
     </div>
 
     <div v-if="currentMode === 'image'" class="mb-3">
+      <label class="form-label mb-2">{{ t('block.imageUrls') }}</label>
       <div class="d-flex gap-2">
         <div class="text-center d-flex flex-column align-items-center">
           <MediaPicker
@@ -154,7 +155,33 @@ watch(
           <div class="small text-muted mt-1">{{ t('background.tabletImage') }}</div>
         </div>
         <div class="text-center d-flex flex-column align-items-center">
-          <MediaPicker :url="background.url_mov" @select="patch({ url_mov: $event })" @clear="patch({ url_mov: '' })">
+          <MediaPicker :url="background.url_mob" @select="patch({ url_mob: $event })" @clear="patch({ url_mob: '' })">
+            <template #icon><IconDeviceMobile :size="20" /></template>
+          </MediaPicker>
+          <div class="small text-muted mt-1">{{ t('background.mobileImage') }}</div>
+        </div>
+      </div>
+
+      <label class="form-label mb-2 mt-3">{{ t('block.imageUrlsDark') }}</label>
+      <div class="d-flex gap-2">
+        <div class="text-center d-flex flex-column align-items-center">
+          <MediaPicker
+            :url="background.url_desk_dark"
+            @select="patch({ url_desk_dark: $event })"
+            @clear="patch({ url_desk_dark: '' })"
+          >
+            <template #icon><IconDeviceDesktop :size="20" /></template>
+          </MediaPicker>
+          <div class="small text-muted mt-1">{{ t('background.desktopImage') }}</div>
+        </div>
+        <div class="text-center d-flex flex-column align-items-center">
+          <MediaPicker :url="background.url_tab_dark" @select="patch({ url_tab_dark: $event })" @clear="patch({ url_tab_dark: '' })">
+            <template #icon><IconDeviceTablet :size="20" /></template>
+          </MediaPicker>
+          <div class="small text-muted mt-1">{{ t('background.tabletImage') }}</div>
+        </div>
+        <div class="text-center d-flex flex-column align-items-center">
+          <MediaPicker :url="background.url_mob_dark" @select="patch({ url_mob_dark: $event })" @clear="patch({ url_mob_dark: '' })">
             <template #icon><IconDeviceMobile :size="20" /></template>
           </MediaPicker>
           <div class="small text-muted mt-1">{{ t('background.mobileImage') }}</div>

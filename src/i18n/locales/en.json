@@ -152,6 +152,7 @@
     "dividerStyle": "Line style",
     "darkMode": "Dark mode",
     "imageUrls": "Image URLs",
+    "imageUrlsDark": "Image URLs (dark mode)",
     "imageFit": "Image fit",
     "fitWidth": "Fit to width",
     "fitHeight": "Fit to height",

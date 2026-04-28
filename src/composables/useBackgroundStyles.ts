@@ -42,10 +42,10 @@ export const useBackgroundStyles = (
     if (bg.mode === 'image') {
       const url =
         mode === 'mobile'
-          ? bg.url_mov || bg.url_desk
+          ? (theme === 'dark' ? bg.url_mob_dark || bg.url_mob : false) || bg.url_tab || bg.url_desk
           : mode === 'tablet'
-            ? bg.url_mov || bg.url_desk
-            : bg.url_desk
+            ? (theme === 'dark' ? bg.url_tab_dark || bg.url_tab : false) || bg.url_desk
+            : (theme === 'dark' ? bg.url_desk_dark || bg.url_desk : bg.url_desk)
 
       if (url) {
         if (useOverlay) {

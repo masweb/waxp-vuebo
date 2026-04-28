@@ -13,18 +13,22 @@ const { hasLink, onBlockClick } = useBlockLink(() => props.block)
 
 const vp = viewportStore()
 const pg = pageStore()
+const st = siteStore()
 const apiBase = import.meta.env.VITE_END_POINT
+
+const isDark = computed(() => !!st.site?.options.darkMode)
 
 const currentUrl = computed(() => {
   const img = props.block.image
   if (!img) return ''
   const mode = vp.mode
+  const dark = isDark.value
   const url =
     mode === 'mobile'
-      ? img.url_mob || img.url_tab || img.url_desk
+      ? (dark ? img.url_mob_dark || img.url_mob : false) || img.url_tab || img.url_desk
       : mode === 'tablet'
-        ? img.url_tab || img.url_desk
-        : img.url_desk
+        ? (dark ? img.url_tab_dark || img.url_tab : false) || img.url_desk
+        : (dark ? img.url_desk_dark || img.url_desk : img.url_desk)
   return url ? `${apiBase}${url}` : ''
 })
 
