@@ -23,12 +23,17 @@ const currentUrl = computed(() => {
   if (!img) return ''
   const mode = vp.mode
   const dark = isDark.value
-  const url =
-    mode === 'mobile'
-      ? (dark ? img.url_mob_dark || img.url_mob : false) || img.url_tab || img.url_desk
+  const url = dark
+    ? mode === 'mobile'
+      ? img.url_mob_dark || img.url_tab_dark || img.url_desk_dark || img.url_mob || img.url_tab || img.url_desk
       : mode === 'tablet'
-        ? (dark ? img.url_tab_dark || img.url_tab : false) || img.url_desk
-        : (dark ? img.url_desk_dark || img.url_desk : img.url_desk)
+        ? img.url_tab_dark || img.url_desk_dark || img.url_tab || img.url_desk
+        : img.url_desk_dark || img.url_desk
+    : mode === 'mobile'
+      ? img.url_mob || img.url_tab || img.url_desk
+      : mode === 'tablet'
+        ? img.url_tab || img.url_desk
+        : img.url_desk
   return url ? `${apiBase}${url}` : ''
 })
 

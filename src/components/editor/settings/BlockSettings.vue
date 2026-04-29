@@ -29,7 +29,6 @@ const settingsComponents: Record<string, Component> = {
 const settingsComponent = computed(() => settingsComponents[activeBlock.value?.type ?? ''])
 
 const bgAllowedModes = computed<Background['mode'][]>(() => {
-  if (activeBlock.value?.type === 'Image') return ['image']
   return ['none', 'color', 'gradient', 'image']
 })
 
@@ -112,7 +111,6 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
     />
 
     <BackgroundSettings
-      v-if="activeBlock.type !== 'Image'"
       :background="activeBlock.style.background"
       :allowedModes="bgAllowedModes"
       @update="onBackgroundUpdate"

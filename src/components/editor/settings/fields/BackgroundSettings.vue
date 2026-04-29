@@ -10,6 +10,7 @@ import {
 
 const props = defineProps<{
   background: Background
+  allowedModes?: Background['mode'][]
 }>()
 
 const emit = defineEmits<{
@@ -26,6 +27,10 @@ const allModeOptions: { key: Background['mode']; label: string; icon: any }[] = 
   { key: 'gradient', label: t('background.gradient'), icon: IconBleachNoChlorine },
   { key: 'image', label: t('background.image'), icon: IconPhoto }
 ]
+
+const modeOptions = computed(() =>
+  props.allowedModes ? allModeOptions.filter(o => props.allowedModes!.includes(o.key)) : allModeOptions
+)
 
 const posOptions: { key: Background['pos']; label: string }[] = [
   { key: 'cover', label: 'Cover' },
@@ -70,11 +75,11 @@ watch(
 
 <template>
   <div>
-    <div v-if="allModeOptions.length > 1" class="mb-3">
+    <div v-if="modeOptions.length > 1" class="mb-3">
       <label class="d-block mb-2">{{ t('background.mode') }}</label>
       <div class="d-flex btn-group">
         <button
-          v-for="opt in allModeOptions"
+          v-for="opt in modeOptions"
           :key="opt.key"
           class="btn btn-sm"
           :class="currentMode === opt.key ? 'btn-primary' : 'btn-outline-secondary'"
