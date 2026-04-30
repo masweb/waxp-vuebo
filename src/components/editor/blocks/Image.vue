@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { IconPhoto } from '@tabler/icons-vue'
+
 const props = defineProps<{
   block: Block
   section: Section
@@ -48,6 +50,35 @@ const imgStyle = computed(() => {
   return img.fit === 'height' ? { height: '100%', width: 'auto', maxWidth: 'none' } : { width: '100%', height: 'auto' }
 })
 
+const blockWidth = ref(0)
+const blockHeight = ref(0)
+
+const placeholderSize = computed(() => {
+  const scale = 2
+  const w = Math.round(blockWidth.value * scale)
+  const h = Math.round(blockHeight.value * scale)
+  return w > 0 && h > 0 ? `${w} × ${h}` : ''
+})
+
+let resizeObs: ResizeObserver | null = null
+
+onMounted(() => {
+  if (blockRef.value) {
+    resizeObs = new ResizeObserver((entries) => {
+      const entry = entries[0]
+      if (entry) {
+        blockWidth.value = Math.round(entry.contentRect.width)
+        blockHeight.value = Math.round(entry.contentRect.height)
+      }
+    })
+    resizeObs.observe(blockRef.value)
+  }
+})
+
+onUnmounted(() => {
+  resizeObs?.disconnect()
+})
+
 const onClick = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.blockui')) return
   onBlockClick()
@@ -65,6 +96,10 @@ const onClick = (e: MouseEvent) => {
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <img v-if="currentUrl" :src="currentUrl" :alt="altText" :style="imgStyle" class="image-block__img" loading="lazy" />
+    <div v-else class="image-block__placeholder">
+      <IconPhoto :size="24" :stroke-width="1" />
+      <span v-if="placeholderSize" class="image-block__placeholder-size">{{ placeholderSize }}</span>
+    </div>
     <div class="blockui resize"></div>
   </div>
 </template>

@@ -199,6 +199,24 @@ $toolColorHover: var(--se-tool-color-hover);
           overflow: hidden;
         }
 
+        .image-block__placeholder {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          gap: 4px;
+          opacity: 0.25;
+          z-index: 1;
+          position: relative;
+        }
+
+        .image-block__placeholder-size {
+          font-size: 11px;
+          white-space: nowrap;
+        }
+
         &--active {
           border-color: var(--cui-primary);
           border-style: solid;
