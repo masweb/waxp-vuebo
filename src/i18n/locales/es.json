@@ -160,6 +160,8 @@
     "imageFitHint": "Ancho: la imagen ocupa el 100% del bloque. Alto: la imagen ocupa toda la altura. Cover: la imagen cubre todo el bloque recortando si es necesario.",
     "imageAlt": "Texto alternativo (ALT)",
     "imageAltHint": "Descripción de la imagen para SEO y accesibilidad",
+    "lightbox": "Lightbox",
+    "lightboxHint": "Al hacer clic en la imagen se abre en pantalla completa",
     "link": "Enlace",
     "linkType": "Tipo de enlace",
     "linkInternal": "Interno",

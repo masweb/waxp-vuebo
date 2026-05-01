@@ -20,6 +20,10 @@ const apiBase = import.meta.env.VITE_END_POINT
 
 const isDark = computed(() => !!st.site?.options.darkMode)
 
+const hasLightbox = computed(() => !!props.block.image?.lightbox)
+
+const lightboxOpen = ref(false)
+
 const currentUrl = computed(() => {
   const img = props.block.image
   if (!img) return ''
@@ -62,6 +66,18 @@ const placeholderSize = computed(() => {
 
 let resizeObs: ResizeObserver | null = null
 
+const openLightbox = () => {
+  lightboxOpen.value = true
+}
+
+const closeLightbox = () => {
+  lightboxOpen.value = false
+}
+
+const onLightboxKey = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') closeLightbox()
+}
+
 onMounted(() => {
   if (blockRef.value) {
     resizeObs = new ResizeObserver((entries) => {
@@ -79,27 +95,88 @@ onUnmounted(() => {
   resizeObs?.disconnect()
 })
 
-const onClick = (e: MouseEvent) => {
-  if ((e.target as HTMLElement).closest('.blockui')) return
-  onBlockClick()
-}
+watch(lightboxOpen, (open) => {
+  if (open) {
+    document.addEventListener('keydown', onLightboxKey)
+  } else {
+    document.removeEventListener('keydown', onLightboxKey)
+  }
+})
 </script>
 
 <template>
   <div
     ref="blockRef"
     class="block image-block"
-    :class="{ 'block-link': hasLink }"
+    :class="{ 'block-link': hasLink || hasLightbox }"
     :style="blockStyle"
     @contextmenu="onContextMenu"
-    @click="onClick"
+    @click="(e) => { if ((e.target as HTMLElement).closest('.blockui')) return; onBlockClick() }"
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
-    <img v-if="currentUrl" :src="currentUrl" :alt="altText" :style="imgStyle" class="image-block__img" loading="lazy" />
+    <img
+      v-if="hasLightbox && currentUrl"
+      :src="currentUrl"
+      :alt="altText"
+      :style="imgStyle"
+      class="image-block__img lb-trigger"
+      loading="lazy"
+      @click.stop="openLightbox"
+    />
+    <img v-else-if="currentUrl" :src="currentUrl" :alt="altText" :style="imgStyle" class="image-block__img" loading="lazy" />
     <div v-else class="image-block__placeholder">
       <IconPhoto :size="24" :stroke-width="1" />
       <span v-if="placeholderSize" class="image-block__placeholder-size">{{ placeholderSize }}</span>
     </div>
     <div class="blockui resize"></div>
   </div>
+
+  <Teleport to="body">
+    <div v-if="lightboxOpen" class="lb-overlay" @click="closeLightbox">
+      <img :src="currentUrl" :alt="altText" class="lb-img" @click.stop />
+      <button class="lb-close" @click.stop="closeLightbox">&times;</button>
+    </div>
+  </Teleport>
 </template>
+
+<style scoped>
+.lb-trigger {
+  cursor: zoom-in;
+}
+
+.lb-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  cursor: zoom-out;
+}
+
+:root[data-theme="dark"] .lb-overlay {
+  background: rgba(0, 0, 0, 0.92);
+}
+
+.lb-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.lb-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 32px;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  user-select: none;
+  padding: 4px 8px;
+}
+</style>

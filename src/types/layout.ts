@@ -198,6 +198,7 @@ export interface BlockImage {
   url_tab_dark: string
   url_mob_dark: string
   fit: BlockImageFit
+  lightbox?: boolean
 }
 
 export interface BlockButtonColors {

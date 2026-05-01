@@ -269,12 +269,12 @@ $toolColorHover: var(--se-tool-color-hover);
           }
 
           &.resize {
-            width: 40px;
-            height: 40px;
+            width: 8px;
+            height: 8px;
 
             cursor: nw-resize;
-            right: -16px;
-            bottom: -16px;
+            right: -4px;
+            bottom: -4px;
           }
         }
       }

@@ -94,18 +94,36 @@ const linkPopover = ref<HTMLElement | null>(null)
 const linkMenuStyle = ref<Record<string, string>>({})
 let savedLinkRange: { from: number; to: number } | null = null
 
+const st = siteStore()
+
+const linkMode = ref<'internal' | 'external'>('external')
+
+const routesByLocale = computed(() => {
+  const routes = st.site?.routes
+  if (!routes) return new Map<string, { path: string; page_id: number }[]>()
+  const map = new Map<string, { path: string; page_id: number }[]>()
+  for (const [locale, localeRoutes] of Object.entries(routes)) {
+    map.set(locale, localeRoutes.map(r => ({ path: r.path, page_id: r.page_id })))
+  }
+  return map
+})
+
 const openLinkModal = () => {
   const { from, to } = editor.state.selection
   savedLinkRange = { from, to }
-  linkUrl.value = editor.getAttributes('link').href ?? ''
+  const href = editor.getAttributes('link').href ?? ''
+  linkUrl.value = href
+  linkMode.value = href.startsWith('/') ? 'internal' : 'external'
   if (linkBtn.value) {
     const r = linkBtn.value.getBoundingClientRect()
     linkMenuStyle.value = { position: 'fixed', top: `${r.bottom + 4}px`, left: `${r.left}px`, zIndex: '9999' }
   }
   linkOpen.value = true
   nextTick(() => {
-    linkInput.value?.focus()
-    linkInput.value?.select()
+    if (linkMode.value === 'external') {
+      linkInput.value?.focus()
+      linkInput.value?.select()
+    }
   })
 }
 
@@ -376,15 +394,56 @@ onUnmounted(() => {
       ref="linkPopover"
       :style="linkMenuStyle"
       class="editor-dropdown border rounded shadow-sm bg-body p-2"
+      style="min-width: 260px"
     >
-      <form class="d-flex gap-1" @submit.prevent="applyLink">
+      <div class="btn-group btn-group-sm w-100 mb-2">
+        <button
+          type="button"
+          class="btn"
+          :class="linkMode === 'internal' ? 'btn-primary' : 'btn-outline-primary'"
+          @click="linkMode = 'internal'"
+        >
+          {{ t('block.linkInternal') }}
+        </button>
+        <button
+          type="button"
+          class="btn"
+          :class="linkMode === 'external' ? 'btn-primary' : 'btn-outline-primary'"
+          @click="linkMode = 'external'"
+        >
+          {{ t('block.linkExternal') }}
+        </button>
+      </div>
+      <template v-if="linkMode === 'internal'">
+        <select
+          class="form-select form-select-sm mb-2"
+          :value="linkUrl"
+          @change="linkUrl = ($event.target as HTMLSelectElement).value"
+        >
+          <option value="" disabled>{{ t('block.linkSelectRoute') }}</option>
+          <optgroup v-for="[locale, routes] of routesByLocale" :key="locale" :label="locale.toUpperCase()">
+            <option v-for="route in routes" :key="`${locale}-${route.page_id}`" :value="route.path">
+              {{ route.path }}
+            </option>
+          </optgroup>
+        </select>
+        <button
+          type="button"
+          class="btn btn-sm btn-primary w-100"
+          :disabled="!linkUrl"
+          @click="applyLink"
+        >
+          OK
+        </button>
+      </template>
+      <form v-else class="d-flex gap-1" @submit.prevent="applyLink">
         <input
           ref="linkInput"
           v-model="linkUrl"
           type="text"
           class="form-control form-control-sm"
           placeholder="https://..."
-          style="min-width: 220px"
+          style="min-width: 180px"
         />
         <button type="submit" class="btn btn-sm btn-primary">OK</button>
       </form>

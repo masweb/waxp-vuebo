@@ -158,7 +158,7 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
       ...(blockType === 'Image'
         ? {
             locales: { alt: '' },
-            image: { url_desk: '', url_tab: '', url_mob: '', url_desk_dark: '', url_tab_dark: '', url_mob_dark: '', fit: 'cover' as const }
+            image: { url_desk: '', url_tab: '', url_mob: '', url_desk_dark: '', url_tab_dark: '', url_mob_dark: '', fit: 'cover' as const, lightbox: false }
           }
         : {}),
       ...(blockType === 'Icon'

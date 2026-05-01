@@ -58,5 +58,10 @@ const iconStyle = computed(() => {
   cursor: pointer;
   padding: 0;
   line-height: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -11,7 +11,7 @@ const { t } = useI18n()
 const ensureImage = () => {
   if (!activeBlock.value) return
   if (!activeBlock.value.image) {
-    activeBlock.value.image = { url_desk: '', url_tab: '', url_mob: '', url_desk_dark: '', url_tab_dark: '', url_mob_dark: '', fit: 'width' }
+    activeBlock.value.image = { url_desk: '', url_tab: '', url_mob: '', url_desk_dark: '', url_tab_dark: '', url_mob_dark: '', fit: 'width', lightbox: false }
   }
 }
 
@@ -65,6 +65,11 @@ const altText = computed({
     if (!activeBlock.value.locales) activeBlock.value.locales = {}
     activeBlock.value.locales.alt = v
   }
+})
+
+const lightbox = computed({
+  get: () => activeBlock.value?.image?.lightbox ?? false,
+  set: (v: boolean) => patchImage({ lightbox: v })
 })
 </script>
 
@@ -148,5 +153,13 @@ const altText = computed({
 
   <div class="mb-3">
     <TextField v-model="altText" :label="t('block.imageAlt')" :placeholder="t('block.imageAltHint')" />
+  </div>
+
+  <div class="mb-3">
+    <div class="form-check form-switch">
+      <input id="lightbox-switch" class="form-check-input" type="checkbox" role="switch" v-model="lightbox" />
+      <label class="form-check-label" for="lightbox-switch">{{ t('block.lightbox') }}</label>
+    </div>
+    <div class="form-text">{{ t('block.lightboxHint') }}</div>
   </div>
 </template>

@@ -160,6 +160,8 @@
     "imageFitHint": "Width: image fills 100% of the block. Height: image fills the full height. Cover: image covers the entire block, cropping as needed.",
     "imageAlt": "Alternative text (ALT)",
     "imageAltHint": "Image description for SEO and accessibility",
+    "lightbox": "Lightbox",
+    "lightboxHint": "Clicking the image opens it in fullscreen",
     "link": "Link",
     "linkType": "Link type",
     "linkInternal": "Internal",
