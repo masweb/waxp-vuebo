@@ -12,7 +12,7 @@
     "@coreui/coreui": "^5.6.1",
     "@coreui/vue": "^5.8.0",
     "@imengyu/vue3-context-menu": "^1.5.4",
-    "@tabler/icons-vue": "^3.41.1",
+    "@tabler/icons-vue": "^3.43.0",
     "@tiptap/extension-bold": "^3.22.5",
     "@tiptap/extension-bullet-list": "^3.22.5",
     "@tiptap/extension-character-count": "^3.22.5",
@@ -49,8 +49,8 @@
     "ofetch": "^1.5.1",
     "pinia": "^3.0.4",
     "vee-validate": "^4.15.1",
-    "vue": "^3.5.33",
-    "vue-i18n": "^11.4.0",
+    "vue": "^3.5.34",
+    "vue-i18n": "^11.4.2",
     "vue-router": "^5.0.6"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
     "unplugin-vue-components": "^31.1.0",
     "vite": "npm:@voidzero-dev/vite-plus-core@^0.1.20",
     "vite-plus": "latest",
-    "vue-tsc": "^3.2.7"
+    "vue-tsc": "^3.2.8"
   },
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
