@@ -101,7 +101,7 @@ const getField = (mode: ViewportMode, key: keyof BlockCoords) => {
   <COffcanvasBody v-if="activeBlock">
     <div class="mb-3">
       <label class="small text-secondary">{{ t('block.type') }}</label>
-      <div class="fw-semibold">{{ activeBlock.type }}</div>
+      <div class="fw-semibold">{{ activeBlock.type }} <small class="text-secondary">#{{ activeBlock.id }}</small></div>
     </div>
 
     <component :is="settingsComponent" />

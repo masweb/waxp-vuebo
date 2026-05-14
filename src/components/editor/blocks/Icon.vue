@@ -78,7 +78,7 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
   () => props.section
 )
 
-const { hasLink, onBlockClick } = useBlockLink(() => props.block)
+const { hasLink, onBlockClick, onMouseDown, isDrag } = useBlockLink(() => props.block)
 const st = siteStore()
 
 const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
@@ -177,6 +177,7 @@ const strokeWidth = computed(() => props.block.icon?.strokeWidth ?? 1)
 
 const onClick = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.blockui')) return
+  if (isDrag(e)) return
   onBlockClick()
 }
 </script>
@@ -188,6 +189,7 @@ const onClick = (e: MouseEvent) => {
     :class="{ 'block-link': hasLink }"
     :style="blockStyle"
     @contextmenu="onContextMenu"
+    @mousedown="onMouseDown"
     @click="onClick"
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />

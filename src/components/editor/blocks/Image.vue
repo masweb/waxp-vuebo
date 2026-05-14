@@ -11,7 +11,7 @@ const { blockRef, blockStyle, backgroundStyle, onContextMenu } = useBlockBase(
   () => props.section
 )
 
-const { hasLink, onBlockClick } = useBlockLink(() => props.block)
+const { hasLink, onBlockClick, onMouseDown: onLinkMouseDown, isDrag: isLinkDrag } = useBlockLink(() => props.block)
 
 const vp = viewportStore()
 const pg = pageStore()
@@ -65,16 +65,9 @@ const placeholderSize = computed(() => {
 })
 
 let resizeObs: ResizeObserver | null = null
-let mouseDownPos = { x: 0, y: 0 }
-
-const onImgMouseDown = (e: MouseEvent) => {
-  mouseDownPos = { x: e.clientX, y: e.clientY }
-}
 
 const openLightbox = (e: MouseEvent) => {
-  const dx = Math.abs(e.clientX - mouseDownPos.x)
-  const dy = Math.abs(e.clientY - mouseDownPos.y)
-  if (dx > 4 || dy > 4) return
+  if (isLinkDrag(e)) return
   lightboxOpen.value = true
 }
 
@@ -88,7 +81,7 @@ const onLightboxKey = (e: KeyboardEvent) => {
 
 onMounted(() => {
   if (blockRef.value) {
-    resizeObs = new ResizeObserver((entries) => {
+    resizeObs = new ResizeObserver(entries => {
       const entry = entries[0]
       if (entry) {
         blockWidth.value = Math.round(entry.contentRect.width)
@@ -103,7 +96,7 @@ onUnmounted(() => {
   resizeObs?.disconnect()
 })
 
-watch(lightboxOpen, (open) => {
+watch(lightboxOpen, open => {
   if (open) {
     document.addEventListener('keydown', onLightboxKey)
   } else {
@@ -119,7 +112,14 @@ watch(lightboxOpen, (open) => {
     :class="{ 'block-link': hasLink || hasLightbox }"
     :style="blockStyle"
     @contextmenu="onContextMenu"
-    @click="(e) => { if ((e.target as HTMLElement).closest('.blockui')) return; onBlockClick() }"
+    @mousedown="onLinkMouseDown"
+    @click="
+      e => {
+        if ((e.target as HTMLElement).closest('.blockui')) return
+        if (isLinkDrag(e)) return
+        onBlockClick()
+      }
+    "
   >
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <img
@@ -129,10 +129,17 @@ watch(lightboxOpen, (open) => {
       :style="imgStyle"
       class="image-block__img lb-trigger"
       loading="lazy"
-      @mousedown="onImgMouseDown"
+      @mousedown="onLinkMouseDown"
       @click.stop="openLightbox"
     />
-    <img v-else-if="currentUrl" :src="currentUrl" :alt="altText" :style="imgStyle" class="image-block__img" loading="lazy" />
+    <img
+      v-else-if="currentUrl"
+      :src="currentUrl"
+      :alt="altText"
+      :style="imgStyle"
+      class="image-block__img"
+      loading="lazy"
+    />
     <div v-else class="image-block__placeholder">
       <IconPhoto :size="24" :stroke-width="1" />
       <span v-if="placeholderSize" class="image-block__placeholder-size">{{ placeholderSize }}</span>
@@ -164,7 +171,7 @@ watch(lightboxOpen, (open) => {
   cursor: zoom-out;
 }
 
-:root[data-theme="dark"] .lb-overlay {
+:root[data-theme='dark'] .lb-overlay {
   background: rgba(0, 0, 0, 0.92);
 }
 

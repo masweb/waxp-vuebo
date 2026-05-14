@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { calcFluidFont, effectiveVpWidth } from '@/composables/useFontSize'
 
 const props = defineProps<{
@@ -13,6 +13,11 @@ const { blockRef, blockStyle, backgroundStyle, onContextMenu } = useBlockBase(
 )
 
 const router = useRouter()
+const route = useRoute()
+
+const isLinkActive = (item: MenuItem) => {
+  return item.link?.type === 'internal' && item.link.url === route.path
+}
 const st = siteStore()
 const vp = viewportStore()
 
@@ -118,6 +123,7 @@ const cssVars = computed(() => {
     '--menu-color': colors.value?.color,
     '--menu-hover': hover,
     '--menu-active': active,
+    '--menu-accent': accentColor.value,
     '--menu-submenu-bg': isDark.value ? '#2b2b2b' : '#ffffff'
   }
 })
@@ -153,6 +159,7 @@ const navigate = (item: MenuItem) => {
           <a
             v-if="item.link?.url"
             class="menu-block__link"
+            :class="{ 'menu-block__link--active': isLinkActive(item) }"
             :style="level1Style"
             :href="item.link.type === 'external' ? item.link.url : undefined"
             :target="item.link.type === 'external' ? '_blank' : undefined"
@@ -183,6 +190,7 @@ const navigate = (item: MenuItem) => {
         v-for="(child, cIdx) in item.children"
         :key="cIdx"
         class="menu-block__sublink"
+        :class="{ 'menu-block__sublink--active': isLinkActive(child) }"
         :style="subLevelStyle"
         @click.prevent="navigate(child)"
       >
@@ -236,6 +244,10 @@ const navigate = (item: MenuItem) => {
 .menu-block__link:active {
   color: var(--menu-active) !important;
 }
+
+.menu-block__link--active {
+  color: var(--menu-accent) !important;
+}
 </style>
 
 <style>
@@ -265,5 +277,9 @@ const navigate = (item: MenuItem) => {
 
 .menu-block__sublink:active {
   color: var(--menu-active) !important;
+}
+
+.menu-block__sublink--active {
+  color: var(--menu-accent) !important;
 }
 </style>

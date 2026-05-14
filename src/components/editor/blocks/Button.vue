@@ -9,7 +9,7 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
   () => props.section
 )
 
-const { onBlockClick } = useBlockLink(() => props.block)
+const { onBlockClick, onMouseDown, isDrag } = useBlockLink(() => props.block)
 const st = siteStore()
 
 const isDark = computed(() => !!st.site?.options.darkMode)
@@ -65,6 +65,7 @@ const borderStyle = computed(() => {
 
 const onClick = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.blockui')) return
+  if (isDrag(e)) return
   onBlockClick()
 }
 
@@ -81,7 +82,7 @@ const cssVars = computed(() => {
 </script>
 
 <template>
-  <div ref="blockRef" class="block button-block" :style="blockStyle" @contextmenu="onContextMenu">
+  <div ref="blockRef" class="block button-block" :style="blockStyle" @contextmenu="onContextMenu" @mousedown="onMouseDown">
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <div class="button-block__wrapper">
       <button
