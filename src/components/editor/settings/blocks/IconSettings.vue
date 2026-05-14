@@ -64,7 +64,8 @@ import {
   IconDeviceDesktopFilled,
   IconDeviceImacFilled,
   IconDeviceIpadFilled,
-  IconDeviceMobileFilled
+  IconDeviceMobileFilled,
+  IconBrandGithubFilled
 } from '@tabler/icons-vue'
 import type { Component } from 'vue'
 import ColorPicker from '../fields/ColorPicker.vue'
@@ -140,7 +141,8 @@ const iconList: { name: string; component: Component }[] = [
   { name: 'IconDeviceDesktopFilled', component: IconDeviceDesktopFilled },
   { name: 'IconDeviceImacFilled', component: IconDeviceImacFilled },
   { name: 'IconDeviceIpadFilled', component: IconDeviceIpadFilled },
-  { name: 'IconDeviceMobileFilled', component: IconDeviceMobileFilled }
+  { name: 'IconDeviceMobileFilled', component: IconDeviceMobileFilled },
+  { name: 'IconBrandGithubFilled', component: IconBrandGithubFilled }
 ]
 
 const ensureIcon = () => {
@@ -223,11 +225,7 @@ const resetFontSize = () => {
     <NumberRange v-model="strokeWidth" :min="0.5" :max="3" :step="0.25" />
   </div>
   <div class="mb-3">
-    <ColorPicker
-      :color="activeBlock?.color ?? ''"
-      :label="t('block.colorLight')"
-      @update:color="onColorLightUpdate"
-    />
+    <ColorPicker :color="activeBlock?.color ?? ''" :label="t('block.colorLight')" @update:color="onColorLightUpdate" />
   </div>
   <div class="mb-3">
     <ColorPicker
@@ -269,7 +267,9 @@ const resetFontSize = () => {
   padding: 0;
   border: 2px solid transparent;
   border-radius: 4px;
-  transition: border-color 0.15s, background-color 0.15s;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
 }
 
 .icon-grid__item:hover {

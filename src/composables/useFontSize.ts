@@ -12,7 +12,17 @@ export const useFontSize = (targetWidth: () => number | undefined, fullWidth?: (
     const fw = fullWidth?.() ?? false
     const vw = effectiveVpWidth(vp)
 
-    return calcFluidFont(opts.fontSize, opts.lineHeight, tw, vw, vp.mode, fw, opts.desktopTextZoom, opts.tabletTextZoom, opts.mobileTextZoom)
+    return calcFluidFont(
+      opts.fontSize,
+      opts.lineHeight,
+      tw,
+      vw,
+      vp.mode,
+      fw,
+      opts.desktopTextZoom,
+      opts.tabletTextZoom,
+      opts.mobileTextZoom
+    )
   })
 
   return { computedStyles }
@@ -36,7 +46,7 @@ export function calcFluidFont(
   if (viewportMode === 'desktop') {
     if (fullWidth) {
       const zoomFactor = 1.491 - 0.000965 * targetWidth
-      const pxResult = (fontSize + zoomFactor) * viewportWidth / 100
+      const pxResult = ((fontSize + zoomFactor) * viewportWidth) / 100
       return { fontSize: pxResult + 'px', lineHeight: pxResult * lineHeight + 'px' }
     }
     const fixedPx = fontSize * 16
@@ -46,20 +56,21 @@ export function calcFluidFont(
   }
 
   const zoomFactor = viewportMode === 'mobile' ? mobileTextZoom : tabletTextZoom
-  const pxResult = (fontSize + zoomFactor) * viewportWidth / 100
+  const pxResult = ((fontSize + zoomFactor) * viewportWidth) / 100
   return { fontSize: pxResult + 'px', lineHeight: pxResult * lineHeight + 'px' }
 }
 
 export function effectiveVpWidth(vp: ReturnType<typeof viewportStore>): number {
   const st = siteStore()
   const mode = vp.forcedMode ?? vp.mode
-  const margin = mode === 'mobile' ? (st.site?.options.mobileMargin ?? 10)
-    : mode === 'tablet' ? (st.site?.options.tabletMargin ?? 10)
-    : (st.site?.options.desktopMargin ?? 10)
+  const margin =
+    mode === 'mobile'
+      ? (st.site?.options.mobileMargin ?? 10)
+      : mode === 'tablet'
+        ? (st.site?.options.tabletMargin ?? 10)
+        : (st.site?.options.desktopMargin ?? 10)
 
-  const rawWidth = vp.forcedMode === 'tablet' ? 820
-    : vp.forcedMode === 'mobile' ? 480
-    : vp.width
+  const rawWidth = vp.forcedMode === 'tablet' ? 820 : vp.forcedMode === 'mobile' ? 480 : vp.width
 
   return rawWidth - margin * 2
 }

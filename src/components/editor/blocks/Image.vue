@@ -65,8 +65,16 @@ const placeholderSize = computed(() => {
 })
 
 let resizeObs: ResizeObserver | null = null
+let mouseDownPos = { x: 0, y: 0 }
 
-const openLightbox = () => {
+const onImgMouseDown = (e: MouseEvent) => {
+  mouseDownPos = { x: e.clientX, y: e.clientY }
+}
+
+const openLightbox = (e: MouseEvent) => {
+  const dx = Math.abs(e.clientX - mouseDownPos.x)
+  const dy = Math.abs(e.clientY - mouseDownPos.y)
+  if (dx > 4 || dy > 4) return
   lightboxOpen.value = true
 }
 
@@ -121,6 +129,7 @@ watch(lightboxOpen, (open) => {
       :style="imgStyle"
       class="image-block__img lb-trigger"
       loading="lazy"
+      @mousedown="onImgMouseDown"
       @click.stop="openLightbox"
     />
     <img v-else-if="currentUrl" :src="currentUrl" :alt="altText" :style="imgStyle" class="image-block__img" loading="lazy" />
