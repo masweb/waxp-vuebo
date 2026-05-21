@@ -171,9 +171,6 @@ declare global {
   export type { LocaleEntry, SiteRoute, Site, CreateSiteRequest, UpdateSiteRequest, PaginatedResponse, ListSitesParams } from './src/types/site'
   import('./src/types/site')
   // @ts-ignore
-  export type { ColumnAlign, ColumnSchema, FilterSchema, TableSchema, FilterSchemas } from './src/types/table'
-  import('./src/types/table')
-  // @ts-ignore
   export type { GoogleFont, ActiveVariant } from './src/db/fonts'
   import('./src/db/fonts')
 }
