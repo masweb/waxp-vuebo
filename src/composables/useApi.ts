@@ -1,17 +1,17 @@
 import { ofetch } from 'ofetch'
+import type { FetchOptions } from 'ofetch'
 import { siteStore } from '@/stores/siteStore'
 import type { ApiError } from '@/types/auth'
 
 const apiRoute = import.meta.env.VITE_END_POINT
 
-export const useApi = async (url: string, options?: any) => {
+export const useApi = async (url: string, options?: FetchOptions) => {
   const st = siteStore()
 
   const token = localStorage.getItem('auth_token')
 
   const headers: HeadersInit = {
     Accept: 'application/json',
-    responseType: 'json',
     'Cache-Control': 'no-cache',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options?.headers
@@ -38,7 +38,6 @@ export const useApi = async (url: string, options?: any) => {
       }
       throw networkError
     }
-    console.error('API Error:', error)
     throw error
   }
 }
