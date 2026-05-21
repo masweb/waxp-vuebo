@@ -23,13 +23,13 @@ const activeTab = ref('general')
 const updateColor = (key: string, value: string) => {
   if (!site.value?.options) return
   hs.snapshot()
-  ;(site.value.options as any)[key] = value
+  site.value.options[key] = value
 }
 
 const updateOption = (key: string, value: number) => {
   if (!site.value?.options) return
   hs.snapshot()
-  ;(site.value.options as any)[key] = value
+  site.value.options[key] = value
 }
 
 const globalFont = computed<Font>({

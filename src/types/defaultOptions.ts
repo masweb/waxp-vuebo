@@ -1,6 +1,7 @@
 import type { Section } from './layout'
 
 export interface siteOptions {
+  [key: string]: any
   darkColor: string
   lightColor: string
   darkBackColor: string
