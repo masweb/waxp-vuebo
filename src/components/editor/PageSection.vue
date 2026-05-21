@@ -162,7 +162,7 @@ const onContextMenu = (e: MouseEvent) => {
 
   items.push(
     {
-      label: 'Configurar',
+      label: t('contextMenu.configure'),
       icon: h(IconSettingsFilled, { size: 16 }),
       divided: 'up',
       onClick: () => sectionSettings()

@@ -245,7 +245,9 @@
     "block": "Block",
     "section": "Section",
     "copyBlock": "Copy block",
-    "pasteBlock": "Paste block"
+    "pasteBlock": "Paste block",
+    "configure": "Configure",
+    "delete": "Delete"
   },
   "newSection": {
     "add": "New section",

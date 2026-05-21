@@ -245,7 +245,9 @@
     "block": "Bloque",
     "section": "Sección",
     "copyBlock": "Copiar bloque",
-    "pasteBlock": "Pegar bloque"
+    "pasteBlock": "Pegar bloque",
+    "configure": "Configurar",
+    "delete": "Eliminar"
   },
   "newSection": {
     "add": "Nueva sección",

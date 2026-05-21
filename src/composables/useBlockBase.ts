@@ -54,7 +54,7 @@ export const useBlockBase = (block: () => Block, section: () => Section) => {
           attrs: { style: 'padding-top: 0; padding-bottom: 0; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6;' }
         },
         {
-          label: 'Configurar',
+          label: t('contextMenu.configure'),
           icon: h(IconSettingsFilled, { size: 20 }),
           divided: 'up',
           onClick: () => blockSettings()
@@ -65,7 +65,7 @@ export const useBlockBase = (block: () => Block, section: () => Section) => {
           onClick: () => copyBlock()
         },
         {
-          label: 'Eliminar',
+          label: t('contextMenu.delete'),
           icon: h(IconTrashFilled, { size: 20 }),
           onClick: () => deleteBlock()
         }
