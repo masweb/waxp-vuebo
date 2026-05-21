@@ -190,6 +190,8 @@ const alignClass = (align?: ColumnAlign) => {
   return `text-${align}`
 }
 
+defineExpose({ data, fetchData })
+
 onMounted(() => {
   fetchData()
 })

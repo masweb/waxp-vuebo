@@ -64,7 +64,8 @@
     "back": "Back to sites",
     "languages": "Language/s",
     "select_lang": "Please select your site language/s",
-    "default_lang": "Default language"
+    "default_lang": "Default language",
+    "live": "Live"
   },
   "validation": {
     "required": "This field is required",

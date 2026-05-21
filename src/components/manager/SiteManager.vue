@@ -5,10 +5,13 @@ import { siteOptions } from '@/types/defaultOptions'
 const { t } = useI18n()
 const { languages } = useReferenceData()
 const st = siteStore()
+const tableRef = ref<any>(null)
+const togglingId = ref<number | null>(null)
 
 const tableSchema: TableSchema = [
   { key: 'name', label: t('name') },
   { key: 'domain', label: t('domain') },
+  { key: 'is_live', label: t('sites.live'), align: 'center' },
   { key: 'locales', label: t('sites.languages'), align: 'center' }
 ]
 
@@ -68,6 +71,25 @@ const updateLocaleCode = (
 
 const sortLanguages = computed(() => [...languages.value].sort((a, b) => a.name.es.localeCompare(b.name.es)))
 
+const toggleLive = async (row: any) => {
+  if (row.is_live || togglingId.value !== null) return
+  togglingId.value = row.id
+  try {
+    await useApi(`/api/sites/${row.id}/live`, { method: 'PUT' })
+    const rows = tableRef.value?.data
+    if (rows) {
+      for (const r of rows) {
+        r.is_live = r.id === row.id
+      }
+    }
+  } catch (error: any) {
+    const apiError = error?.data as ApiError
+    if (apiError) errorsStore().addError(apiError)
+  } finally {
+    togglingId.value = null
+  }
+}
+
 const buildSiteQuery = (values: Record<string, any>) => {
   const defaultLoc = (values.locales || []).find((l: LocaleEntry) => l.is_default)
   return defaultLoc ? `?locale=${defaultLoc.code}` : ''
@@ -76,6 +98,7 @@ const buildSiteQuery = (values: Record<string, any>) => {
 
 <template>
   <TableModel
+    ref="tableRef"
     :schema="tableSchema"
     :create-edit-schema="createEditSchema"
     :filters="filters"
@@ -88,6 +111,19 @@ const buildSiteQuery = (values: Record<string, any>) => {
   >
     <template #item-name="{ row, value }">
       <div @click="st.openSite(row.id)" class="btn btn-link p-0 text-decoration-none">{{ value }}</div>
+    </template>
+
+    <template #item-is_live="{ row }">
+      <div class="form-check form-switch d-flex justify-content-center">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          :checked="row.is_live"
+          :disabled="togglingId !== null"
+          @change.prevent="toggleLive(row)"
+        />
+      </div>
     </template>
 
     <template #item-locales="{ row }">

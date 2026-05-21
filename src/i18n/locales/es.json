@@ -64,7 +64,8 @@
     "back": "Volver a sitios",
     "languages": "Idiomas",
     "select_lang": "Por favor, selecciona los idiomas disponibles para tu sitio",
-    "default_lang": "Idioma predeterminado"
+    "default_lang": "Idioma predeterminado",
+    "live": "En vivo"
   },
   "validation": {
     "required": "Este campo es obligatorio",
