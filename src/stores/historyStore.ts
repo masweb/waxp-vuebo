@@ -5,6 +5,50 @@ interface Snapshot {
   siteOptions: string | null
 }
 
+/**
+ * Deep-assign src into dst, preserving object references.
+ * This ensures Vue reactivity stays intact (no JSON.parse replacement).
+ * Arrays are spliced in-place so v-for keys resolve correctly.
+ */
+const patchInPlace = (dst: any[], src: any[]) => {
+  if (dst.length > src.length) dst.splice(src.length)
+  for (let i = 0; i < src.length; i++) {
+    if (i < dst.length) {
+      deepAssign(dst[i], src[i])
+    } else {
+      dst.push(src[i])
+    }
+  }
+}
+
+const deepAssign = (dst: any, src: any) => {
+  if (dst === null || src === null || typeof dst !== 'object' || typeof src !== 'object') return
+  if (Array.isArray(src)) {
+    if (Array.isArray(dst)) {
+      patchInPlace(dst, src)
+    }
+    return
+  }
+  for (const key of Object.keys(src)) {
+    const sv = src[key]
+    if (
+      sv !== null && typeof sv === 'object' && !Array.isArray(sv) &&
+      dst[key] !== null && typeof dst[key] === 'object' && !Array.isArray(dst[key])
+    ) {
+      deepAssign(dst[key], sv)
+    } else if (Array.isArray(sv) && Array.isArray(dst[key])) {
+      patchInPlace(dst[key], sv)
+    } else {
+      dst[key] = sv
+    }
+  }
+  for (const key of Object.keys(dst)) {
+    if (!(key in src)) {
+      delete dst[key]
+    }
+  }
+}
+
 export const historyStore = defineStore('history', () => {
   const ps = pageStore()
   const ss = siteStore()
@@ -31,9 +75,21 @@ export const historyStore = defineStore('history', () => {
 
   const restore = (snap: Snapshot) => {
     if (!ps.page) return
+
+    // Stop TipTap editing before restoring — prevents stale editor state
+    try { useTipTap().stopEditing() } catch {}
+
     ps.setActiveBlock(null)
-    ps.page.layout = JSON.parse(snap.layout)
-    if (snap.siteOptions && ss.site) ss.site.options = JSON.parse(snap.siteOptions)
+
+    const newLayout = JSON.parse(snap.layout)
+
+    // Patch layout in-place to preserve object references.
+    // Vue components keep their props bound to the same objects.
+    patchInPlace(ps.page.layout, newLayout)
+
+    if (snap.siteOptions && ss.site) {
+      deepAssign(ss.site.options, JSON.parse(snap.siteOptions))
+    }
   }
 
   const snapshot = () => {
