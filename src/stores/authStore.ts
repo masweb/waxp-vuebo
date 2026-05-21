@@ -49,8 +49,6 @@ export const useAuthStore = defineStore('auth', () => {
       body: { email, password }
     }).catch(error => error.data as ApiError)
 
-    console.log('-----------', resp)
-
     if (resp.token) {
       token.value = resp.token
       user.value = resp.user
@@ -71,7 +69,6 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('appNavigation')
     localStorage.removeItem('settingsNavigation')
     localStorage.removeItem('siteState')
-    console.log('Logout successful!')
     nav.main = 'login'
   }
 
