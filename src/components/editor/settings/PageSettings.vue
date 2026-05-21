@@ -7,6 +7,8 @@ import {
   IconHistory
 } from '@tabler/icons-vue'
 
+import type { LocaleEntry } from '@/types/site'
+
 const stt = settingsStore()
 const pg = pageStore()
 const st = siteStore()
@@ -22,14 +24,14 @@ const attemptedSubmit = ref(false)
 const fieldErrors = ref<Record<string, string>>({})
 
 const localeCodes = computed(() => {
-  const locs: any[] = st.site?.locales || []
-  return locs.map((l: any) => (typeof l === 'string' ? l : l.code))
+  const locs: LocaleEntry[] = st.site?.locales || []
+  return locs.map(l => l.code)
 })
 
 const defaultLocale = computed(() => {
-  const locs: any[] = st.site?.locales || []
-  const def = locs.find((l: any) => typeof l !== 'string' && l.is_default)
-  return def ? (def as any).code : locs[0] || ''
+  const locs: LocaleEntry[] = st.site?.locales || []
+  const def = locs.find(l => l.is_default)
+  return def ? def.code : locs[0]?.code || ''
 })
 
 watch(

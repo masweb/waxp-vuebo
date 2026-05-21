@@ -1,4 +1,5 @@
 import { loadSiteRoutes, clearRoutes } from '@/router'
+import type { LocaleEntry } from '@/types/site'
 
 const SITE_KEY = 'siteState'
 
@@ -11,9 +12,9 @@ const loadSiteState = () => {
   }
 }
 
-const findDefaultLocale = (locales: any[]): string => {
-  const def = locales.find(l => typeof l !== 'string' && l.is_default)
-  return def ? def.code : (typeof locales[0] === 'string' ? locales[0] : locales[0]?.code) || 'es'
+const findDefaultLocale = (locales: LocaleEntry[]): string => {
+  const def = locales.find(l => l.is_default)
+  return def ? def.code : locales[0]?.code || 'es'
 }
 
 export const siteStore = defineStore('site', () => {

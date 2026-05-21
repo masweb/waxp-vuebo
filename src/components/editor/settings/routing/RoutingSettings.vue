@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { IconPlus, IconAlertTriangle } from '@tabler/icons-vue'
+import type { LocaleEntry } from '@/types/site'
 
 const stt = settingsStore()
 const { showsettings } = storeToRefs(stt)
@@ -15,14 +16,14 @@ const confirmDelete = ref<Page | null>(null)
 const activeLocale = ref('')
 
 const localeCodes = computed(() => {
-  const locs: any[] = st.site?.locales || []
-  return locs.map(l => (typeof l === 'string' ? l : l.code))
+  const locs: LocaleEntry[] = st.site?.locales || []
+  return locs.map(l => l.code)
 })
 
 const defaultLocale = computed(() => {
-  const locs: any[] = st.site?.locales || []
-  const def = locs.find(l => typeof l !== 'string' && l.is_default)
-  return def ? (def as any).code : locs[0] || ''
+  const locs: LocaleEntry[] = st.site?.locales || []
+  const def = locs.find(l => l.is_default)
+  return def ? def.code : locs[0]?.code || ''
 })
 
 watch(defaultLocale, (val) => {

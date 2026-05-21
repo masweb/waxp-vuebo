@@ -29,7 +29,7 @@ const translatePageAction = async () => {
       method: 'POST',
       body: {
         reference_locale: pg.currentLocale,
-        languages: site.value.locales.map((l: any) => ({
+        languages: site.value.locales.map(l => ({
           code: l.code,
           is_default: l.is_default ?? false
         }))

@@ -1,5 +1,10 @@
 import type { siteOptions } from './defaultOptions'
 
+export interface LocaleEntry {
+  code: string
+  is_default: boolean
+}
+
 export interface SiteRoute {
   path: string
   page_id: number
@@ -9,7 +14,7 @@ export interface Site {
   id: number
   name: string
   domain: string
-  locales: string[]
+  locales: LocaleEntry[]
   options: siteOptions
   routes?: Record<string, SiteRoute[]>
 }

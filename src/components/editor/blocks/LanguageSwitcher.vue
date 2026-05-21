@@ -38,8 +38,8 @@ const showModal = ref(false)
 const pendingLocale = ref('')
 
 const locales = computed(() => {
-  const locs: any[] = st.site?.locales || []
-  return locs.map(l => typeof l === 'string' ? l : l.code)
+  const locs = st.site?.locales || []
+  return locs.map(l => l.code)
 })
 
 const sisterRouteForLocale = (loc: string) => {
