@@ -1,5 +1,5 @@
 {
-  "name": "vuestart",
+  "name": "waxp",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vp preview"
   },
   "dependencies": {
-    "@coreui/coreui": "^5.6.1",
+    "@coreui/coreui": "^5.7.1",
     "@coreui/vue": "^5.8.0",
     "@imengyu/vue3-context-menu": "^1.5.4",
     "@tabler/icons-vue": "^3.44.0",
@@ -50,11 +50,11 @@
     "pinia": "^3.0.4",
     "vee-validate": "^4.15.1",
     "vue": "^3.5.34",
-    "vue-i18n": "^11.4.2",
+    "vue-i18n": "^11.4.4",
     "vue-router": "^5.0.7"
   },
   "devDependencies": {
-    "@intlify/unplugin-vue-i18n": "^11.2.0",
+    "@intlify/unplugin-vue-i18n": "^11.2.3",
     "@types/node": "^24.12.4",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
@@ -65,7 +65,7 @@
     "unplugin-vue-components": "^31.1.0",
     "vite": "npm:@voidzero-dev/vite-plus-core@^0.1.21",
     "vite-plus": "latest",
-    "vue-tsc": "^3.2.9"
+    "vue-tsc": "^3.3.0"
   },
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
