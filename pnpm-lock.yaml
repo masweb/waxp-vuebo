@@ -18,6 +18,9 @@ importers:
       '@coreui/vue':
         specifier: ^5.8.0
         version: 5.8.0(vue@3.5.34(typescript@6.0.3))
+      '@easylogic/colorpicker':
+        specifier: ^1.10.11
+        version: 1.10.11
       '@imengyu/vue3-context-menu':
         specifier: ^1.5.4
         version: 1.5.4
@@ -237,6 +240,9 @@ packages:
     resolution: {integrity: sha512-5ngRE65UNIWpZm1UoZ4uB/1Rfx71WEhygDLb/gihaAfh3UixQEdwfMz74OsR7sTucwrB77v7uXFGZ5ZFKzWKfg==}
     peerDependencies:
       vue: ^3.5.0
+
+  '@easylogic/colorpicker@1.10.11':
+    resolution: {integrity: sha512-CHN/WTk0d1LH7Jzep7fjPkUe73XjZ6zQCFH/rhpHf1e06TDJQ0D9lRfJgtBjLsEZqKfAIP6C8q9MEt9cxh3Y/A==}
 
   '@esbuild/aix-ppc64@0.25.12':
     resolution: {integrity: sha512-Hhmwd6CInZ3dwpuGTF8fJG6yoWmsToE+vYgD4nytZVxcu1ulHpUQRAB1UJ8+N1Am3Mz4+xOByoQoSZf4D+CpkA==}
@@ -2685,6 +2691,8 @@ snapshots:
       '@coreui/coreui': 5.7.1(@popperjs/core@2.11.8)
       '@popperjs/core': 2.11.8
       vue: 3.5.34(typescript@6.0.3)
+
+  '@easylogic/colorpicker@1.10.11': {}
 
   '@esbuild/aix-ppc64@0.25.12':
     optional: true

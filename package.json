@@ -11,6 +11,7 @@
   "dependencies": {
     "@coreui/coreui": "^5.7.1",
     "@coreui/vue": "^5.8.0",
+    "@easylogic/colorpicker": "^1.10.11",
     "@imengyu/vue3-context-menu": "^1.5.4",
     "@tabler/icons-vue": "^3.44.0",
     "@tiptap/extension-bold": "^3.23.4",

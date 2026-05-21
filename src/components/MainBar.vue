@@ -14,8 +14,34 @@ import {
   IconArrowBackUp,
   IconArrowForward,
   IconWorldFilled,
-  IconBorderAll
+  IconBorderAll,
+  IconWorldLongitude
 } from '@tabler/icons-vue'
+
+const isTranslating = ref(false)
+
+const translatePageAction = async () => {
+  if (!site.value || !pg.page || !auth.token || isTranslating.value) return
+
+  isTranslating.value = true
+  try {
+    const data = await useApi(`/api/sites/${site.value.id}/pages/${pg.page.id}/translate`, {
+      method: 'POST',
+      body: {
+        reference_locale: pg.currentLocale,
+        languages: site.value.locales.map((l: any) => ({
+          code: l.code,
+          is_default: l.is_default ?? false
+        }))
+      }
+    })
+    if (!data.success) console.error('Translation failed')
+  } catch (error) {
+    console.error('Translation error:', error)
+  } finally {
+    isTranslating.value = false
+  }
+}
 
 const auth = useAuthStore()
 const nav = navigationStore()
@@ -91,10 +117,12 @@ onUnmounted(() => {
         <button @click="stt.setSetting('PageSettings')" class="btn btn-sm btn-link">
           <IconFileFilled :size="24" />
         </button>
-        <button @click="toggleSiteDarkMode" class="btn btn-sm btn-link">
-          <IconSunHighFilled v-if="site.options.darkMode" :size="24" />
-          <IconMoonFilled v-else :size="24" />
-        </button>
+        <div class="border-start">
+          <button @click="toggleSiteDarkMode" class="btn btn-sm btn-link">
+            <IconSunHighFilled v-if="site.options.darkMode" :size="24" />
+            <IconMoonFilled v-else :size="24" />
+          </button>
+        </div>
 
         <button @click="toggleGridVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showGrids }">
           <IconLayoutGridFilled :size="24" />
@@ -102,6 +130,7 @@ onUnmounted(() => {
         <button @click="toggleBlockVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showBlocks }">
           <IconBorderAll :size="24" />
         </button>
+
         <div class="d-flex align-items-center ms-1 border-start ps-1">
           <button
             v-for="vm in viewportModes"
@@ -130,9 +159,29 @@ onUnmounted(() => {
           <IconDeviceFloppyFilled :size="24" stroke-width="2.2" />
         </button>
       </template>
+      <div v-if="site?.locales?.length > 1" class="border-start">
+        <button
+          @click="translatePageAction"
+          class="btn btn-sm btn-link pe-3"
+          :disabled="isTranslating"
+          :title="isTranslating ? 'Traduciendo página...' : 'Traducir página'"
+        >
+          <IconWorldLongitude :size="24" :class="{ 'spin-anim': isTranslating }" />
+        </button>
+      </div>
       <button @click="auth.logout()" class="btn btn-sm btn-link pe-3">
         <IconPower :size="24" stroke-width="2.2" />
       </button>
     </div>
   </div>
 </template>
+
+<style scoped>
+.spin-anim {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style>

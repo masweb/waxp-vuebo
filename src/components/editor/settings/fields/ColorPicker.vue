@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ColorPicker from '@/deps/colorpicker/colorpicker.min.js'
-import '@/deps/colorpicker/colorpicker.min.css'
+import ColorPicker from '@easylogic/colorpicker'
+import '@easylogic/colorpicker/dist/colorpicker.css'
 
 const props = withDefaults(
   defineProps<{
