@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { EditorContent } from '@tiptap/vue-3'
+import DOMPurify from 'dompurify'
 
 const props = defineProps<{
   block: Block
@@ -17,7 +18,7 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
 
 const isBlockActive = computed(() => isActive(props.block.id))
 
-const localizedContent = computed(() => props.block.locales?.text || '')
+const sanitizedContent = computed(() => DOMPurify.sanitize(props.block.locales?.text || ''))
 
 const onBlockDblClick = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.blockui')) return
@@ -47,7 +48,7 @@ const onReadonlyClick = (e: MouseEvent) => {
     <div v-if="backgroundStyle.overlay" class="block-bg-overlay" :style="backgroundStyle.overlay" />
     <div class="block-text-color" :style="textStyle">
       <EditorContent v-if="editing && isBlockActive" :editor="editor" />
-      <div v-else class="tiptap tiptap-readonly" v-html="localizedContent" @click="onReadonlyClick" />
+      <div v-else class="tiptap tiptap-readonly" v-html="sanitizedContent" @click="onReadonlyClick" />
     </div>
 
     <div class="blockui resize"></div>
