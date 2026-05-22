@@ -25,7 +25,7 @@ const translatePageAction = async () => {
 
   isTranslating.value = true
   try {
-    const data = await useApi(`/api/sites/${site.value.id}/pages/${pg.page.id}/translate`, {
+    await useApi(`/api/sites/${site.value.id}/pages/${pg.page.id}/translate`, {
       method: 'POST',
       body: {
         reference_locale: pg.currentLocale,
@@ -35,9 +35,7 @@ const translatePageAction = async () => {
         }))
       }
     })
-    if (!data.success) console.error('Translation failed')
-  } catch (error) {
-    console.error('Translation error:', error)
+  } catch {
   } finally {
     isTranslating.value = false
   }
@@ -59,7 +57,7 @@ const vp = viewportStore()
 const toggleGridVisibility = () => (vp.showGrids = !vp.showGrids)
 const toggleBlockVisibility = () => (vp.showBlocks = !vp.showBlocks)
 
-const viewportModes: { mode: ViewportMode; icon: any }[] = [
+const viewportModes: { mode: ViewportMode; icon: Component }[] = [
   { mode: 'mobile', icon: IconDeviceMobileFilled },
   { mode: 'tablet', icon: IconDeviceTabletFilled }
 ]
@@ -101,33 +99,33 @@ onUnmounted(() => {
 <template>
   <div v-if="auth.isAuthenticated" class="main-bar d-flex">
     <div class="d-flex align-items-center">
-      <button @click="backToDashboard()" class="btn btn-sm btn-link">
+      <button @click="backToDashboard()" class="btn btn-sm btn-link" aria-label="Dashboard">
         <IconLayoutDashboardFilled :size="24" />
       </button>
-      <button v-if="!site?.options" @click="nav.main = 'settings'" class="btn btn-sm btn-link">
+      <button v-if="!site?.options" @click="nav.main = 'settings'" class="btn btn-sm btn-link" aria-label="Settings">
         <IconSettingsFilled :size="24" />
       </button>
       <template v-if="site?.options">
-        <button @click="stt.setSetting('SiteSettings')" class="btn btn-sm btn-link">
+        <button @click="stt.setSetting('SiteSettings')" class="btn btn-sm btn-link" aria-label="Site settings">
           <IconWorldFilled :size="24" />
         </button>
-        <button @click="stt.setSetting('RoutingSettings')" class="btn btn-sm btn-link">
+        <button @click="stt.setSetting('RoutingSettings')" class="btn btn-sm btn-link" aria-label="Routing settings">
           <IconSitemapFilled :size="24" />
         </button>
-        <button @click="stt.setSetting('PageSettings')" class="btn btn-sm btn-link">
+        <button @click="stt.setSetting('PageSettings')" class="btn btn-sm btn-link" aria-label="Page settings">
           <IconFileFilled :size="24" />
         </button>
         <div class="border-start">
-          <button @click="toggleSiteDarkMode" class="btn btn-sm btn-link">
+          <button @click="toggleSiteDarkMode" class="btn btn-sm btn-link" aria-label="Toggle dark mode">
             <IconSunHighFilled v-if="site.options.darkMode" :size="24" />
             <IconMoonFilled v-else :size="24" />
           </button>
         </div>
 
-        <button @click="toggleGridVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showGrids }">
+        <button @click="toggleGridVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showGrids }" aria-label="Toggle grid">
           <IconLayoutGridFilled :size="24" />
         </button>
-        <button @click="toggleBlockVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showBlocks }">
+        <button @click="toggleBlockVisibility" class="btn btn-sm btn-link" :class="{ active: vp.showBlocks }" aria-label="Toggle block outlines">
           <IconBorderAll :size="24" />
         </button>
 
@@ -139,7 +137,7 @@ onUnmounted(() => {
             class="btn btn-sm btn-link"
             :class="{ active: vp.forcedMode === vm.mode }"
           >
-            <component :is="vm.icon" :size="20" />
+            <component :is="vm.icon" :size="20" :aria-label="vm.mode === 'mobile' ? 'Mobile viewport' : 'Tablet viewport'" />
           </button>
         </div>
       </template>
@@ -149,13 +147,13 @@ onUnmounted(() => {
 
     <div class="d-flex align-items-center">
       <template v-if="site?.options">
-        <button class="btn btn-sm btn-link pe-3" :disabled="!canUndo" @click="hs.undo()">
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canUndo" @click="hs.undo()" aria-label="Undo">
           <IconArrowBackUp :size="24" stroke-width="2.2" />
         </button>
-        <button class="btn btn-sm btn-link pe-3" :disabled="!canRedo" @click="hs.redo()">
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canRedo" @click="hs.redo()" aria-label="Redo">
           <IconArrowForward :size="24" stroke-width="2.2" />
         </button>
-        <button @click="updateAll()" class="btn btn-sm btn-link pe-3" :disabled="!canUndo">
+        <button @click="updateAll()" class="btn btn-sm btn-link pe-3" :disabled="!canUndo" aria-label="Save">
           <IconDeviceFloppyFilled :size="24" stroke-width="2.2" />
         </button>
       </template>
@@ -165,11 +163,12 @@ onUnmounted(() => {
           class="btn btn-sm btn-link pe-3"
           :disabled="isTranslating"
           :title="isTranslating ? 'Traduciendo página...' : 'Traducir página'"
+          aria-label="Translate page"
         >
           <IconWorldLongitude :size="24" :class="{ 'spin-anim': isTranslating }" />
         </button>
       </div>
-      <button @click="auth.logout()" class="btn btn-sm btn-link pe-3">
+      <button @click="auth.logout()" class="btn btn-sm btn-link pe-3" aria-label="Logout">
         <IconPower :size="24" stroke-width="2.2" />
       </button>
     </div>

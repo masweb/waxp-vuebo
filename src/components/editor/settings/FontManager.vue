@@ -242,11 +242,13 @@ const weightsForFont = (family: string): number[] => {
     <div v-if="isAdding" class="fm-add-form border rounded p-2 mb-2">
       <div v-if="!selectedFamily" class="fm-add-search">
         <input
+          id="font-search"
           class="form-control form-control-sm mb-2"
           type="text"
           :value="searchQuery"
           :placeholder="t('fonts.search')"
           autocomplete="off"
+          aria-label="Search fonts"
           @input="onSearchInput"
         />
         <div class="fm-add-results" style="max-height: 180px; overflow-y: auto">
@@ -324,7 +326,7 @@ const weightsForFont = (family: string): number[] => {
             <button class="btn btn-sm btn-outline-secondary" @click="startEdit(font)">
               {{ t('fonts.weights') }}
             </button>
-            <button class="btn btn-sm btn-danger" @click="removeFont(font.family)">
+            <button class="btn btn-sm btn-danger" @click="removeFont(font.family)" aria-label="Delete font">
               <IconTrashFilled :size="16" />
             </button>
           </div>

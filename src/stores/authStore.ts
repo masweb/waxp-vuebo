@@ -25,9 +25,8 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = storedToken
       try {
         user.value = storedUser ? JSON.parse(storedUser) : null
-      } catch (e) {
-        console.error('Failed to parse user data from localStorage:', e)
-        user.value = null // Clear potentially corrupted user data
+      } catch {
+        user.value = null
         logout() // Also clear token if user data is corrupt
       }
     } else {

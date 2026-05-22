@@ -31,10 +31,13 @@ export const useApi = async (url: string, options?: FetchOptions) => {
       ...opts
     })
     return res
-  } catch (error: any) {
-    if (!error.response) {
+  } catch (error: unknown) {
+    if (
+      typeof error === 'object' && error !== null &&
+      !('response' in error)
+    ) {
       const networkError: { data: ApiError } = {
-        data: { error: 'Servidor no disponible', code: 503 }
+        data: { error: 'Server unavailable', code: 503 }
       }
       throw networkError
     }

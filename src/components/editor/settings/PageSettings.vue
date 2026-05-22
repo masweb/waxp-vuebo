@@ -145,8 +145,9 @@ const handleSave = async () => {
       hs.clear(resp.id)
       await st.reloadRoutes()
     }
-  } catch (e: any) {
-    err.addError(e?.data || { error: 'Error saving page', code: 500 })
+  } catch (e: unknown) {
+    const data = typeof e === 'object' && e !== null && 'data' in e ? (e as { data: ApiError }).data : null
+    err.addError(data || { error: 'Error saving page', code: 500 })
   } finally {
     saving.value = false
   }
@@ -205,8 +206,9 @@ const restoreRevision = async (revisionId: number) => {
       hs.clear(resp.id)
       await fetchRevisions()
     }
-  } catch (e: any) {
-    err.addError(e?.data || { error: 'Error restoring revision', code: 500 })
+  } catch (e: unknown) {
+    const data = typeof e === 'object' && e !== null && 'data' in e ? (e as { data: ApiError }).data : null
+    err.addError(data || { error: 'Error restoring revision', code: 500 })
   } finally {
     restoringId.value = null
   }

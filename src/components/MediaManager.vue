@@ -65,9 +65,11 @@ const uploadFiles = async (files: FileList | File[]) => {
       })
       allItems.value.unshift(media)
       currentPage.value = 1
-    } catch (error: any) {
-      const apiError = error?.data as ApiError
-      if (apiError) errorsStore().addError(apiError)
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null && 'data' in error) {
+        const apiError = (error as { data: ApiError }).data
+        errorsStore().addError(apiError)
+      }
     }
   }
   uploading.value = false

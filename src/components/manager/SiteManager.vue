@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { IconPlus, IconTrash, IconEditFilled, IconTrashFilled, IconArrowBigRightFilled, IconArrowBigLeftFilled } from '@tabler/icons-vue'
 import { siteOptions } from '@/types/defaultOptions'
+import type { Site } from '@/types/site'
+
+interface SiteRow extends Site {
+  is_live: boolean
+  created_at: string
+  updated_at: string
+}
 
 const { t } = useI18n()
 const { languages } = useReferenceData()
@@ -8,7 +15,7 @@ const st = siteStore()
 
 const LIMIT = 10
 
-const data = ref<any[]>([])
+const data = ref<SiteRow[]>([])
 const loading = ref(false)
 const nextCursor = ref<number | null>(null)
 const hasMore = ref(false)
@@ -16,11 +23,11 @@ const total = ref(0)
 const isFirstPage = ref(true)
 const currentPage = ref(1)
 const showCreateModal = ref(false)
-const editTarget = ref<any>(null)
+const editTarget = ref<SiteRow | null>(null)
 const firstInput = ref<HTMLInputElement[]>([])
 const formLoading = ref(false)
 const deletingIds = ref<Set<number>>(new Set())
-const deleteTarget = ref<any>(null)
+const deleteTarget = ref<SiteRow | null>(null)
 const filterValues = ref<Record<string, string>>({ name: '', domain: '' })
 const togglingId = ref<number | null>(null)
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
@@ -122,7 +129,7 @@ const openCreateModal = () => {
   setTimeout(() => firstInput.value[0]?.focus())
 }
 
-const openEditModal = (row: any) => {
+const openEditModal = (row: SiteRow) => {
   const initials = { ...row }
   if (initials.name == null) initials.name = ''
   if (initials.domain == null) initials.domain = ''
@@ -140,7 +147,7 @@ const closeModal = () => {
   editTarget.value = null
 }
 
-const buildSiteQuery = (vals: Record<string, any>) => {
+const buildSiteQuery = (vals: Record<string, string>) => {
   const defaultLoc = (vals.locales || []).find((l: LocaleEntry) => l.is_default)
   return defaultLoc ? `?locale=${defaultLoc.code}` : ''
 }
@@ -157,15 +164,17 @@ const submitForm = async () => {
     }
     closeModal()
     await fetchData()
-  } catch (error: any) {
-    const apiError = error?.data as ApiError
-    if (apiError) errorsStore().addError(apiError)
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'data' in error) {
+      const apiError = (error as { data: ApiError }).data
+      errorsStore().addError(apiError)
+    }
   } finally {
     formLoading.value = false
   }
 }
 
-const confirmDelete = (row: any) => {
+const confirmDelete = (row: SiteRow) => {
   deleteTarget.value = row
 }
 
@@ -185,7 +194,7 @@ const deleteItem = async () => {
   }
 }
 
-const toggleLive = async (row: any) => {
+const toggleLive = async (row: SiteRow) => {
   if (row.is_live || togglingId.value !== null) return
   togglingId.value = row.id
   try {
@@ -193,9 +202,11 @@ const toggleLive = async (row: any) => {
     for (const r of data.value) {
       r.is_live = r.id === row.id
     }
-  } catch (error: any) {
-    const apiError = error?.data as ApiError
-    if (apiError) errorsStore().addError(apiError)
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'data' in error) {
+      const apiError = (error as { data: ApiError }).data
+      errorsStore().addError(apiError)
+    }
   } finally {
     togglingId.value = null
   }
@@ -266,6 +277,7 @@ onMounted(() => {
                   :value="filterValues.name"
                   class="form-control form-control-sm"
                   :placeholder="t('common.filter') + '...'"
+                  :aria-label="t('name')"
                   @input="onFilterInput('name', ($event.target as HTMLInputElement).value)"
                 />
               </th>
@@ -274,6 +286,7 @@ onMounted(() => {
                   :value="filterValues.domain"
                   class="form-control form-control-sm"
                   :placeholder="t('common.filter') + '...'"
+                  :aria-label="t('domain')"
                   @input="onFilterInput('domain', ($event.target as HTMLInputElement).value)"
                 />
               </th>
@@ -302,6 +315,7 @@ onMounted(() => {
                     role="switch"
                     :checked="row.is_live"
                     :disabled="togglingId !== null"
+                    :aria-label="t('sites.live')"
                     @change.prevent="toggleLive(row)"
                   />
                 </div>
@@ -316,13 +330,14 @@ onMounted(() => {
               </td>
               <td class="text-end">
                 <div class="d-flex gap-1 justify-content-end">
-                  <button class="btn btn-sm btn-link p-0" @click="openEditModal(row)">
+                  <button class="btn btn-sm btn-link p-0" @click="openEditModal(row)" aria-label="Edit">
                     <IconEditFilled :size="22" stroke-width="1.2" />
                   </button>
                   <button
                     class="btn btn-sm btn-link p-0"
                     :disabled="deletingIds.has(row.id)"
                     @click="confirmDelete(row)"
+                    aria-label="Delete"
                   >
                     <IconTrashFilled :size="22" stroke-width="1.2" />
                   </button>
@@ -343,13 +358,14 @@ onMounted(() => {
             {{ t('common.pageOf', { page: currentPage, total: totalPages }) }} · {{ total }} {{ t('common.results') }}
           </small>
           <div class="btn-group btn-group-sm">
-            <button class="btn btn-outline-secondary" :disabled="isFirstPage" @click="prevPage">
+            <button class="btn btn-outline-secondary" :disabled="isFirstPage" @click="prevPage" aria-label="Previous page">
               <IconArrowBigLeftFilled />
             </button>
             <button
               class="btn btn-outline-secondary"
               :disabled="!hasMore || currentPage >= totalPages"
               @click="nextPage"
+              aria-label="Next page"
             >
               <IconArrowBigRightFilled />
             </button>
@@ -364,15 +380,16 @@ onMounted(() => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">{{ editTarget ? t('common.edit') : t('common.add') }} {{ t('sites.sites') }}</h5>
-            <button type="button" class="btn-close" @click="closeModal" />
+            <button type="button" class="btn-close" @click="closeModal" aria-label="Close" />
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label class="form-label">
+              <label class="form-label" for="site-name">
                 {{ t('name') }}
                 <span class="text-danger">*</span>
               </label>
               <input
+                id="site-name"
                 ref="firstInput"
                 :value="values.name"
                 class="form-control"
@@ -383,11 +400,12 @@ onMounted(() => {
               <div v-if="errors.name" class="invalid-feedback">{{ errors.name }}</div>
             </div>
             <div class="mb-3">
-              <label class="form-label">
+              <label class="form-label" for="site-domain">
                 {{ t('domain') }}
                 <span class="text-danger">*</span>
               </label>
               <input
+                id="site-domain"
                 :value="values.domain"
                 class="form-control"
                 :class="{ 'is-invalid': errors.domain }"
@@ -428,7 +446,7 @@ onMounted(() => {
                     {{ lang.name.es }}
                   </option>
                 </select>
-                <button class="btn btn-sm btn-link text-danger p-0" @click="removeLocale(index)">
+                <button class="btn btn-sm btn-link text-danger p-0" @click="removeLocale(index)" aria-label="Remove locale">
                   <IconTrash :size="16" stroke-width="1.2" />
                 </button>
               </div>
@@ -455,7 +473,7 @@ onMounted(() => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">{{ t('common.deleteTitle') }}</h5>
-            <button type="button" class="btn-close" @click="deleteTarget = null" />
+            <button type="button" class="btn-close" @click="deleteTarget = null" aria-label="Close" />
           </div>
           <div class="modal-body">
             <p class="mb-0">{{ t('common.deleteConfirm', { name: deleteTarget.name ?? `#${deleteTarget.id}` }) }}</p>
