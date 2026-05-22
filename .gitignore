@@ -38,3 +38,8 @@ __screenshots__/
 *storybook.log
 storybook-static
 .env
+
+# Auto-generated
+auto-imports.d.ts
+components.d.ts
+json.json
