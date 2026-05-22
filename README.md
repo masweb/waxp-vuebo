@@ -34,6 +34,25 @@ pnpm dev
 | `pnpm dev` | Servidor de desarrollo |
 | `pnpm build` | Build de producción |
 | `pnpm preview` | Preview del build |
+| `pnpm test` | Ejecutar tests unitarios (Vitest) |
+
+## Tests
+
+Tests unitarios con **Vitest** + **@vue/test-utils** + **happy-dom**.
+
+```bash
+pnpm test              # Run all tests
+pnpm test -- --watch   # Watch mode
+```
+
+**Coverage**: 20 suites, 150 tests.
+
+| Directorio | Contenido | Tests |
+|---|---|---|
+| `tests/stores/` | Pinia stores (auth, page, editor, errors, navigation…) | 49 tests |
+| `tests/components/` | Vue components (Button, Icon, Image, LoginView, ColorPicker…) | 101 tests |
+
+Tests están separados del código fuente (`tests/`) siguiendo la convención del proyecto.
 
 ## Estructura
 
@@ -48,6 +67,9 @@ src/
 ├── i18n/                # Traducciones ES/EN
 ├── types/               # TypeScript types
 └── views/               # Vistas principales
+tests/
+├── stores/              # Store unit tests
+└── components/          # Component unit tests
 ```
 
 ## Licencia
