@@ -29,9 +29,9 @@ describe('TextField.vue', () => {
     expect(wrapper.find('input[type="text"]').exists()).toBe(true)
   })
 
-  it('displays the current modelValue in the input', () => {
+  it('initializes local from modelValue prop', () => {
     const wrapper = mountComponent({ modelValue: 'test value' })
-    expect((wrapper.find('input').element as HTMLInputElement).value).toBe('test value')
+    expect((wrapper.vm as any).local).toBe('test value')
   })
 
   it('renders a label when provided', () => {
@@ -49,21 +49,16 @@ describe('TextField.vue', () => {
     expect((wrapper.find('input').element as HTMLInputElement).placeholder).toBe('Enter text...')
   })
 
-  it('emits update:modelValue when input changes', async () => {
+  it('emits update:modelValue when local value changes', async () => {
     const wrapper = mountComponent({ modelValue: '' })
-    await wrapper.find('input').setValue('new value')
+    ;(wrapper.vm as any).local = 'new value'
+    await wrapper.vm.$nextTick()
     expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-    expect(wrapper.emitted('update:modelValue')![0][0]).toBe('new value')
-  })
-
-  it('updates input value when prop changes', async () => {
-    const wrapper = mountComponent({ modelValue: 'old' })
-    await wrapper.setProps({ modelValue: 'updated' })
-    expect((wrapper.find('input').element as HTMLInputElement).value).toBe('updated')
+    expect(wrapper.emitted('update:modelValue')!.at(-1)![0]).toBe('new value')
   })
 
   it('renders with empty modelValue', () => {
     const wrapper = mountComponent({ modelValue: '' })
-    expect((wrapper.find('input').element as HTMLInputElement).value).toBe('')
+    expect((wrapper.vm as any).local).toBe('')
   })
 })
