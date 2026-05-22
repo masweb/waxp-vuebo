@@ -12,7 +12,7 @@ export const useNewBlock = (sectionEl: Ref<HTMLElement | undefined>, section: ()
   let startCoords: { x: number; y: number } | null = null
   let sectionRect: DOMRect | null = null
   let interactable: ReturnType<typeof interact> | null = null
-  let lastArgs: any = null
+  let lastArgs: { endX: number; endY: number; config: BreakpointSize; el: HTMLElement; id: number } | null = null
   let throttleTimer: number | null = null
   let cancelled = false
 

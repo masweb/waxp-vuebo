@@ -10,7 +10,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: Sides): void
 }>()
 
-const sides: { key: keyof Sides; icon: any; placeholder: string }[] = [
+const sides: { key: keyof Sides; icon: Component; placeholder: string }[] = [
   { key: 't', icon: IconArrowBarUp, placeholder: '0' },
   { key: 'r', icon: IconArrowBarRight, placeholder: '0' },
   { key: 'b', icon: IconArrowBarDown, placeholder: '0' },

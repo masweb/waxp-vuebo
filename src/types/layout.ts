@@ -76,7 +76,7 @@ export interface BlockStyle {
   background: Background
   border: Border
   padding: Sides
-  margin: Sides
+  margin?: Sides
 }
 
 export interface Background {
@@ -86,9 +86,9 @@ export interface Background {
   url_desk: string
   url_tab: string
   url_mob: string
-  url_desk_dark: string
-  url_tab_dark: string
-  url_mob_dark: string
+  url_desk_dark?: string
+  url_tab_dark?: string
+  url_mob_dark?: string
   opacity: string
   fix_img_back: boolean
   pos: 'cover' | 'contain' | 'top' | 'bottom' | 'left' | 'right'
@@ -194,9 +194,9 @@ export interface BlockImage {
   url_desk: string
   url_tab: string
   url_mob: string
-  url_desk_dark: string
-  url_tab_dark: string
-  url_mob_dark: string
+  url_desk_dark?: string
+  url_tab_dark?: string
+  url_mob_dark?: string
   fit: BlockImageFit
   lightbox?: boolean
 }

@@ -1,7 +1,6 @@
 import type { Section } from './layout'
 
 export interface siteOptions {
-  [key: string]: any
   darkColor: string
   lightColor: string
   darkBackColor: string
@@ -25,6 +24,7 @@ export interface siteOptions {
   headers: HeadersConfig
   header: Section
   footer: Section
+  [key: string]: string | number | boolean | null | Fonts[] | Font | HeadersConfig | Section
 }
 
 export interface HeaderStyle {

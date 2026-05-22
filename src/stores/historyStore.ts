@@ -10,6 +10,7 @@ interface Snapshot {
  * This ensures Vue reactivity stays intact (no JSON.parse replacement).
  * Arrays are spliced in-place so v-for keys resolve correctly.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const patchInPlace = (dst: any[], src: any[]) => {
   if (dst.length > src.length) dst.splice(src.length)
   for (let i = 0; i < src.length; i++) {
@@ -21,6 +22,7 @@ const patchInPlace = (dst: any[], src: any[]) => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deepAssign = (dst: any, src: any) => {
   if (dst === null || src === null || typeof dst !== 'object' || typeof src !== 'object') return
   if (Array.isArray(src)) {

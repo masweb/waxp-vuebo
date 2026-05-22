@@ -55,13 +55,13 @@ const onMarginUpdate = (sides: Sides) => {
   activeBlock.value.style.margin = sides
 }
 
-const modes: { key: ViewportMode; label: string; icon: any }[] = [
+const modes: { key: ViewportMode; label: string; icon: Component }[] = [
   { key: 'desktop', label: t('viewport.desktop'), icon: IconDeviceDesktop },
   { key: 'tablet', label: t('viewport.tablet'), icon: IconDeviceTablet },
   { key: 'mobile', label: t('viewport.mobile'), icon: IconDeviceMobile }
 ]
 
-const coordsKeys: { key: keyof BlockCoords; icon: any; min: number }[] = [
+const coordsKeys: { key: keyof BlockCoords; icon: Component; min: number }[] = [
   { key: 'x', icon: IconArrowsHorizontal, min: 1 },
   { key: 'y', icon: IconArrowsVertical, min: 1 },
   { key: 'w', icon: IconLayoutColumns, min: 1 },

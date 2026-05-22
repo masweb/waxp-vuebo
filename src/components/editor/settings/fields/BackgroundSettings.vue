@@ -21,7 +21,7 @@ const { t } = useI18n()
 
 const apiBase = import.meta.env.VITE_END_POINT
 
-const allModeOptions: { key: Background['mode']; label: string; icon: any }[] = [
+const allModeOptions: { key: Background['mode']; label: string; icon: Component | null }[] = [
   { key: 'none', label: t('editor.color.none'), icon: null },
   { key: 'color', label: t('background.color'), icon: IconColorSwatch },
   { key: 'gradient', label: t('background.gradient'), icon: IconBleachNoChlorine },

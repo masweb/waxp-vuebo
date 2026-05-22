@@ -38,9 +38,13 @@ const isModalOpen = computed(() => showCreateModal.value || !!editTarget.value)
 
 const sortLanguages = computed(() => [...languages.value].sort((a, b) => a.name.es.localeCompare(b.name.es)))
 
-const { errors, setFieldError, setFieldValue, resetForm, values } = useForm({
-  validateOnMount: false,
-  initialValues: {} as Record<string, string>
+const { errors, setFieldError, setFieldValue, resetForm, values } = useForm<{
+  name: string
+  domain: string
+  locales: LocaleEntry[]
+  options: siteOptions
+}>({
+  validateOnMount: false
 })
 
 interface LocaleEntry {
@@ -130,13 +134,10 @@ const openCreateModal = () => {
 }
 
 const openEditModal = (row: SiteRow) => {
-  const initials = { ...row }
-  if (initials.name == null) initials.name = ''
-  if (initials.domain == null) initials.domain = ''
-  delete initials.id
-  delete initials.created_at
-  delete initials.updated_at
-  resetForm({ values: initials })
+  const { id: _, created_at: __, updated_at: ___, ...formValues } = row
+  if (formValues.name == null) formValues.name = ''
+  if (formValues.domain == null) formValues.domain = ''
+  resetForm({ values: formValues })
   editTarget.value = row
   showCreateModal.value = false
   setTimeout(() => firstInput.value[0]?.focus())
@@ -147,7 +148,7 @@ const closeModal = () => {
   editTarget.value = null
 }
 
-const buildSiteQuery = (vals: Record<string, string>) => {
+const buildSiteQuery = (vals: typeof values) => {
   const defaultLoc = (vals.locales || []).find((l: LocaleEntry) => l.is_default)
   return defaultLoc ? `?locale=${defaultLoc.code}` : ''
 }

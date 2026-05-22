@@ -10,6 +10,7 @@ import {
   IconPlusFilled
 } from '@tabler/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
+import type { MenuItem } from '@imengyu/vue3-context-menu/lib/ContextMenuDefine'
 import { useTheme } from '@/composables/useTheme'
 
 const props = defineProps<{
@@ -147,7 +148,7 @@ const onContextMenu = (e: MouseEvent) => {
   if ((e.target as HTMLElement).closest('.block')) return
   e.preventDefault()
   const theme = effectiveTheme.value === 'dark' ? 'dark' : 'default'
-  const items: any[] = []
+  const items: MenuItem[] = []
 
   items.push({
     label: t('contextMenu.section'),

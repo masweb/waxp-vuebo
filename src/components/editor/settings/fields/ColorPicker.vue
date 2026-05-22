@@ -26,7 +26,7 @@ onMounted(() => {
     defaultFormat: 'hex',
     submitMode: 'instant'
   })
-  picker.on('pick', (color: any) => {
+  picker.on('pick', (color: { string: (format: string) => string }) => {
     emit('update:color', color?.string('hex') ?? '')
   })
 })
