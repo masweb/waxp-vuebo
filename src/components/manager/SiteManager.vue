@@ -12,6 +12,7 @@ interface SiteRow extends Site {
 const { t } = useI18n()
 const { languages } = useReferenceData()
 const st = siteStore()
+const { isDemo } = useDemoMode()
 
 const LIMIT = 10
 
@@ -461,7 +462,7 @@ onMounted(() => {
             <button class="btn btn-secondary btn-sm" @click="closeModal">
               {{ t('common.cancel') }}
             </button>
-            <button class="btn btn-primary btn-sm" :disabled="formLoading" @click="submitForm">
+            <button class="btn btn-primary btn-sm" :disabled="formLoading || isDemo" @click="submitForm">
               {{ formLoading ? '...' : t('common.save') }}
             </button>
           </div>

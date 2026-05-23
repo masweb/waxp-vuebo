@@ -15,6 +15,7 @@ const { blockRef, blockStyle, backgroundStyle, textStyle, onContextMenu } = useB
   () => props.block,
   () => props.section
 )
+const { isDemo } = useDemoMode()
 
 const sectionTargetWidth = computed(() => props.section.style.maxWidth ?? st.site?.options.desktopWidth)
 const { computedStyles: sectionFont } = useFontSize(() => sectionTargetWidth.value, () => props.section.style.fullWidth)
@@ -114,7 +115,7 @@ const cancelSwitch = () => {
         <div class="lang-modal-footer">
           <button class="btn btn-sm btn-outline-secondary" @click="cancelSwitch">{{ t('common.cancel') }}</button>
           <button class="btn btn-sm btn-outline-danger" @click="discardAndSwitch">{{ t('pages.discardChanges') }}</button>
-          <button class="btn btn-sm btn-primary" @click="saveAndSwitch">{{ t('common.save') }}</button>
+          <button class="btn btn-sm btn-primary" :disabled="isDemo" @click="saveAndSwitch">{{ t('common.save') }}</button>
         </div>
       </div>
     </div>

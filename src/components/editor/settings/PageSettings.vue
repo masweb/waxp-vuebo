@@ -17,6 +17,7 @@ const { page } = storeToRefs(pg)
 const hs = historyStore()
 const err = errorsStore()
 const { t } = useI18n()
+const { isDemo } = useDemoMode()
 
 const activeTab = ref('')
 const saving = ref(false)
@@ -285,7 +286,7 @@ watch(page, (val) => {
     </template>
 
     <div class="d-flex gap-2 mt-2">
-      <button class="btn btn-sm btn-primary" :disabled="saving" @click="handleSave">
+      <button class="btn btn-sm btn-primary" :disabled="saving || isDemo" @click="handleSave">
         <span v-if="saving" class="spinner-border spinner-border-sm me-1" />
         <IconDeviceFloppy v-else :size="14" class="me-1" />
         {{ t('common.save') }}

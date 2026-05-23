@@ -7,6 +7,7 @@ const st = siteStore()
 const { site } = storeToRefs(st)
 const hs = historyStore()
 const { ready, results, init, search, getFont, injectWeights } = useGoogleFonts()
+const { isDemo } = useDemoMode()
 
 onMounted(() => {
   init()
@@ -387,7 +388,7 @@ const weightsForFont = (family: string): number[] => {
           </div>
           <div class="d-flex justify-content-between mt-2 pt-2 border-top">
             <button class="btn btn-sm btn-outline-secondary" @click="cancelEdit">{{ t('common.cancel') }}</button>
-            <button class="btn btn-sm btn-primary" @click="saveEdit">{{ t('common.save') }}</button>
+            <button class="btn btn-sm btn-primary" :disabled="isDemo" @click="saveEdit">{{ t('common.save') }}</button>
           </div>
         </div>
 

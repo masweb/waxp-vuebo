@@ -15,6 +15,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { isDemo } = useDemoMode()
 
 const activeTab = ref(props.locales[0] || 'es')
 const saving = ref(false)
@@ -189,7 +190,7 @@ const handleSave = () => {
     </template>
 
     <div class="d-flex gap-2 mt-2">
-      <button class="btn btn-sm btn-primary" :disabled="saving" @click="handleSave">
+      <button class="btn btn-sm btn-primary" :disabled="saving || isDemo" @click="handleSave">
         <span v-if="saving" class="spinner-border spinner-border-sm me-1" />
         <IconDeviceFloppy v-else :size="14" class="me-1" />
         {{ t('common.save') }}

@@ -1,13 +1,5 @@
 <script lang="ts" setup>
-import {
-  IconUpload,
-  IconTrashFilled,
-  IconPhoto,
-  IconX,
-  IconLoader2,
-  IconChevronLeft,
-  IconChevronRight
-} from '@tabler/icons-vue'
+import { IconTrashFilled, IconChevronLeft, IconChevronRight } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 const apiBase = import.meta.env.VITE_END_POINT

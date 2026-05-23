@@ -18,6 +18,8 @@ import {
   IconWorldLongitude
 } from '@tabler/icons-vue'
 
+const { isDemo } = useDemoMode()
+
 const isTranslating = ref(false)
 
 const translatePageAction = async () => {
@@ -77,6 +79,7 @@ const backToDashboard = () => {
 }
 
 const onKeydown = (e: KeyboardEvent) => {
+  if (isDemo) return
   if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
     e.preventDefault()
     e.shiftKey ? hs.redo() : hs.undo()
@@ -147,17 +150,17 @@ onUnmounted(() => {
 
     <div class="d-flex align-items-center">
       <template v-if="site?.options">
-        <button class="btn btn-sm btn-link pe-3" :disabled="!canUndo" @click="hs.undo()" aria-label="Undo">
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canUndo || isDemo" @click="hs.undo()" aria-label="Undo">
           <IconArrowBackUp :size="24" stroke-width="2.2" />
         </button>
-        <button class="btn btn-sm btn-link pe-3" :disabled="!canRedo" @click="hs.redo()" aria-label="Redo">
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canRedo || isDemo" @click="hs.redo()" aria-label="Redo">
           <IconArrowForward :size="24" stroke-width="2.2" />
         </button>
-        <button @click="updateAll()" class="btn btn-sm btn-link pe-3" :disabled="!canUndo" aria-label="Save">
+        <button v-if="!isDemo" @click="updateAll()" class="btn btn-sm btn-link pe-3" :disabled="!canUndo" aria-label="Save">
           <IconDeviceFloppyFilled :size="24" stroke-width="2.2" />
         </button>
       </template>
-      <div v-if="site?.locales?.length > 1" class="border-start">
+      <div v-if="!isDemo && site?.locales?.length > 1" class="border-start">
         <button
           @click="translatePageAction"
           class="btn btn-sm btn-link pe-3"
