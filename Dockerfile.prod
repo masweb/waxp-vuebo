@@ -16,7 +16,7 @@ ARG VITE_DEMO_MODE=false
 ENV VITE_END_POINT=$VITE_END_POINT
 ENV VITE_DEMO_MODE=$VITE_DEMO_MODE
 
-RUN pnpm build
+RUN pnpm vp build
 
 # --- Runtime stage ---
 FROM nginx:alpine
