@@ -43,3 +43,8 @@ storybook-static
 auto-imports.d.ts
 components.d.ts
 json.json
+
+# AI artifacts
+CLAUDE.md
+AGENTS.md
+docs/
