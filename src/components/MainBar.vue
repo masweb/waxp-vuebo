@@ -79,7 +79,6 @@ const backToDashboard = () => {
 }
 
 const onKeydown = (e: KeyboardEvent) => {
-  if (isDemo) return
   if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
     e.preventDefault()
     e.shiftKey ? hs.redo() : hs.undo()
@@ -150,10 +149,10 @@ onUnmounted(() => {
 
     <div class="d-flex align-items-center">
       <template v-if="site?.options">
-        <button class="btn btn-sm btn-link pe-3" :disabled="!canUndo || isDemo" @click="hs.undo()" aria-label="Undo">
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canUndo" @click="hs.undo()" aria-label="Undo">
           <IconArrowBackUp :size="24" stroke-width="2.2" />
         </button>
-        <button class="btn btn-sm btn-link pe-3" :disabled="!canRedo || isDemo" @click="hs.redo()" aria-label="Redo">
+        <button class="btn btn-sm btn-link pe-3" :disabled="!canRedo" @click="hs.redo()" aria-label="Redo">
           <IconArrowForward :size="24" stroke-width="2.2" />
         </button>
         <button v-if="!isDemo" @click="updateAll()" class="btn btn-sm btn-link pe-3" :disabled="!canUndo" aria-label="Save">
