@@ -3,6 +3,7 @@ const { theme } = useTheme()
 const auth = useAuthStore()
 const nav = navigationStore()
 const st = siteStore()
+useFavicon()
 auth.initializeAuth()
 
 if (!auth.isAuthenticated) {

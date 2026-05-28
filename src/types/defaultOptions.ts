@@ -24,7 +24,8 @@ export interface siteOptions {
   headers: HeadersConfig
   header: Section
   footer: Section
-  [key: string]: string | number | boolean | null | Fonts[] | Font | HeadersConfig | Section
+  faviconUrl?: string
+  [key: string]: string | number | boolean | null | undefined | Fonts[] | Font | HeadersConfig | Section
 }
 
 export interface HeaderStyle {

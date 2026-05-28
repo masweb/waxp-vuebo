@@ -100,6 +100,7 @@ declare global {
   const useCssModule: typeof import('vue').useCssModule
   const useCssVars: typeof import('vue').useCssVars
   const useDemoMode: typeof import('./src/composables/useDemoMode').useDemoMode
+  const useFavicon: typeof import('./src/composables/useFavicon').useFavicon
   const useField: typeof import('vee-validate').useField
   const useFieldArray: typeof import('vee-validate').useFieldArray
   const useFieldError: typeof import('vee-validate').useFieldError

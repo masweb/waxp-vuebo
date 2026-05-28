@@ -10,6 +10,7 @@ import {
 } from '@tabler/icons-vue'
 import FontFamilyField from './fields/FontFamilyField.vue'
 import HeaderSettings from './HeaderSettings.vue'
+import MediaPicker from './fields/MediaPicker.vue'
 
 const stt = settingsStore()
 const { showsettings } = storeToRefs(stt)
@@ -49,6 +50,23 @@ const headers = computed<HeadersConfig>({
     site.value.options.headers = v
   }
 })
+
+const faviconUrl = computed({
+  get: () => site.value?.options?.faviconUrl ?? '',
+  set: (v: string) => {
+    if (!site.value?.options) return
+    hs.snapshot()
+    site.value.options.faviconUrl = v
+  }
+})
+
+const onFaviconSelect = (url: string) => {
+  faviconUrl.value = url
+}
+
+const onFaviconClear = () => {
+  faviconUrl.value = ''
+}
 </script>
 
 <template>
@@ -97,6 +115,11 @@ const headers = computed<HeadersConfig>({
         :color="site?.options.darkAccentColor"
         @update:color="updateColor('darkAccentColor', $event)"
       />
+
+      <div class="mt-3">
+        <label class="form-label small mb-1">{{ t('siteSettings.favicon') }}</label>
+        <MediaPicker :url="faviconUrl" @select="onFaviconSelect" @clear="onFaviconClear" />
+      </div>
 
       <table class="table table-sm table-borderless mt-3 mb-0 align-middle" style="table-layout: fixed">
         <thead>

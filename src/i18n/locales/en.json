@@ -224,6 +224,7 @@
     "textZoom": "Text zoom",
     "breakpoint": "Breakpoint",
     "headers": "Headers",
+    "favicon": "Favicon",
     "tabs": {
       "general": "General",
       "typography": "Typography"
